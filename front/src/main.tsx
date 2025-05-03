@@ -1,20 +1,10 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Home from './Pages/Home.tsx';  // Asegúrate de que sea Home.tsx
-import IniciarSesion from './Pages/IniciarSesion.js';  // Asegúrate de que sea IniciarSesion.tsx
-import Bienvenido from './Pages/Home.tsx';  // Asegúrate de que sea Bienvenido.tsx
-import './App.css';
+import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
+import './index.css'
+import App from './App.tsx'
 
-// No es necesario tipar `App` si no tiene props, pero puedes hacerlo explícito:
-function App(): React.ReactElement {
-  return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<IniciarSesion />} />
-        <Route path="/bienvenido" element={<Bienvenido />} />
-      </Routes>
-    </Router>
-  );
-}
-
-export default App;
+createRoot(document.getElementById('root')!).render(
+  <StrictMode>
+    <App />
+  </StrictMode>,
+)
