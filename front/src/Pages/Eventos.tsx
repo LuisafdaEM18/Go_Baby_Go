@@ -16,29 +16,31 @@ const Eventos: React.FC = () => {
         }}
       >
         <h2 className="text-6xl font-bold">Eventos</h2>
-        <button
-          onClick={() => navigate('/eventos/crear')}
-          className="px-6 py-2 rounded-md font-semibold shadow transition"
-          style={{
-            backgroundColor: '#1e3766',
-            color: 'white',
-            fontFamily: "'Recoleta', serif"
-          }}
-        >
-          Crear
-        </button>
-        <button
-          onClick={() => navigate('/eventos/gestionar')}
-          className="px-6 py-2 rounded-md font-semibold shadow transition"
-          style={{
-            backgroundColor: '#1e3766',
-            color: 'white',
-            fontFamily: "'Recoleta', serif"
-          }}
-        >
-          Gestionar
-        </button>
+        <div className="flex space-x-10">
+          <button
+            onClick={() => navigate('/eventos/crear')}
+            className="px-6 py-2 rounded-md font-semibold shadow transition"
+            style={{
+              backgroundColor: '#1e3766',
+              color: 'white',
+              fontFamily: "'Recoleta', serif"
+            }}
+          >
+            Crear
+          </button>
+          <button
+            onClick={() => navigate('/eventos/gestionar')}
+            className="px-6 py-2 rounded-md font-semibold shadow transition"
+            style={{
+              backgroundColor: '#1e3766',
+              color: 'white',
+              fontFamily: "'Recoleta', serif"
+            }}
+          >
+            Gestionar
+          </button>
       </div>
+    </div>
     </Layout>
   );
 };

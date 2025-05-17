@@ -119,8 +119,6 @@ const EditarEvento = () => {
     <Layout>
       <div className="flex-1 p-6 overflow-y-auto">
         <form onSubmit={handleSubmit} className="max-w-2xl mx-auto bg-white p-6 rounded-lg shadow-md">
-          <h1 className="text-2xl font-bold text-blue-900 mb-6">Editar Evento</h1>
-
           <div className="space-y-6">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Nombre del Evento</label>
@@ -209,7 +207,7 @@ const EditarEvento = () => {
             <div className="flex justify-end space-x-4 pt-4">
               <button
                 type="button"
-                onClick={() => navigate('/eventos')}
+                onClick={() => navigate('/eventos/gestionar')}
                 className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 bg-white hover:bg-gray-50"
               >
                 Cancelar
@@ -227,7 +225,7 @@ const EditarEvento = () => {
       </div>
 
       {mostrarConfirmacion && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div className="fixed inset-0 backdrop-blur-sm flex items-center justify-center z-50">
           <div className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full">
             <div className="flex items-start mb-4">
               <FaExclamationTriangle className="text-yellow-500 text-2xl mr-3 mt-1" />

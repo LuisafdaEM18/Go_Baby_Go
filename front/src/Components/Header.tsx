@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { FaUserCircle } from "react-icons/fa";
+import logoBabygo from '../assets/logo-babygo.png';
 
 type HeaderProps = {
   isSidebarOpen: boolean;
@@ -15,14 +16,13 @@ const Header: React.FC<HeaderProps> = () => {
 
   return (
     <header className="flex flex-col w-full bg-white shadow-sm font-['Recoleta']">
-      {/* Primera línea - El Comité */}
       <div 
-        className="flex justify-between items-center px-6 py-2 border-b"
-        style={{ backgroundColor: '#1e3766' }} // Azul corporativo
+        className="flex justify-between items-center px-6 border-b"
+        style={{ backgroundColor: '#1e3766', height: '100px' }} 
       >
         <h1 
-          className="text-2xl font-medium text-white" // Recoleta Medium
-          style={{ fontFamily: "'Recoleta', serif", fontWeight: 500 }}
+          className="text-2xl font-medium text-white" 
+          style={{ fontFamily: "'Recoleta', serif", fontWeight: 200, fontSize: '48px' }}
         >
           El Comité
         </h1>
@@ -37,14 +37,18 @@ const Header: React.FC<HeaderProps> = () => {
               margin: 0
              }}
           >
-            <FaUserCircle className="text-white"/>
+            <img
+              src={logoBabygo}
+              alt="Logo Go Baby Go"
+              style={{ height: '40px', width: 'auto', objectFit: 'contain' }}
+            />
           </button>
 
           {menuOpen && (
             <div 
               className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-50"
               onMouseLeave={() => setMenuOpen(false)}
-              style={{ fontFamily: "'Avenir', sans-serif" }} // Tipografía para contenido
+              style={{ fontFamily: "'Avenir', sans-serif" }} 
             >
               <button className="block w-full text-left px-4 py-2 text-gray-800 hover:bg-blue-50">
                 Perfil

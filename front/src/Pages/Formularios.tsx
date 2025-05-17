@@ -16,29 +16,31 @@ const Formularios: React.FC = () => {
         }}
       >
         <h2 className="text-6xl font-bold">Formularios</h2>
-        <button
-          onClick={() => navigate('/formularios/crear')}
-          className="px-6 py-2 rounded-md font-semibold shadow transition"
-          style={{
-            backgroundColor: '#1e3766',
-            color: 'white',
-            fontFamily: "'Recoleta', serif"
-          }}
-        >
-          Crear
-        </button>
-        <button
-          onClick={() => navigate('/formularios/gestionar')}
-          className="px-6 py-2 rounded-md font-semibold shadow transition"
-          style={{
-            backgroundColor: '#1e3766',
-            color: 'white',
-            fontFamily: "'Recoleta', serif"
-          }}
-        >
-          Gestionar
+        <div className="flex space-x-10">
+          <button
+            onClick={() => navigate('/formularios/crear')}
+            className="px-6 py-2 rounded-md font-semibold shadow transition"
+            style={{
+              backgroundColor: '#1e3766',
+              color: 'white',
+              fontFamily: "'Recoleta', serif"
+            }}
+          >
+            Crear
+          </button>
+          <button
+            onClick={() => navigate('/formularios/gestionar')}
+            className="px-6 py-2 rounded-md font-semibold shadow transition"
+            style={{
+              backgroundColor: '#1e3766',
+              color: 'white',
+              fontFamily: "'Recoleta', serif"
+            }}
+          >
+            Gestionar
         </button>
       </div>
+    </div>
     </Layout>
   );
 };

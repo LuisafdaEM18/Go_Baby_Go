@@ -7,7 +7,6 @@ interface LayoutProps {
 }
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
-  // Estado compartido para sidebar
   const [isSidebarPinned, setIsSidebarPinned] = useState(false)
   const [isHovered, setIsHovered] = useState(false)
   const isSidebarOpen = isSidebarPinned || isHovered
@@ -21,7 +20,6 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 
   return (
     <div className="flex h-screen overflow-hidden">
-      {/* Sidebar recibe sus props */}
       <Sidebar
         isSidebarOpen={isSidebarOpen}
         onMouseEnter={handleMouseEnter}
@@ -29,7 +27,6 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         togglePin={() => setIsSidebarPinned((p) => !p)}
       />
 
-      {/* Contenedor principal se corre según isSidebarOpen */}
       <div
         className={`
           flex flex-col flex-1 transition-all duration-300 

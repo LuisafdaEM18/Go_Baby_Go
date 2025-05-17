@@ -74,8 +74,7 @@ const Sidebar: React.FC<SidebarProps> = ({
             isSidebarOpen={isSidebarOpen}
             onClick={togglePin}
           />
-
-          {/* Agrupar ítems con margen superior */}
+          
           <div className="mt-6">
             <SidebarLink
               icon={<FaCalendarAlt />}
