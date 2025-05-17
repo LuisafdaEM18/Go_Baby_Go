@@ -6,12 +6,21 @@ import Layout from '../Components/Layout';
 const GestionarEventos = () => {
   const navigate = useNavigate();
   const [eventos, setEventos] = useState([
-    { id: 1, nombre: 'Go baby go', fecha: '2023-15-11', ubicacion: 'UdeM', estado: 'completado' },
+    { 
+      id: 1, 
+      nombre: 'Go baby go', 
+      fecha: '15-11-2023', // Formato DD-MM-AAAA
+      ubicacion: 'UdeM', 
+      estado: 'completado',
+      formularioPre: 'evaluacion',
+      formularioPost: 'satisfaccion'
+    },
   ]);
   const [mostrarConfirmacion, setMostrarConfirmacion] = useState(false);
   const [eventoAEliminar, setEventoAEliminar] = useState<number | null>(null);
 
   const handleEdit = (id: number) => {
+    console.log('Navegando a:', `/eventos/editar/${id}`);
     navigate(`/eventos/editar/${id}`);
   };
 
@@ -22,7 +31,7 @@ const GestionarEventos = () => {
 
   const handleDelete = () => {
     if (eventoAEliminar) {
-      setEventos(eventos.filter(evento => evento.id !== eventoAEliminar));      
+      setEventos(eventos.filter(evento => evento.id !== eventoAEliminar));
       console.log('Evento eliminado:', eventoAEliminar);
     }
     setMostrarConfirmacion(false);
@@ -32,6 +41,11 @@ const GestionarEventos = () => {
   const cancelarEliminacion = () => {
     setMostrarConfirmacion(false);
     setEventoAEliminar(null);
+  };
+
+  // Función para formatear la fecha para mostrar (DD-MM-AAAA)
+  const formatFechaDisplay = (fecha: string) => {
+    return fecha; // Ya está en formato DD-MM-AAAA
   };
 
   return (
@@ -56,7 +70,6 @@ const GestionarEventos = () => {
             </button>
           </div>
 
-          {/* Tabla de eventos */}
           <div className="overflow-x-auto">
             <table className="min-w-full divide-y divide-gray-200">
               <thead className="bg-gray-50">
@@ -72,7 +85,7 @@ const GestionarEventos = () => {
                 {eventos.map((evento) => (
                   <tr key={evento.id} className="hover:bg-gray-50">
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{evento.nombre}</td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{evento.fecha}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{formatFechaDisplay(evento.fecha)}</td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{evento.ubicacion}</td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <span className={`px-2 py-1 text-xs rounded-full ${
@@ -105,7 +118,6 @@ const GestionarEventos = () => {
         </div>
       </div>
 
-      {/* Modal de confirmación */}
       {mostrarConfirmacion && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full">
