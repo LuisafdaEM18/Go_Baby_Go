@@ -1,31 +1,43 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaEdit, FaTrash, FaSearch, FaPlus } from 'react-icons/fa';
-import Layout from '../Components/Layout'; // Ajusta la ruta según la ubicación real del componente Layout
+import Layout from '../Components/Layout';
 
 const GestionarEventos = () => {
   const navigate = useNavigate();
-
-  // Datos de ejemplo
-  const eventos = [
+  const [eventos, setEventos] = useState([
     { id: 1, nombre: 'Go baby go', fecha: '2023-15-11', ubicacion: 'UdeM', estado: 'completado' },
-  ];
+  ]);
+  const [mostrarConfirmacion, setMostrarConfirmacion] = useState(false);
+  const [eventoAEliminar, setEventoAEliminar] = useState<number | null>(null);
 
   const handleEdit = (id: number) => {
     navigate(`/eventos/editar/${id}`);
   };
 
-  const handleDelete = (id: number) => {
-    console.log('Eliminar evento:', id);
-    // Lógica para eliminar
+  const solicitarEliminacion = (id: number) => {
+    setEventoAEliminar(id);
+    setMostrarConfirmacion(true);
+  };
+
+  const handleDelete = () => {
+    if (eventoAEliminar) {
+      setEventos(eventos.filter(evento => evento.id !== eventoAEliminar));      
+      console.log('Evento eliminado:', eventoAEliminar);
+    }
+    setMostrarConfirmacion(false);
+    setEventoAEliminar(null);
+  };
+
+  const cancelarEliminacion = () => {
+    setMostrarConfirmacion(false);
+    setEventoAEliminar(null);
   };
 
   return (
     <Layout>
-      {/* Contenido principal */}
       <div className="flex-1 p-6 overflow-y-auto">
         <div className="max-w-6xl mx-auto bg-white p-6 rounded-lg shadow-md">
-          {/* Barra de búsqueda y acciones */}
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
             <div className="relative w-full md:w-96">
               <FaSearch className="absolute left-3 top-3 text-gray-400" />
@@ -79,7 +91,7 @@ const GestionarEventos = () => {
                         <FaEdit />
                       </button>
                       <button
-                        onClick={() => handleDelete(evento.id)}
+                        onClick={() => solicitarEliminacion(evento.id)}
                         className="text-red-600 hover:text-red-900"
                       >
                         <FaTrash />
@@ -92,6 +104,30 @@ const GestionarEventos = () => {
           </div>
         </div>
       </div>
+
+      {/* Modal de confirmación */}
+      {mostrarConfirmacion && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full">
+            <h3 className="text-lg font-medium mb-4">Confirmar eliminación</h3>
+            <p className="mb-6">¿Estás seguro que deseas eliminar este evento? Esta acción no se puede deshacer.</p>
+            <div className="flex justify-end space-x-4">
+              <button
+                onClick={cancelarEliminacion}
+                className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50"
+              >
+                Cancelar
+              </button>
+              <button
+                onClick={handleDelete}
+                className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700"
+              >
+                Eliminar
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </Layout>
   );
 };
