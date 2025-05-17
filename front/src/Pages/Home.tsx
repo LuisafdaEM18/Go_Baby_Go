@@ -2,14 +2,14 @@ import { Link } from 'react-router-dom';
 
 const Home = () => {
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col justify-between">
+    <div className="min-h-screen bg-white flex flex-col justify-between">
       <main className="flex-grow flex flex-col items-center justify-center p-4 mx-auto max-w-4xl w-full">
-        <h1 className="text-4xl font-bold text-blue-900 mb-8">El Comité</h1>
+        <h1 className="text-4xl font-bold text-blue-900 mb-30">El Comité</h1>
         
-        <div className="space-y-4 w-full max-w-md">
+        <div className="space-y-5 w-full max-w-md">
           <Link 
             to="/registro-voluntario" 
-            className="block w-full bg-white- hover:bg-white text-blue font-medium py-3 px-4 rounded-lg text-center transition duration-200 border-2 border-blue-900 "
+            className="w-90 h-13 block w-full bg-white- hover:bg-white text-blue font-medium py-3 px-4 rounded-lg text-center transition duration-200 border-2 border-blue-900 "
           >
             Registrarse como Voluntario
           </Link>

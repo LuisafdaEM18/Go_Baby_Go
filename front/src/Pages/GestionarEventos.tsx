@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FaEdit, FaTrash, FaSearch, FaPlus, FaArrowLeft } from 'react-icons/fa';
+import { FaEdit, FaTrash, FaSearch, FaPlus } from 'react-icons/fa';
+import Layout from '../Components/Layout'; // Ajusta la ruta según la ubicación real del componente Layout
 
 const GestionarEventos = () => {
   const navigate = useNavigate();
@@ -20,20 +21,7 @@ const GestionarEventos = () => {
   };
 
   return (
-    <div className="h-screen bg-gray-50 flex flex-col">
-      {/* Header */}
-      <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200 bg-white">
-        <button 
-          onClick={() => navigate(-1)}
-          className="flex items-center text-blue-900 hover:text-blue-700"
-        >
-          <FaArrowLeft className="mr-2" />
-          Volver
-        </button>
-        <h1 className="text-2xl font-bold text-blue-900">Gestionar Eventos</h1>
-        <div className="w-8"></div>
-      </div>
-
+    <Layout>
       {/* Contenido principal */}
       <div className="flex-1 p-6 overflow-y-auto">
         <div className="max-w-6xl mx-auto bg-white p-6 rounded-lg shadow-md">
@@ -104,7 +92,7 @@ const GestionarEventos = () => {
           </div>
         </div>
       </div>
-    </div>
+    </Layout>
   );
 };
 

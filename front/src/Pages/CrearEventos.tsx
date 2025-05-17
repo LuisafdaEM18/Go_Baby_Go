@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FaArrowLeft, FaSave } from 'react-icons/fa';
+import { FaSave } from 'react-icons/fa';
+import Layout from '../Components/Layout'; 
 
 const CrearEventos = () => {
   const navigate = useNavigate();
@@ -24,23 +25,11 @@ const CrearEventos = () => {
   };
 
   return (
-    <div className="h-screen bg-gray-50 flex flex-col">
-      {/* Header */}
-      <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200 bg-white">
-        <button 
-          onClick={() => navigate(-1)}
-          className="flex items-center text-blue-900 hover:text-blue-700"
-        >
-          <FaArrowLeft className="mr-2" />
-          Volver
-        </button>
-        <h1 className="text-2xl font-bold text-blue-900">Crear Nuevo Evento</h1>
-        <div className="w-8"></div> {/* Espacio para alinear */}
-      </div>
-
-      {/* Formulario */}
+    <Layout>
       <div className="flex-1 p-6 overflow-y-auto">
         <form onSubmit={handleSubmit} className="max-w-2xl mx-auto bg-white p-6 rounded-lg shadow-md">
+          <h1 className="text-2xl font-bold text-blue-900 mb-6"></h1>
+
           <div className="space-y-6">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Nombre del Evento</label>
@@ -129,7 +118,7 @@ const CrearEventos = () => {
           </div>
         </form>
       </div>
-    </div>
+    </Layout>
   );
 };
 

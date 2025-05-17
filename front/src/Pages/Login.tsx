@@ -104,7 +104,7 @@ const Login: React.FC = () => {
             <div>
               <button
                 type="submit"
-                className="block w-full bg-white- hover:bg-white text-blue font-medium py-3 px-4 rounded-lg text-center transition duration-200 border-2 border-blue-900 "
+                className=" w-full bg-white- hover:bg-white text-blue font-medium py-3 px-4 rounded-lg text-center transition duration-200 border-2 border-blue-900 "
               >
                 Iniciar sesión
               </button>

@@ -1,63 +1,52 @@
-import React from 'react';
-import { FaBell, FaCog, FaUserCircle } from 'react-icons/fa';
-import { useNavigate } from 'react-router-dom';
+import { useState } from "react";
+import { FaUserCircle } from "react-icons/fa";
 
-interface HeaderProps {
-  activeTab: string;
-  setActiveTab: (tab: string) => void;
-  tabs: string[];
-}
 
-const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab, tabs }) => {
-  const navigate = useNavigate();
+type HeaderProps = {
+  isSidebarOpen: boolean;
+  toggleSidebar: () => void;
+};
 
-  const handleTabClick = (tab: string) => {
-    setActiveTab(tab);
-    if (tab === 'Procesos') {
-      navigate('/procesos');
-    } else if (tab === 'Resumen') {
-      navigate('/dashboard');
-    } else if (tab === 'Admin Panel') {
-      navigate('/admin');
-    }
+const Header: React.FC<HeaderProps> = () => {
+  const [menuOpen, setMenuOpen] = useState<boolean>(false);
+
+  const handleLogout = () => {
+    console.log("Cerrando sesión...");
   };
 
   return (
-    <header className="flex justify-between items-center bg-white p-4 rounded-lg shadow-sm mb-6">
-      <nav className="flex space-x-2">
-        {tabs.map((tab) => (
-          <button
-            key={tab}
-            onClick={() => handleTabClick(tab)}
-            className={`px-4 py-1.5 rounded-full text-sm font-semibold transition-colors duration-150 ${
-              activeTab === tab ? 'bg-primary text-white' : 'bg-white text-gray-600 hover:bg-gray-100'
-            }`}
-          >
-            {tab}
-          </button>
-        ))}
-      </nav>
+    <header className="flex justify-between items-center px-6 py-3 bg-white shadow-md h-16">
+      <h1 className="text-3xl font-bold text-blue-900">Mi Empresa</h1>
 
-      <div className="absolute left-1/2 transform -translate-x-1/2">
-        <h1 className="text-3xl font-serif font-bold text-primary hidden md:block">El Comité</h1>
-      </div>
-
-      <div className="flex items-center space-x-4">
-        <button
-          onClick={() => handleTabClick('Admin Panel')}
-          className="border border-primary text-primary px-3 py-1 rounded-md text-sm font-medium hover:bg-primary/10"
-        >
-          Admin Panel
+      <div
+        className="relative group"
+        onMouseEnter={() => setMenuOpen(true)}
+        onMouseLeave={() => setMenuOpen(false)}
+      >
+        <button className="text-3xl text-blue-900 hover:text-blue-700 focus:outline-none">
+          <FaUserCircle />
         </button>
-        <div className="relative">
-          <FaBell className="text-xl text-gray-600 hover:text-primary cursor-pointer" />
-          <span className="absolute -top-1 -right-1 h-3 w-3 bg-red-500 rounded-full border-2 border-white" />
-        </div>
-        <FaCog className="text-xl text-gray-600 hover:text-primary cursor-pointer" />
-        <FaUserCircle className="text-3xl text-gray-400 hover:text-primary cursor-pointer" />
+
+        {menuOpen && (
+          <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
+            <button className="block w-full text-left px-4 py-2 text-gray-800 hover:bg-blue-100">
+              Perfil
+            </button>
+            <button className="block w-full text-left px-4 py-2 text-gray-800 hover:bg-blue-100">
+              Configuración
+            </button>
+            <button
+              onClick={handleLogout}
+              className="block w-full text-left px-4 py-2 text-gray-800 hover:bg-blue-100"
+            >
+              Cerrar sesión
+            </button>
+          </div>
+        )}
       </div>
     </header>
   );
 };
+
 
 export default Header;
