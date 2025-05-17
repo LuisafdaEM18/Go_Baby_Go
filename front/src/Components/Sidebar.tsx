@@ -56,14 +56,16 @@ const Sidebar: React.FC<SidebarProps> = ({
 }) => {
   return (
     <div
-      className={`
-        fixed top-0 left-0 h-full bg-blue-900 text-white
-        transition-all duration-300 ease-in-out z-40
-        ${isSidebarOpen ? 'w-64' : 'w-16'}
-      `}
-      onMouseEnter={onMouseEnter}
-      onMouseLeave={onMouseLeave}
-    >
+      className={`fixed top-0 left-0 h-full text-white transition-all duration-300 ease-in-out z-40
+      ${isSidebarOpen ? 'w-64' : 'w-16'}`}
+    onMouseEnter={onMouseEnter}
+    onMouseLeave={onMouseLeave}
+    style={{
+      backgroundColor: '#1e3766',
+      fontFamily: "'Recoleta', serif"
+    }}
+>
+
       <div className="flex flex-col h-full justify-between">
         <div>
           <SidebarLink
