@@ -32,7 +32,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       {/* Contenedor principal se corre según isSidebarOpen */}
       <div
         className={`
-          flex flex-col flex-1 transition-all duration-300
+          flex flex-col flex-1 transition-all duration-300 
           ${isSidebarOpen ? 'ml-64' : 'ml-16'}
         `}
       >
