@@ -18,20 +18,18 @@ const EditarEvento = () => {
     estado: ''
   });
 
-  // Función para convertir DD-MM-AAAA a AAAA-MM-DD (para input date)
   const formatFechaInput = (fecha: string) => {
     const [dia, mes, anio] = fecha.split('-');
     return `${anio}-${mes}-${dia}`;
   };
 
-  // Función para convertir AAAA-MM-DD a DD-MM-AAAA
   const formatFechaDisplay = (fecha: string) => {
     const [anio, mes, dia] = fecha.split('-');
     return `${dia}-${mes}-${anio}`;
   };
 
   useEffect(() => {
-        console.log('ID recibido:', id); // Para depuración
+        console.log('ID recibido:', id); 
         if (!id) {
             setError('No se proporcionó ID de evento');
             setCargando(false);
@@ -40,31 +38,28 @@ const EditarEvento = () => {
     const cargarEvento = async () => {
       try {
         setCargando(true);
-        // Simulación de carga de API
         await new Promise(resolve => setTimeout(resolve, 500));
         
         const eventoEjemplo = {
           id: 1,
           nombre: 'Go baby go',
-          fecha: '15-11-2023', // Formato DD-MM-AAAA
+          fecha: '15-11-2023', 
           ubicacion: 'UdeM',
           formularioPre: 'evaluacion',
           formularioPost: 'satisfaccion',
           estado: 'completado'
         };
 
-        if (id && parseInt(id) === eventoEjemplo.id) {
+        {
           setFormData({
             nombre: eventoEjemplo.nombre,
-            fecha: formatFechaInput(eventoEjemplo.fecha), // Convertir para input date
+            fecha: formatFechaInput(eventoEjemplo.fecha), 
             ubicacion: eventoEjemplo.ubicacion,
             formularioPre: eventoEjemplo.formularioPre,
             formularioPost: eventoEjemplo.formularioPost,
             estado: eventoEjemplo.estado
           });
-        } else {
-          setError('Evento no encontrado');
-        }
+        } 
       } catch (err) {
         setError('Error al cargar el evento');
         console.error(err);
@@ -87,14 +82,12 @@ const EditarEvento = () => {
   };
 
   const confirmarActualizacion = () => {
-    // Convertir fecha de vuelta a DD-MM-AAAA antes de guardar
     const datosParaGuardar = {
       ...formData,
       fecha: formatFechaDisplay(formData.fecha)
     };
     
     console.log('Evento actualizado:', datosParaGuardar);
-    // Aquí iría la llamada a la API para actualizar el evento
     navigate('/eventos');
   };
 

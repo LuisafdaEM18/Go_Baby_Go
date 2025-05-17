@@ -1,26 +1,73 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FaEdit, FaTrash, FaSearch, FaPlus } from 'react-icons/fa';
+import { FaEdit, FaTrash, FaSearch, FaPlus, FaExclamationCircle } from 'react-icons/fa';
 import Layout from '../Components/Layout';
 
 const GestionarEventos = () => {
   const navigate = useNavigate();
-  const [eventos, setEventos] = useState([
+  const [eventosOriginales, setEventosOriginales] = useState([
     { 
       id: 1, 
       nombre: 'Go baby go', 
-      fecha: '15-11-2023', // Formato DD-MM-AAAA
+      fecha: '15-11-2023',
+      ubicacion: 'UdeM', 
+      estado: 'completado',
+      formularioPre: 'evaluacion',
+      formularioPost: 'satisfaccion'
+    },
+    { 
+      id: 2, 
+      nombre: 'Partido', 
+      fecha: '15-11-2023',
+      ubicacion: 'UdeM', 
+      estado: 'completado',
+      formularioPre: 'evaluacion',
+      formularioPost: 'satisfaccion'
+    },
+    { 
+      id: 3, 
+      nombre: 'Conferencia UdeM', 
+      fecha: '15-11-2023',
       ubicacion: 'UdeM', 
       estado: 'completado',
       formularioPre: 'evaluacion',
       formularioPost: 'satisfaccion'
     },
   ]);
+  
+  const [eventosFiltrados, setEventosFiltrados] = useState(eventosOriginales);
+  const [terminoBusqueda, setTerminoBusqueda] = useState('');
   const [mostrarConfirmacion, setMostrarConfirmacion] = useState(false);
   const [eventoAEliminar, setEventoAEliminar] = useState<number | null>(null);
 
+  const handleBuscar = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const valor = e.target.value;
+    setTerminoBusqueda(valor);
+    
+    if (valor === '') {
+      setEventosFiltrados(eventosOriginales);
+      return;
+    }
+    
+    const filtrados = eventosOriginales.filter(evento =>
+      evento.nombre.toLowerCase().includes(valor.toLowerCase())
+    );
+    
+    setEventosFiltrados(filtrados);
+  };
+
+  const handleDelete = () => {
+    if (eventoAEliminar) {
+      const nuevosEventos = eventosOriginales.filter(evento => evento.id !== eventoAEliminar);
+      setEventosOriginales(nuevosEventos);
+      setEventosFiltrados(nuevosEventos);
+      console.log('Evento eliminado:', eventoAEliminar);
+    }
+    setMostrarConfirmacion(false);
+    setEventoAEliminar(null);
+  };
+
   const handleEdit = (id: number) => {
-    console.log('Navegando a:', `/eventos/editar/${id}`);
     navigate(`/eventos/editar/${id}`);
   };
 
@@ -29,23 +76,9 @@ const GestionarEventos = () => {
     setMostrarConfirmacion(true);
   };
 
-  const handleDelete = () => {
-    if (eventoAEliminar) {
-      setEventos(eventos.filter(evento => evento.id !== eventoAEliminar));
-      console.log('Evento eliminado:', eventoAEliminar);
-    }
-    setMostrarConfirmacion(false);
-    setEventoAEliminar(null);
-  };
-
   const cancelarEliminacion = () => {
     setMostrarConfirmacion(false);
     setEventoAEliminar(null);
-  };
-
-  // Función para formatear la fecha para mostrar (DD-MM-AAAA)
-  const formatFechaDisplay = (fecha: string) => {
-    return fecha; // Ya está en formato DD-MM-AAAA
   };
 
   return (
@@ -59,6 +92,8 @@ const GestionarEventos = () => {
                 type="text"
                 placeholder="Buscar eventos..."
                 className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                value={terminoBusqueda}
+                onChange={handleBuscar}
               />
             </div>
             <button
@@ -82,36 +117,56 @@ const GestionarEventos = () => {
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
-                {eventos.map((evento) => (
-                  <tr key={evento.id} className="hover:bg-gray-50">
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{evento.nombre}</td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{formatFechaDisplay(evento.fecha)}</td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{evento.ubicacion}</td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <span className={`px-2 py-1 text-xs rounded-full ${
-                        evento.estado === 'activo' ? 'bg-green-100 text-green-800' :
-                        evento.estado === 'completado' ? 'bg-blue-100 text-blue-800' :
-                        'bg-yellow-100 text-yellow-800'
-                      }`}>
-                        {evento.estado}
-                      </span>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                      <button
-                        onClick={() => handleEdit(evento.id)}
-                        className="text-blue-600 hover:text-blue-900 mr-4"
-                      >
-                        <FaEdit />
-                      </button>
-                      <button
-                        onClick={() => solicitarEliminacion(evento.id)}
-                        className="text-red-600 hover:text-red-900"
-                      >
-                        <FaTrash />
-                      </button>
+                {eventosFiltrados.length > 0 ? (
+                  eventosFiltrados.map((evento) => (
+                    <tr key={evento.id} className="hover:bg-gray-50">
+                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{evento.nombre}</td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{evento.fecha}</td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{evento.ubicacion}</td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <span className={`px-2 py-1 text-xs rounded-full ${
+                          evento.estado === 'activo' ? 'bg-green-100 text-green-800' :
+                          evento.estado === 'completado' ? 'bg-blue-100 text-blue-800' :
+                          'bg-yellow-100 text-yellow-800'
+                        }`}>
+                          {evento.estado}
+                        </span>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                        <button
+                          onClick={() => handleEdit(evento.id)}
+                          className="text-blue-600 hover:text-blue-900 mr-4"
+                        >
+                          <FaEdit />
+                        </button>
+                        <button
+                          onClick={() => solicitarEliminacion(evento.id)}
+                          className="text-red-600 hover:text-red-900"
+                        >
+                          <FaTrash />
+                        </button>
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan={5} className="px-6 py-4 text-center">
+                      <div className="flex flex-col items-center justify-center text-gray-500">
+                        <FaExclamationCircle className="text-2xl mb-2" />
+                        <p>No se encontraron eventos con ese nombre</p>
+                        <button 
+                          onClick={() => {
+                            setTerminoBusqueda('');
+                            setEventosFiltrados(eventosOriginales);
+                          }}
+                          className="mt-2 text-blue-600 hover:text-blue-800"
+                        >
+                          Mostrar todos los eventos
+                        </button>
+                      </div>
                     </td>
                   </tr>
-                ))}
+                )}
               </tbody>
             </table>
           </div>
