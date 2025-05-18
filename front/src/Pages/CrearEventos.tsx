@@ -29,6 +29,12 @@ const CrearEventos = () => {
       <div className="flex-1 p-6 overflow-y-auto">
         <form onSubmit={handleSubmit} className="max-w-2xl mx-auto bg-white p-6 rounded-lg shadow-md">
           <h1 className="text-2xl font-bold text-blue-900 mb-6"></h1>
+           <h2 
+            className="text-3xl font-bold text-center mb-8 text-[#1e3766]"
+            style={{ fontFamily: "'Recoleta', serif" }}
+          >
+            Crear Evento 
+          </h2>
 
           <div className="space-y-6">
             <div>

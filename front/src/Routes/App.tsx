@@ -9,6 +9,8 @@ import Formularios from '../Pages/Formularios';
 import CrearFormularios from '../Pages/CrearFormularios';
 import GestionarFormularios from '../Pages/GestionarFormularios';
 import EditarEvento from '../Pages/EditarEvento';
+import RegistroVoluntario from '../Pages/RegistroVoluntario';
+import EditarFormulario from '../Pages/EditarFormulario';
 
 const App = () => {
   return (
@@ -24,6 +26,8 @@ const App = () => {
         <Route path="/forms" element={<Formularios />} />
         <Route path="/formularios/crear" element={<CrearFormularios />} />
         <Route path="/formularios/gestionar" element={<GestionarFormularios />} />
+        <Route path="/formularios/editar/:id" element={<EditarFormulario />} />
+        <Route path="/RegistroVoluntario" element={<RegistroVoluntario />} />
       </Routes>
     </Router>
   );

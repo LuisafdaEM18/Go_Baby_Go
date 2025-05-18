@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FaExclamationTriangle, FaSave, FaPlus, FaTrash, FaTimes } from 'react-icons/fa';
+import { FaExclamationTriangle, FaSave, FaPlus, FaTimes } from 'react-icons/fa';
 import Layout from '../Components/Layout';
 
 const FormularioCrear: React.FC = () => {
@@ -75,7 +75,7 @@ const FormularioCrear: React.FC = () => {
 
   return (
     <Layout>
-      <div className="min-h-screen py-8 px-4 bg-gray-50">
+     <div className="min-h-screen py-8 px-4 bg-white">
         <form 
           className="max-w-3xl mx-auto space-y-6 p-6 shadow-lg rounded-lg bg-white"
           style={{ fontFamily: "'Avenir', sans-serif" }}
@@ -136,37 +136,37 @@ const FormularioCrear: React.FC = () => {
                 </select>
 
                 {preg.tipo === 'opciones' && preg.opciones && (
-                  <div className="space-y-2">
-                    {preg.opciones.map((op, i) => (
-                      <div key={i} className="flex items-center">
-                        <input
-                          type="text"
-                          placeholder={`Opción ${i + 1}`}
-                          value={op}
-                          onChange={(e) => actualizarOpcion(idx, i, e.target.value)}
-                          className="flex-1 px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
-                        />
-                        placeholder={'Opción ${t + 1}'}
-                        {preg.opciones && preg.opciones.length > 1 && (
-                          <button
-                            type="button"
-                            onClick={() => eliminarOpcion(idx, i)}
-                            className="ml-2 p-2 text-red-600 hover:text-red-800 hover:bg-red-100 rounded-full"
-                            aria-label="Eliminar opción"
-                            title="Eliminar opción"
-                          >
-                            <FaTimes className="text-sm" />
-                          </button>
-                        )}
-                      </div>
-                    ))}
-                    <button
-                      type="button"
-                      onClick={() => agregarOpcion(idx)}
-                      className="flex items-center text-sm text-blue-600 hover:text-blue-800 mt-2"
-                    >
-                      <FaPlus className="mr-1" />
-                      Agregar opción
+  <div className="space-y-2">
+    {preg.opciones.map((op, i) => (
+      <div key={i} className="flex items-center">
+        <input
+          type="text"
+          placeholder={`Opción ${i + 1}`}
+          value={op}
+          onChange={(e) => actualizarOpcion(idx, i, e.target.value)}
+          className="flex-1 px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+        />
+        {preg.opciones && preg.opciones.length > 1 && (
+          <button
+            type="button"
+            onClick={() => eliminarOpcion(idx, i)}
+            className="ml-2 p-2 text-red-600 hover:text-red-800 hover:bg-red-100 rounded-full"
+            aria-label="Eliminar opción"
+            title="Eliminar opción"
+          >
+            <FaTimes className="text-sm" />
+          </button>
+        )}
+      </div>
+    ))}
+    <button
+      type="button"
+      onClick={() => agregarOpcion(idx)}
+      className="flex items-center text-sm text-blue-600 hover:text-blue-800 mt-2"
+    >
+      <FaPlus className="mr-1" />
+      Agregar opción
+    
                     </button>
                   </div>
                 )}
