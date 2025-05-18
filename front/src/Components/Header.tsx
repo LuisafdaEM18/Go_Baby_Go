@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { FaUserCircle } from "react-icons/fa";
 import logoBabygo from '../assets/logo-babygo.png';
 
 type HeaderProps = {

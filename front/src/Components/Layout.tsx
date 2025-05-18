@@ -39,7 +39,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         />
 
         <main 
-          className="flex-1 overflow-hidden flex items-center justify-center"
+          className="flex-1 overflow-auto flex items-center justify-center"
           style={{ height: 'calc(100vh - 64px)' }}
         >
           {children}

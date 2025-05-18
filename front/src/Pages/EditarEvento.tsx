@@ -118,6 +118,7 @@ const EditarEvento = () => {
   return (
     <Layout>
       <div className="flex-1 p-6 overflow-y-auto">
+      <h1 style={{ fontSize: '16px', fontWeight: '500', color: '#4B5563', marginBottom: '8px' }}>Editar Evento</h1>
         <form onSubmit={handleSubmit} className="max-w-2xl mx-auto bg-white p-6 rounded-lg shadow-md">
           <div className="space-y-6">
             <div>
