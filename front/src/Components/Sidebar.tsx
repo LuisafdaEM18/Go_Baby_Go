@@ -85,7 +85,7 @@ const Sidebar: React.FC<SidebarProps> = ({
             <SidebarLink
               icon={<FaFileAlt />}
               text="Formularios"
-              to="/forms"
+              to="/formularios"
               isSidebarOpen={isSidebarOpen}
             />
           </div>

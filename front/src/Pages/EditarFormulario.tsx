@@ -156,7 +156,7 @@ const EditarFormulario = () => {
             <div className="flex justify-end space-x-4 pt-4">
               <button
                 type="button"
-                onClick={() => navigate('/formularios/gestionar}')}
+                onClick={() => navigate('/formularios/gestionar')}
                 className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 bg-white hover:bg-gray-50"
               >
                 Cancelar

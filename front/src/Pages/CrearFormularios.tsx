@@ -65,7 +65,6 @@ const FormularioCrear: React.FC = () => {
 
   const confirmarCrear = () => {
     setMostrarConfirmacion(false);
-    alert('Formulario creado exitosamente!');
     navigate('/formularios');
   };
 
