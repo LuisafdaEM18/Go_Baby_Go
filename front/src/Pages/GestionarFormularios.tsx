@@ -82,7 +82,13 @@ const GestionarFormularios = () => {
             </div>
             <button
               onClick={() => navigate('/formularios/crear')}
-              className="flex items-center bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 whitespace-nowrap"
+              className="flex-1 px-6 py-2 rounded-md font-semibold shadow transition"
+                style={{
+                  backgroundColor: '#1e3766',
+                  color: 'white',
+                  fontFamily: "'Recoleta', serif"
+                }}
+              
             >
               <FaPlus className="mr-2" />
               Nuevo Formulario

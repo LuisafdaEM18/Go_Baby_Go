@@ -38,15 +38,12 @@ const Login: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
+    <div className="min-h-screen flex items-center justify-center px-4">
       <div className="w-full max-w-md space-y-8">
         <div>
-          <h2 className="mt-6 text-center text-4xl font-extrabold text-blue-900">
+          <h2 className="mt-6 text-center text-6xl font-extrabold text-blue-900">
             El Comité
           </h2>
-          <p className="mt-2 text-center text-sm text-gray-600">
-           
-          </p>
         </div>
 
         <div className="bg-white py-8 px-6 shadow rounded-lg sm:px-10">
@@ -81,42 +78,51 @@ const Login: React.FC = () => {
               />
             </div>
 
-            <div className="text-center">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center">
+                <input
+                  id="remember-me"
+                  name="remember"
+                  type="checkbox"
+                  checked={formData.remember}
+                  onChange={handleInputChange}
+                  className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
+                />
+                <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900">
+                  Recordar cuenta
+                </label>
+              </div>
+
               <a href="#" className="text-sm text-indigo-600 hover:text-indigo-500">
                 ¿Olvidaste tu contraseña?
               </a>
             </div>
 
-            <div className="flex items-center">
-              <input
-                id="remember-me"
-                name="remember"
-                type="checkbox"
-                checked={formData.remember}
-                onChange={handleInputChange}
-                className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
-              />
-              <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900">
-                Recordar cuenta
-              </label>
-            </div>
-
-            <div>
-              <button
-                type="submit"
-                className=" w-full bg-white- hover:bg-white text-blue font-medium py-3 px-4 rounded-lg text-center transition duration-200 border-2 border-blue-900 "
-              >
-                Iniciar sesión
-              </button>
-            </div>
-
-            <div>
+            {/* Contenedor para los botones alineados horizontalmente */}
+            <div className="flex space-x-4">
               <button
                 type="button"
                 onClick={handleBack}
-                className="block w-full bg-white- hover:bg-white text-blue font-medium py-3 px-4 rounded-lg text-center transition duration-200 border-2 border-blue-900 "
+                className="flex-1 px-6 py-2 rounded-md font-semibold shadow transition"
+                style={{
+                  backgroundColor: '#1e3766',
+                  color: 'white',
+                  fontFamily: "'Recoleta', serif"
+                }}
               >
                 Regresar
+              </button>
+              
+              <button
+                type="submit"
+                className="flex-1 px-6 py-2 rounded-md font-semibold shadow transition"
+                style={{
+                  backgroundColor: '#1e3766',
+                  color: 'white',
+                  fontFamily: "'Recoleta', serif"
+                }}
+              >
+                Iniciar sesión
               </button>
             </div>
           </form>

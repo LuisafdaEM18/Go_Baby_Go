@@ -1,9 +1,9 @@
 import React from 'react'
 import {
-  FaSignInAlt,
   FaBars,
   FaFileAlt,
   FaCalendarAlt,
+  FaHome
 } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
 
@@ -77,6 +77,12 @@ const Sidebar: React.FC<SidebarProps> = ({
           
           <div className="mt-6">
             <SidebarLink
+              icon={<FaHome/>}
+              text="Menú"
+              to="/Dashboard"
+              isSidebarOpen={isSidebarOpen}
+            />
+            <SidebarLink
               icon={<FaCalendarAlt />}
               text="Eventos"
               to="/Eventos"
@@ -89,15 +95,6 @@ const Sidebar: React.FC<SidebarProps> = ({
               isSidebarOpen={isSidebarOpen}
             />
           </div>
-        </div>
-
-        <div className="mb-4">
-          <SidebarLink
-            icon={<FaSignInAlt />}
-            text="Cerrar Sesión"
-            to="/login"
-            isSidebarOpen={isSidebarOpen}
-          />
         </div>
       </div>
     </div>

@@ -33,7 +33,7 @@ const CrearEventos = () => {
             className="text-3xl font-bold text-center mb-8 text-[#1e3766]"
             style={{ fontFamily: "'Recoleta', serif" }}
           >
-            Crear Evento 
+            Crear Evento
           </h2>
 
           <div className="space-y-6">
@@ -109,13 +109,24 @@ const CrearEventos = () => {
               <button
                 type="button"
                 onClick={() => navigate(-1)}
-                className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 bg-white hover:bg-gray-50"
+                className="flex-1 px-6 py-2 rounded-md font-semibold shadow transition"
+                style={{
+                  backgroundColor: '#1e3766',
+                  color: 'white',
+                  fontFamily: "'Recoleta', serif"
+                }}
+              
               >
                 Cancelar
               </button>
               <button
                 type="submit"
-                className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 flex items-center"
+                className="flex-1 px-6 py-2 rounded-md font-semibold shadow transition"
+                style={{
+                  backgroundColor: '#1e3766',
+                  color: 'white',
+                  fontFamily: "'Recoleta', serif"
+                }}
               >
                 <FaSave className="mr-2" />
                 Guardar Evento
