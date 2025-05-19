@@ -1,6 +1,6 @@
 from pydantic import BaseModel, validator
 from datetime import date
-from .FormularioSchema import FormularioBase
+from .FormularioSchema import FormularioOut
 
 class EventoBase(BaseModel):
     nombre: str
@@ -8,8 +8,6 @@ class EventoBase(BaseModel):
     hora: str
     lugar: str
     descripcion: str
-    forumulario_preevento: FormularioBase
-    forumulario_postevento: FormularioBase
 
     @validator("nombre", "hora", "lugar", "descripcion")
     def campo_no_vacio(cls, v):
@@ -23,3 +21,15 @@ class EventoBase(BaseModel):
         if v < date.today():
             raise ValueError("La fecha del evento no puede estar en el pasado")
         return v
+    
+class EventoCreate(EventoBase):
+    formulario_pre_id: int
+    formulario_post_id: int
+
+class EventoOut(EventoBase):
+    id: int
+    formulario_pre: FormularioOut
+    formulario_post: FormularioOut
+
+    class Config:
+        orm_mode = True

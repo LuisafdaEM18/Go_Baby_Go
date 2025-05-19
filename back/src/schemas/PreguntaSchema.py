@@ -9,3 +9,13 @@ class PreguntaBase(BaseModel):
         if not v or not v.strip():
             raise ValueError("Este campo no puede estar vacío")
         return v
+
+class PreguntaCreate(PreguntaBase):
+    pass
+
+
+class PreguntaOut(PreguntaBase):
+    id: int
+
+    class Config:
+        orm_mode = True

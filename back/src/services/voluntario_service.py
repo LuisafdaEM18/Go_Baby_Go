@@ -1,25 +1,14 @@
 from sqlalchemy.orm import Session
 from src.modules.Voluntario import Voluntario
-from src.schemas.VoluntarioSchema import VoluntarioBase
+from src.schemas.VoluntarioSchema import VoluntarioCreate
 
-def registrar_voluntario(db: Session, voluntario_data: VoluntarioBase):
-    validar_voluntario_unico(db, voluntario_data.correo, voluntario_data.identificacion)
-
-    voluntario = Voluntario(
-        nombre=voluntario_data.nombre,
-        apellido=voluntario_data.apellido,
-        identificacion=voluntario_data.identificacion,
-        correo=voluntario_data.correo
-    )
-    db.add(voluntario)
-    db.commit()
-    db.refresh(voluntario)
-    return voluntario
-
-
-
-def validar_voluntario_unico(db: Session, correo: str, identificacion: str):
-    if db.query(Voluntario).filter_by(correo=correo).first():
-        raise ValueError("Ya existe un voluntario con ese correo")
-    if db.query(Voluntario).filter_by(identificacion=identificacion).first():
+def registrar_voluntario(db: Session, voluntario_data: VoluntarioCreate):
+    voluntario_existente = db.query(Voluntario).filter(Voluntario.identificacion == voluntario_data.identificacion).first()
+    if voluntario_existente:
         raise ValueError("Ya existe un voluntario con esa identificación")
+
+    nuevo_voluntario = Voluntario(**voluntario_data.dict())
+    db.add(nuevo_voluntario)
+    db.commit()
+    db.refresh(nuevo_voluntario)
+    return nuevo_voluntario

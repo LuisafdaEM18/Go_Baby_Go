@@ -11,3 +11,14 @@ class VoluntarioBase(BaseModel):
         if not v or not v.strip():
             raise ValueError("Este campo no puede estar vacío")
         return v
+
+
+class VoluntarioCreate(VoluntarioBase):
+    pass
+
+
+class VoluntarioOut(VoluntarioBase):
+    id: int
+
+    class Config:
+        orm_mode = True
