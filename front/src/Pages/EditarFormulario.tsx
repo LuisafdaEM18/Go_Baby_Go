@@ -157,15 +157,25 @@ const EditarFormulario = () => {
               <button
                 type="button"
                 onClick={() => navigate('/formularios/gestionar')}
-                className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 bg-white hover:bg-gray-50"
-              >
-                Cancelar
+                className="bg-blue-900 text-white font-semibold px-4 py-2 rounded"
+                style={{
+                  backgroundColor: '#1e3766',
+                  color: 'white',
+                  fontFamily: "'Recoleta', serif"
+                }}
+              
+            >Cancelar
               </button>
               <button
                 type="submit"
-                className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 flex items-center"
-              >
-                <FaSave className="mr-2" />
+                className="bg-blue-900 text-white font-semibold px-4 py-2 rounded"
+                style={{
+                  backgroundColor: '#1e3766',
+                  color: 'white',
+                  fontFamily: "'Recoleta', serif"
+                }}
+              
+            >
                 Guardar Cambios
               </button>
             </div>
@@ -184,15 +194,27 @@ const EditarFormulario = () => {
             <div className="flex justify-end space-x-4">
               <button
                 onClick={cancelarActualizacion}
-                className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50"
+                className="bg-blue-900 text-white font-semibold px-4 py-2 rounded"
+                style={{
+                  backgroundColor: '#1e3766',
+                  color: 'white',
+                  fontFamily: "'Recoleta', serif"
+                }}
+              
+            
               >
                 Cancelar
               </button>
               <button
                 onClick={confirmarActualizacion}
-                className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 flex items-center"
-              >
-                <FaSave className="mr-2" />
+               className="bg-blue-900 text-white font-semibold px-4 py-2 rounded"
+                style={{
+                  backgroundColor: '#1e3766',
+                  color: 'white',
+                  fontFamily: "'Recoleta', serif"
+                }}
+              
+            >
                 Confirmar Cambios
               </button>
             </div>

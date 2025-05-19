@@ -184,7 +184,6 @@ const FormularioCrear: React.FC = () => {
                 }}
               
           >
-            <FaPlus className="mr-2" />
             Agregar nueva pregunta
           </button>
 
@@ -204,26 +203,27 @@ const FormularioCrear: React.FC = () => {
             <button
               type="button"
               onClick={() => navigate('/formularios')}
-             className="flex-1 px-6 py-2 rounded-md font-semibold shadow transition"
+           className="bg-blue-900 text-white font-semibold px-4 py-2 rounded"
                 style={{
                   backgroundColor: '#1e3766',
                   color: 'white',
                   fontFamily: "'Recoleta', serif"
                 }}
-              >
+              
+            >
               Cancelar
             </button>
             <button
               type="submit"
               onClick={handleCrearClick}
-              className="flex-1 px-6 py-2 rounded-md font-semibold shadow transition"
+             className="bg-blue-900 text-white font-semibold px-4 py-2 rounded"
                 style={{
                   backgroundColor: '#1e3766',
                   color: 'white',
                   fontFamily: "'Recoleta', serif"
                 }}
-              >
-              <FaSave className="mr-2" />
+              
+            >
               Crear formulario
             </button>
           </div>
@@ -248,17 +248,26 @@ const FormularioCrear: React.FC = () => {
               <div className="flex justify-end space-x-4">
                 <button
                   onClick={cancelarCrear}
-                  className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 bg-white hover:bg-gray-50"
-                  style={{ fontFamily: "'Avenir', sans-serif", fontWeight: 600 }}
-                >
+                 className="bg-blue-900 text-white font-semibold px-4 py-2 rounded"
+                style={{
+                  backgroundColor: '#1e3766',
+                  color: 'white',
+                  fontFamily: "'Recoleta', serif"
+                }}
+              
+            >
                   Cancelar
                 </button>
                 <button
                   onClick={confirmarCrear}
-                  className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 flex items-center"
-                  style={{ fontFamily: "'Avenir', sans-serif", fontWeight: 600 }}
-                >
-                  <FaSave className="mr-2" />
+                 className="bg-blue-900 text-white font-semibold px-4 py-2 rounded"
+                style={{
+                  backgroundColor: '#1e3766',
+                  color: 'white',
+                  fontFamily: "'Recoleta', serif"
+                }}
+              
+            >
                   Confirmar
                 </button>
               </div>

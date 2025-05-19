@@ -82,7 +82,7 @@ const GestionarFormularios = () => {
             </div>
             <button
               onClick={() => navigate('/formularios/crear')}
-              className="flex-1 px-6 py-2 rounded-md font-semibold shadow transition"
+            className="bg-blue-900 text-white font-semibold px-4 py-2 rounded"
                 style={{
                   backgroundColor: '#1e3766',
                   color: 'white',
@@ -90,7 +90,7 @@ const GestionarFormularios = () => {
                 }}
               
             >
-              <FaPlus className="mr-2" />
+
               Nuevo Formulario
             </button>
           </div>
@@ -167,14 +167,26 @@ const GestionarFormularios = () => {
             <div className="flex justify-end space-x-4">
               <button
                  onClick={() => navigate('/formularios/gestionar')}
-                className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50"
-              >
+                className="bg-blue-900 text-white font-semibold px-4 py-2 rounded"
+                style={{
+                  backgroundColor: '#1e3766',
+                  color: 'white',
+                  fontFamily: "'Recoleta', serif"
+                }}
+              
+            >
                 Cancelar
               </button>
               <button
                 onClick={handleDelete}
-                className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700"
-              >
+                className="bg-blue-900 text-white font-semibold px-4 py-2 rounded"
+                style={{
+                  backgroundColor: '#1e3766',
+                  color: 'white',
+                  fontFamily: "'Recoleta', serif"
+                }}
+              
+            >
                  <span>Eliminar</span>
               </button>
             </div>

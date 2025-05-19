@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { FaUser } from "react-icons/fa";
+import GoBabyGo from "../assets/logo-babygo.png"; // Asegúrate de que esta ruta sea correcta
 
 type HeaderProps = {
   isSidebarOpen: boolean;
@@ -23,10 +23,10 @@ const Header: React.FC<HeaderProps> = () => {
         style={{ backgroundColor: '#1e3766', height: '60px' }}
       >
         <h1 
-          className="text-white font-light"
+          className="text-white font-semibold"
           style={{ 
             fontFamily: "'Recoleta', serif",
-            fontSize: '24px', // Tamaño reducido
+            fontSize: '24px',
             lineHeight: '1'
           }}
         >
@@ -34,12 +34,16 @@ const Header: React.FC<HeaderProps> = () => {
         </h1>
 
         <div className="relative group">
-          {/* Botón circular con ícono centrado */}
+          {/* Imagen circular que actúa como botón */}
           <button 
-            className="flex items-center justify-center w-8 h-8 rounded-full bg-blue-700 text-white hover:bg-blue-600 transition-colors"
+            className="w-10 h-10 rounded-full overflow-hidden focus:outline-none border-2 border-white"
             onClick={() => setMenuOpen(!menuOpen)}
           >
-            <FaUser className="text-sm" /> {/* Ícono ajustado al círculo */}
+            <img 
+              src={GoBabyGo} 
+              alt="Perfil" 
+              className="w-8 h-8 object-cover rounded-full"
+            />
           </button>
 
           {menuOpen && (

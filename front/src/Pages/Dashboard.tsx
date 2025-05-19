@@ -22,7 +22,7 @@ const Dashboard: React.FC = () => {
     <Layout>
       <div className="flex-1 flex flex-col">
         <main className="flex-1 p-8 overflow-auto ">
-          <h1 className="text-2xl font-bold text-blue-900 mb-8">Bienvenido</h1>
+          <h1 className="text-2xl font-medium text-blue-900 mb-8">Bienvenido</h1>
 
           {/* Tarjetas del dashboard */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -41,8 +41,8 @@ const Dashboard: React.FC = () => {
             <DashboardCard
               title="Usuarios Activos"
               value={27}
-              borderColor="border-purple-600"
-              textColor="text-purple-800"
+              borderColor="border-orange-600"
+              textColor="text-orange-600"
             />
            
           </div>

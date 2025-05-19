@@ -109,7 +109,7 @@ const CrearEventos = () => {
               <button
                 type="button"
                 onClick={() => navigate(-1)}
-                className="flex-1 px-6 py-2 rounded-md font-semibold shadow transition"
+                className="bg-blue-900 text-white font-semibold px-6 py-2 rounded"
                 style={{
                   backgroundColor: '#1e3766',
                   color: 'white',
@@ -121,14 +121,14 @@ const CrearEventos = () => {
               </button>
               <button
                 type="submit"
-                className="flex-1 px-6 py-2 rounded-md font-semibold shadow transition"
+                className="bg-blue-900 text-white font-semibold px-10 py-2 rounded"
                 style={{
                   backgroundColor: '#1e3766',
                   color: 'white',
                   fontFamily: "'Recoleta', serif"
                 }}
               >
-                <FaSave className="mr-2" />
+                
                 Guardar Evento
               </button>
             </div>

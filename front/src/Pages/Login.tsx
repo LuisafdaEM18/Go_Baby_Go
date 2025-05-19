@@ -100,6 +100,17 @@ const Login: React.FC = () => {
 
             {/* Contenedor para los botones alineados horizontalmente */}
             <div className="flex space-x-4">
+               <button
+                type="submit"
+                className="flex-1 px-6 py-2 rounded-md font-semibold shadow transition"
+                style={{
+                  backgroundColor: '#1e3766',
+                  color: 'white',
+                  fontFamily: "'Recoleta', serif"
+                }}
+              >
+                Iniciar sesión
+              </button>
               <button
                 type="button"
                 onClick={handleBack}
@@ -112,18 +123,7 @@ const Login: React.FC = () => {
               >
                 Regresar
               </button>
-              
-              <button
-                type="submit"
-                className="flex-1 px-6 py-2 rounded-md font-semibold shadow transition"
-                style={{
-                  backgroundColor: '#1e3766',
-                  color: 'white',
-                  fontFamily: "'Recoleta', serif"
-                }}
-              >
-                Iniciar sesión
-              </button>
+
             </div>
           </form>
         </div>
