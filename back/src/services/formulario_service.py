@@ -4,6 +4,8 @@ from src.modules.Pregunta import Pregunta
 from src.schemas.FormularioSchema import FormularioBase
 
 def crear_formulario(db: Session, formulario_data: FormularioBase):
+    validar_nombre_unico_formulario(db, formulario_data.nombre)
+
     formulario = Formulario(nombre=formulario_data.nombre, descripcion=formulario_data.descripcion)
     db.add(formulario)
     db.commit()
@@ -24,6 +26,8 @@ def modificar_formulario(db: Session, formulario_id: int, formulario_data: Formu
 
     if not formulario:
         raise ValueError("Formulario no encontrado")
+    
+    validar_nombre_unico_formulario(db, formulario_data.nombre)
 
     formulario.nombre = formulario_data.nombre
     formulario.descripcion = formulario_data.descripcion
@@ -53,3 +57,12 @@ def eliminar_formulario(db: Session, formulario_id: int):
     db.delete(formulario)
     db.commit()
     return {"mensaje": "Formulario eliminado correctamente"}
+
+
+
+def validar_nombre_unico_formulario(db: Session, nombre: str, formulario_id: int = None):
+    query = db.query(Formulario).filter_by(nombre=nombre)
+    if formulario_id:
+        query = query.filter(Formulario.id != formulario_id)
+    if query.first():
+        raise ValueError("Ya existe un formulario con ese nombre")

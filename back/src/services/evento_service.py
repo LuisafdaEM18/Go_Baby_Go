@@ -2,8 +2,11 @@ from sqlalchemy.orm import Session
 from src.modules.Evento import Evento
 from src.modules.Formulario import Formulario
 from src.schemas.EventoSchema import EventoBase
+from datetime import date
 
 def crear_evento(db: Session, evento_data: EventoBase, formulario_pre_id: int, formulario_post_id: int):
+    validar_datos_evento(db, evento_data, formulario_pre_id, formulario_post_id)
+
     formulario_pre = db.query(Formulario).filter(Formulario.id == formulario_pre_id).first()
     formulario_post = db.query(Formulario).filter(Formulario.id == formulario_post_id).first()
 
@@ -31,6 +34,8 @@ def modificar_evento(db: Session, evento_id: int, evento_data: EventoBase, formu
     evento = db.query(Evento).filter(Evento.id == evento_id).first()
     if not evento:
         raise ValueError("Evento no encontrado")
+    
+    validar_datos_evento(db, evento_data, formulario_pre_id, formulario_post_id)
 
     formulario_pre = db.query(Formulario).filter(Formulario.id == formulario_pre_id).first()
     formulario_post = db.query(Formulario).filter(Formulario.id == formulario_post_id).first()
@@ -48,3 +53,18 @@ def modificar_evento(db: Session, evento_id: int, evento_data: EventoBase, formu
     db.commit()
     db.refresh(evento)
     return evento
+
+
+
+def validar_datos_evento(db: Session, evento_data: EventoBase, formulario_pre_id: int, formulario_post_id: int, evento_id: int = None):
+    from src.modules.Evento import Evento
+    if formulario_pre_id == formulario_post_id:
+        raise ValueError("Formulario pre-evento y post-evento no pueden ser el mismo")
+    if evento_data.fecha < date.today():
+        raise ValueError("La fecha del evento no puede estar en el pasado")
+
+    query = db.query(Evento).filter_by(nombre=evento_data.nombre)
+    if evento_id:
+        query = query.filter(Evento.id != evento_id)
+    if query.first():
+        raise ValueError("Ya existe un evento con ese nombre")
