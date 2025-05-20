@@ -1,5 +1,6 @@
 from pydantic import BaseModel, EmailStr, validator
 
+
 class AdministradorBase(BaseModel):
     nombre: str
     apellido: str
@@ -11,8 +12,10 @@ class AdministradorBase(BaseModel):
             raise ValueError("Este campo no puede estar vacío")
         return v
 
+
 class AdministradorCreate(AdministradorBase):
     contrasena: str
+
 
 class AdministradorOut(AdministradorBase):
     id: int
