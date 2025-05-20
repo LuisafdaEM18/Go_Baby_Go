@@ -4,7 +4,7 @@ const Home = () => {
   return (
     <div className="min-h-screen bg-white flex flex-col justify-between">
       <main className="flex-grow flex flex-col items-center justify-center p-4 mx-auto max-w-4xl w-full">
-        <h1 className="text-4xl font-bold text-blue-900 mb-30">El Comité</h1>
+        <h1 className="text-4xl font-recolecta medium text-blue-900 mb-30">El Comité</h1>
         
         <div className="space-y-5 w-full max-w-md">
           <Link 

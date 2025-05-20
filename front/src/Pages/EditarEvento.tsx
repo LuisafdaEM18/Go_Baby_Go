@@ -254,7 +254,7 @@ const EditarEvento = () => {
                   fontFamily: "'Recoleta', serif"
                 }}
               
-            
+      
               >
                 Cancelar
               </button>
