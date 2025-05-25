@@ -1,21 +1,21 @@
-from pydantic import BaseModel, validator
+from pydantic import BaseModel, validator, Field
 from datetime import date
+from typing import Optional
 from .FormularioSchema import FormularioOut
 
 class EventoBase(BaseModel):
     nombre: str
-    fecha: date
-    hora: str
+    fecha_evento: date
     lugar: str
     descripcion: str
 
-    @validator("nombre", "hora", "lugar", "descripcion")
+    @validator("nombre", "lugar", "descripcion")
     def campo_no_vacio(cls, v):
         if not v or not v.strip():
             raise ValueError("Este campo no puede estar vacío")
         return v
 
-    @validator("fecha")
+    @validator("fecha_evento")
     def fecha_no_pasada(cls, v):
         from datetime import date
         if v < date.today():
@@ -23,13 +23,25 @@ class EventoBase(BaseModel):
         return v
     
 class EventoCreate(EventoBase):
-    formulario_pre_id: int
-    formulario_post_id: int
+    formulario_pre_evento: Optional[int] = None
+    formulario_post_evento: Optional[int] = None
+    
+class EventoUpdate(BaseModel):
+    nombre: Optional[str] = None
+    fecha_evento: Optional[date] = None
+    lugar: Optional[str] = None
+    descripcion: Optional[str] = None
+    formulario_pre_evento: Optional[int] = None
+    formulario_post_evento: Optional[int] = None
 
 class EventoOut(EventoBase):
     id: int
-    formulario_pre: FormularioOut
-    formulario_post: FormularioOut
+    formulario_pre: Optional[FormularioOut] = None
+    formulario_post: Optional[FormularioOut] = None
 
     class Config:
-        orm_mode = True
+        from_attributes = True
+        
+class EventoWithVoluntariosOut(EventoOut):
+    total_voluntarios: int = 0
+    voluntarios_aceptados: int = 0
