@@ -1,5 +1,5 @@
 import mysql.connector
-from db_config import DB_CONFIG
+from src.db.db_config import DB_CONFIG
 
 
 class Database:
