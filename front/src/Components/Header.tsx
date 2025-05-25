@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import GoBabyGo from "../assets/logo-babygo.png"; // Asegúrate de que esta ruta sea correcta
+import { useAuth } from "../context/AuthContext";
 
 type HeaderProps = {
   isSidebarOpen: boolean;
@@ -10,9 +11,10 @@ type HeaderProps = {
 const Header: React.FC<HeaderProps> = () => {
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
   const navigate = useNavigate();
+  const { logout, user } = useAuth();
 
   const handleLogout = () => {
-    localStorage.clear();
+    logout();
     navigate('/login');
   };
 
@@ -36,14 +38,19 @@ const Header: React.FC<HeaderProps> = () => {
         <div className="relative group">
           {/* Imagen circular que actúa como botón */}
           <button 
-            className="w-10 h-10 rounded-full overflow-hidden focus:outline-none border-2 border-white"
+            className="w-10 h-10 rounded-full overflow-hidden focus:outline-none border-2 border-white flex items-center justify-center"
             onClick={() => setMenuOpen(!menuOpen)}
           >
-            <img 
-              src={GoBabyGo} 
-              alt="Perfil" 
-              className="w-8 h-8 object-cover rounded-full"
-            />
+            <div className="flex items-center">
+              <img 
+                src={GoBabyGo} 
+                alt="Perfil" 
+                className="w-8 h-8 object-cover rounded-full"
+              />
+              <span className="text-white ml-2 hidden md:block">
+                {user?.nombre || 'Administrador'}
+              </span>
+            </div>
           </button>
 
           {menuOpen && (
