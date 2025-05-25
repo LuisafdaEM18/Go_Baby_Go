@@ -2,78 +2,79 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { FaSave, FaExclamationTriangle } from 'react-icons/fa';
 import Layout from '../Components/Layout';
+import { getEventoById, updateEvento } from '../services/eventoService';
+import { getFormularios } from '../services/formularioService';
+import { Evento, Formulario } from '../services/types';
 
 const EditarEvento = () => {
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
   const [mostrarConfirmacion, setMostrarConfirmacion] = useState(false);
   const [cargando, setCargando] = useState(true);
+  const [guardando, setGuardando] = useState(false);
   const [error, setError] = useState('');
-  const [formData, setFormData] = useState({
+  const [formularios, setFormularios] = useState<Formulario[]>([]);
+  
+  const [formData, setFormData] = useState<Evento>({
     nombre: '',
-    fecha: '',
-    ubicacion: '',
-    formularioPre: '',
-    formularioPost: '',
-    estado: ''
+    fecha_evento: '',
+    lugar: '',
+    descripcion: '',
+    formulario_pre_evento: undefined,
+    formulario_post_evento: undefined
   });
 
-  const formatFechaInput = (fecha: string) => {
-    const [dia, mes, anio] = fecha.split('-');
-    return `${anio}-${mes}-${dia}`;
-  };
-
-  const formatFechaDisplay = (fecha: string) => {
-    const [anio, mes, dia] = fecha.split('-');
-    return `${dia}-${mes}-${anio}`;
+  // Formato de fecha para input date (YYYY-MM-DD)
+  const formatFechaInput = (fechaString: string) => {
+    const fecha = new Date(fechaString);
+    return fecha.toISOString().split('T')[0];
   };
 
   useEffect(() => {
-        console.log('ID recibido:', id); 
-        if (!id) {
-            setError('No se proporcionó ID de evento');
-            setCargando(false);
-            return;
-        }
-    const cargarEvento = async () => {
+    if (!id) {
+      setError('No se proporcionó ID de evento');
+      setCargando(false);
+      return;
+    }
+    
+    const cargarDatos = async () => {
       try {
         setCargando(true);
-        await new Promise(resolve => setTimeout(resolve, 500));
+        setError('');
         
-        const eventoEjemplo = {
-          id: 1,
-          nombre: 'Go baby go',
-          fecha: '15-11-2023', 
-          ubicacion: 'UdeM',
-          formularioPre: 'evaluacion',
-          formularioPost: 'satisfaccion',
-          estado: 'completado'
-        };
-
-        {
-          setFormData({
-            nombre: eventoEjemplo.nombre,
-            fecha: formatFechaInput(eventoEjemplo.fecha), 
-            ubicacion: eventoEjemplo.ubicacion,
-            formularioPre: eventoEjemplo.formularioPre,
-            formularioPost: eventoEjemplo.formularioPost,
-            estado: eventoEjemplo.estado
-          });
-        } 
-      } catch (err) {
-        setError('Error al cargar el evento');
-        console.error(err);
+        // Cargar evento y formularios en paralelo
+        const [eventoData, formulariosData] = await Promise.all([
+          getEventoById(parseInt(id)),
+          getFormularios()
+        ]);
+        
+        setFormData({
+          ...eventoData,
+          fecha_evento: formatFechaInput(eventoData.fecha_evento)
+        });
+        
+        setFormularios(formulariosData);
+      } catch (err: any) {
+        console.error('Error al cargar datos:', err);
+        setError(`Error al cargar el evento: ${err.message || 'Error desconocido'}`);
       } finally {
         setCargando(false);
       }
     };
 
-    cargarEvento();
+    cargarDatos();
   }, [id]);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    
+    if (name === 'formulario_pre_evento' || name === 'formulario_post_evento') {
+      // Convertir a número o undefined si está vacío
+      const numValue = value ? parseInt(value) : undefined;
+      setFormData(prev => ({ ...prev, [name]: numValue }));
+    } else {
+      setFormData(prev => ({ ...prev, [name]: value }));
+    }
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -81,14 +82,29 @@ const EditarEvento = () => {
     setMostrarConfirmacion(true);
   };
 
-  const confirmarActualizacion = () => {
-    const datosParaGuardar = {
-      ...formData,
-      fecha: formatFechaDisplay(formData.fecha)
-    };
+  const confirmarActualizacion = async () => {
+    if (!id) return;
     
-    console.log('Evento actualizado:', datosParaGuardar);
-    navigate('/eventos');
+    try {
+      setGuardando(true);
+      setError('');
+      
+      // Crear copia de los datos para enviar al backend
+      const datosParaGuardar: Evento = {
+        ...formData
+      };
+      
+      await updateEvento(parseInt(id), datosParaGuardar);
+      
+      setMostrarConfirmacion(false);
+      navigate('/eventos/gestionar', { state: { message: 'Evento actualizado correctamente' } });
+    } catch (err: any) {
+      console.error('Error al actualizar evento:', err);
+      setError(`Error al guardar: ${err.message || 'Error desconocido'}`);
+      setMostrarConfirmacion(false);
+    } finally {
+      setGuardando(false);
+    }
   };
 
   const cancelarActualizacion = () => {
@@ -99,17 +115,10 @@ const EditarEvento = () => {
     return (
       <Layout>
         <div className="flex-1 p-6 overflow-y-auto flex items-center justify-center">
-          <div className="text-center">Cargando evento...</div>
-        </div>
-      </Layout>
-    );
-  }
-
-  if (error) {
-    return (
-      <Layout>
-        <div className="flex-1 p-6 overflow-y-auto flex items-center justify-center">
-          <div className="text-center text-red-500">{error}</div>
+          <div className="flex flex-col items-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-900 mb-4"></div>
+            <p className="text-gray-700">Cargando evento...</p>
+          </div>
         </div>
       </Layout>
     );
@@ -118,157 +127,157 @@ const EditarEvento = () => {
   return (
     <Layout>
       <div className="flex-1 p-6 overflow-y-auto">
-      <h1 style={{ fontSize: '16px', fontWeight: '500', color: '#4B5563', marginBottom: '8px' }}>Editar Evento</h1>
-        <form onSubmit={handleSubmit} className="max-w-2xl mx-auto bg-white p-6 rounded-lg shadow-md">
-          <div className="space-y-6">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Nombre del Evento</label>
-              <input
-                type="text"
-                name="nombre"
-                value={formData.nombre}
-                onChange={handleChange}
-                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
-                required
-              />
+        <div className="max-w-4xl mx-auto">
+          <h1 className="text-2xl font-semibold text-blue-900 mb-6">Editar Evento</h1>
+          
+          {error && (
+            <div className="mb-6 p-4 bg-red-100 border border-red-400 text-red-700 rounded flex items-center">
+              <FaExclamationTriangle className="mr-2" />
+              {error}
             </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Fecha (DD-MM-AAAA)</label>
-              <input
-                type="date"
-                name="fecha"
-                value={formData.fecha}
-                onChange={handleChange}
-                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
-                required
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Ubicación</label>
-              <input
-                type="text"
-                name="ubicacion"
-                value={formData.ubicacion}
-                onChange={handleChange}
-                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
-                required
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Estado</label>
-              <select
-                name="estado"
-                value={formData.estado}
-                onChange={handleChange}
-                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
-                required
-              >
-                <option value="">Seleccionar estado</option>
-                <option value="activo">Activo</option>
-                <option value="completado">Completado</option>
-                <option value="cancelado">Cancelado</option>
-              </select>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          )}
+          
+          <form onSubmit={handleSubmit} className="bg-white p-6 rounded-lg shadow-md">
+            <div className="space-y-6">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Formulario Pre-Evento</label>
-                <select
-                  name="formularioPre"
-                  value={formData.formularioPre}
+                <label className="block text-sm font-medium text-gray-700 mb-1">Nombre del Evento</label>
+                <input
+                  type="text"
+                  name="nombre"
+                  value={formData.nombre}
                   onChange={handleChange}
                   className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
                   required
-                >
-                  <option value="">Seleccionar</option>
-                  <option value="evaluacion">Evaluación Inicial</option>
-                  <option value="registro">Registro Participantes</option>
-                </select>
+                />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Formulario Post-Evento</label>
-                <select
-                  name="formularioPost"
-                  value={formData.formularioPost}
+                <label className="block text-sm font-medium text-gray-700 mb-1">Fecha del Evento</label>
+                <input
+                  type="date"
+                  name="fecha_evento"
+                  value={formData.fecha_evento}
                   onChange={handleChange}
                   className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
                   required
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Ubicación</label>
+                <input
+                  type="text"
+                  name="lugar"
+                  value={formData.lugar}
+                  onChange={handleChange}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                  required
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Descripción</label>
+                <textarea
+                  name="descripcion"
+                  value={formData.descripcion}
+                  onChange={handleChange}
+                  rows={4}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                  required
+                />
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Formulario Pre-Evento</label>
+                  <select
+                    name="formulario_pre_evento"
+                    value={formData.formulario_pre_evento || ''}
+                    onChange={handleChange}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                  >
+                    <option value="">Sin formulario pre-evento</option>
+                    {formularios.map(form => (
+                      <option key={`pre-${form.id}`} value={form.id}>
+                        {form.nombre}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Formulario Post-Evento</label>
+                  <select
+                    name="formulario_post_evento"
+                    value={formData.formulario_post_evento || ''}
+                    onChange={handleChange}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                  >
+                    <option value="">Sin formulario post-evento</option>
+                    {formularios.map(form => (
+                      <option key={`post-${form.id}`} value={form.id}>
+                        {form.nombre}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+
+              <div className="flex justify-end space-x-4 pt-4">
+                <button
+                  type="button"
+                  onClick={() => navigate('/eventos/gestionar')}
+                  className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50"
                 >
-                  <option value="">Seleccionar</option>
-                  <option value="satisfaccion">Encuesta Satisfacción</option>
-                  <option value="reporte">Reporte Final</option>
-                </select>
+                  Cancelar
+                </button>
+                <button
+                  type="submit"
+                  className="px-4 py-2 rounded-md font-semibold flex items-center shadow-sm"
+                  style={{
+                    backgroundColor: '#1e3766',
+                    color: 'white',
+                    fontFamily: "'Recoleta', serif"
+                  }}
+                >
+                  <FaSave className="mr-2" />
+                  Guardar Cambios
+                </button>
               </div>
             </div>
-
-            <div className="flex justify-end space-x-4 pt-4">
-              <button
-                type="button"
-                onClick={() => navigate('/eventos/gestionar')}
-                className="bg-blue-900 text-white font-semibold px-4 py-2 rounded"
-                style={{
-                  backgroundColor: '#1e3766',
-                  color: 'white',
-                  fontFamily: "'Recoleta', serif"
-                }}
-              
-            >
-                Cancelar
-              </button>
-              <button
-                type="submit"
-                className="bg-blue-900 text-white font-semibold px-4 py-2 rounded"
-                style={{
-                  backgroundColor: '#1e3766',
-                  color: 'white',
-                  fontFamily: "'Recoleta', serif"
-                }}
-              
-            >
-                Guardar Cambios
-              </button>
-            </div>
-          </div>
-        </form>
+          </form>
+        </div>
       </div>
 
+      {/* Modal de confirmación */}
       {mostrarConfirmacion && (
-        <div className="fixed inset-0 backdrop-blur-sm flex items-center justify-center z-50">
-          <div className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full">
-            <div className="flex items-start mb-4">
-              <FaExclamationTriangle className="text-yellow-500 text-2xl mr-3 mt-1" />
-              <h3 className="text-lg font-medium">Confirmar cambios</h3>
-            </div>
-            <p className="mb-6">¿Estás seguro que deseas guardar los cambios realizados a este evento?</p>
-            <div className="flex justify-end space-x-4">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white p-6 rounded-lg shadow-xl max-w-md w-full">
+            <h3 className="text-xl font-bold mb-4 text-gray-900">Confirmar actualización</h3>
+            <p className="mb-6 text-gray-700">
+              ¿Estás seguro de que deseas guardar los cambios realizados al evento? 
+            </p>
+            <div className="flex justify-end space-x-3">
               <button
                 onClick={cancelarActualizacion}
-                className="bg-blue-900 text-white font-semibold px-4 py-2 rounded"
-                style={{
-                  backgroundColor: '#1e3766',
-                  color: 'white',
-                  fontFamily: "'Recoleta', serif"
-                }}
-              
-      
+                className="px-4 py-2 border border-gray-300 rounded-md text-gray-700"
+                disabled={guardando}
               >
                 Cancelar
               </button>
               <button
                 onClick={confirmarActualizacion}
-                className="bg-blue-900 text-white font-semibold px-4 py-2 rounded"
-                style={{
-                  backgroundColor: '#1e3766',
-                  color: 'white',
-                  fontFamily: "'Recoleta', serif"
-                }}
-              
-            >
-                Confirmar Cambios
+                className="px-4 py-2 bg-blue-600 text-white rounded-md flex items-center"
+                disabled={guardando}
+              >
+                {guardando ? (
+                  <>
+                    <span className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></span>
+                    Guardando...
+                  </>
+                ) : (
+                  'Confirmar'
+                )}
               </button>
             </div>
           </div>

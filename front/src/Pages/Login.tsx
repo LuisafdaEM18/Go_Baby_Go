@@ -1,5 +1,7 @@
-import React, { useState, FormEvent } from 'react';
+import React, { useState, FormEvent, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
+import { useNotification } from '../context/NotificationContext';
 
 interface LoginFormData {
   email: string;
@@ -13,7 +15,27 @@ const Login: React.FC = () => {
     password: '',
     remember: false,
   });
+  const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
+  const { login, isAuthenticated, loading } = useAuth();
+  const { showNotification } = useNotification();
+
+  // Check if user is already authenticated
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate('/dashboard');
+    }
+    
+    // Check if there's a remembered user
+    const rememberedUser = localStorage.getItem('rememberUser');
+    if (rememberedUser) {
+      setFormData(prev => ({
+        ...prev,
+        email: rememberedUser,
+        remember: true
+      }));
+    }
+  }, [isAuthenticated, navigate]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = e.target;
@@ -21,16 +43,94 @@ const Login: React.FC = () => {
       ...prev,
       [name]: type === 'checkbox' ? checked : value,
     }));
+    
+    // Clear error when user starts typing
+    if (error) {
+      setError(null);
+    }
   };
 
-  const handleLogin = (e: FormEvent<HTMLFormElement>) => {
+  const validateForm = () => {
+    // Check if both fields are empty
+    if (!formData.email.trim() && !formData.password.trim()) {
+      const errorMsg = 'Por favor, ingresa tu correo y contraseña';
+      setError(errorMsg);
+      showNotification(errorMsg, 'error');
+      return false;
+    }
+    
+    // Check for empty email
+    if (!formData.email.trim()) {
+      const errorMsg = 'El campo de correo electrónico no puede estar vacío';
+      setError(errorMsg);
+      showNotification(errorMsg, 'error');
+      return false;
+    }
+    
+    // Basic email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email)) {
+      const errorMsg = 'El formato del correo electrónico es inválido';
+      setError(errorMsg);
+      showNotification(errorMsg, 'error');
+      return false;
+    }
+    
+    // Check for empty password
+    if (!formData.password.trim()) {
+      const errorMsg = 'El campo de contraseña no puede estar vacío';
+      setError(errorMsg);
+      showNotification(errorMsg, 'error');
+      return false;
+    }
+    
+    return true;
+  };
+
+  const handleLogin = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!formData.email || !formData.password) {
-      console.error("Por favor, ingresa correo y contraseña.");
+    
+    // Validate form fields before submission
+    if (!validateForm()) {
       return;
     }
-    console.log('Datos enviados:', formData);
-    navigate('/dashboard');
+    
+    try {
+      setError(null);
+      
+      // Call the login function from context
+      await login(formData.email, formData.password);
+      
+      // If successful, store remember preference
+      if (formData.remember) {
+        localStorage.setItem('rememberUser', formData.email);
+      } else {
+        localStorage.removeItem('rememberUser');
+      }
+      
+      showNotification('Inicio de sesión exitoso', 'success');
+      // Redirect to dashboard - this will happen automatically via the useEffect
+    } catch (err: any) {
+      console.error('Error al iniciar sesión:', err);
+      
+      // Show notification for error
+      const errorMsg = err.message && typeof err.message === 'string'
+        ? err.message
+        : 'Error al iniciar sesión';
+        
+      if (errorMsg.includes('Correo o contraseña incorrectos') || errorMsg.includes('Error de autenticación')) {
+        const message = 'Credenciales incorrectas. Verifica tu correo y contraseña';
+        showNotification(message, 'error');
+        setError('Correo o contraseña incorrectos. Por favor, verifica tus credenciales e intenta nuevamente.');
+      } else if (errorMsg.includes('Error de conexión')) {
+        const message = 'No se pudo conectar al servidor';
+        showNotification(message, 'error');
+        setError('No se pudo conectar al servidor. Por favor, verifica tu conexión a internet.');
+      } else {
+        showNotification('Error al iniciar sesión: ' + errorMsg, 'error');
+        setError('No se pudo iniciar sesión. Por favor, intenta nuevamente más tarde.');
+      }
+    }
   };
 
   const handleBack = () => {
@@ -47,7 +147,14 @@ const Login: React.FC = () => {
         </div>
 
         <div className="bg-white py-8 px-6 shadow rounded-lg sm:px-10">
-          <form className="space-y-6" onSubmit={handleLogin}>
+          {error && (
+            <div className="mb-4 p-4 bg-red-100 border-l-4 border-red-500 text-red-700 rounded">
+              <p className="font-medium">Error de inicio de sesión</p>
+              <p>{error}</p>
+            </div>
+          )}
+          
+          <form className="space-y-6" onSubmit={handleLogin} noValidate>
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-gray-700">
                 Correo electrónico
@@ -56,10 +163,12 @@ const Login: React.FC = () => {
                 id="email"
                 name="email"
                 type="email"
-                required
+                autoComplete="email"
                 value={formData.email}
                 onChange={handleInputChange}
                 className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                disabled={loading}
+                placeholder="ejemplo@correo.com"
               />
             </div>
 
@@ -71,10 +180,12 @@ const Login: React.FC = () => {
                 id="password"
                 name="password"
                 type="password"
-                required
+                autoComplete="current-password"
                 value={formData.password}
                 onChange={handleInputChange}
                 className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                disabled={loading}
+                placeholder="••••••••"
               />
             </div>
 
@@ -87,6 +198,7 @@ const Login: React.FC = () => {
                   checked={formData.remember}
                   onChange={handleInputChange}
                   className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
+                  disabled={loading}
                 />
                 <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900">
                   Recordar cuenta
@@ -106,10 +218,12 @@ const Login: React.FC = () => {
                 style={{
                   backgroundColor: '#1e3766',
                   color: 'white',
-                  fontFamily: "'Recoleta', serif"
+                  fontFamily: "'Recoleta', serif",
+                  opacity: loading ? 0.7 : 1
                 }}
+                disabled={loading}
               >
-                Iniciar sesión
+                {loading ? 'Iniciando...' : 'Iniciar sesión'}
               </button>
               <button
                 type="button"
@@ -120,10 +234,10 @@ const Login: React.FC = () => {
                   color: 'white',
                   fontFamily: "'Recoleta', serif"
                 }}
+                disabled={loading}
               >
                 Regresar
               </button>
-
             </div>
           </form>
         </div>
