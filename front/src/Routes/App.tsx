@@ -2,10 +2,8 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from '../Pages/Home';
 import Login from '../Pages/Login';
 import Dashboard from '../Pages/Dashboard';
-import Eventos from '../Pages/Eventos';
 import CrearEventos from '../Pages/CrearEventos';
 import GestionarEventos from '../Pages/GestionarEventos';
-import Formularios from '../Pages/Formularios';
 import CrearFormularios from '../Pages/CrearFormularios';
 import GestionarFormularios from '../Pages/GestionarFormularios';
 import EditarEvento from '../Pages/EditarEvento';
@@ -31,12 +29,6 @@ const App = () => {
             </ProtectedRoute>
           } />
           
-          <Route path="/eventos" element={
-            <ProtectedRoute>
-              <Eventos />
-            </ProtectedRoute>
-          } />
-          
           <Route path="/eventos/crear" element={
             <ProtectedRoute>
               <CrearEventos />
@@ -52,12 +44,6 @@ const App = () => {
           <Route path="/eventos/editar/:id" element={
             <ProtectedRoute>
               <EditarEvento />
-            </ProtectedRoute>
-          } />
-          
-          <Route path="/formularios" element={
-            <ProtectedRoute>
-              <Formularios />
             </ProtectedRoute>
           } />
           
