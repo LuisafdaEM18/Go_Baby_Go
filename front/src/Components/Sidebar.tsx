@@ -9,7 +9,7 @@ import {
   FaPlus,
   FaCog
 } from 'react-icons/fa'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 interface SidebarProps {
   isSidebarOpen: boolean

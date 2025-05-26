@@ -1,14 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { FaSpinner, FaExclamationCircle } from 'react-icons/fa';
+import { FaSpinner } from 'react-icons/fa';
 import { getEventosWithStats } from '../services/eventoService';
 import { EventoWithStats } from '../services/types';
 
 const Home = () => {
-  const [eventos, setEventos] = useState<EventoWithStats[]>([]);
   const [proximosEventos, setProximosEventos] = useState<EventoWithStats[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
 
   // Cargar eventos desde la API
   useEffect(() => {
@@ -16,7 +14,6 @@ const Home = () => {
       try {
         setLoading(true);
         const data = await getEventosWithStats();
-        setEventos(data);
         
         // Filtrar eventos próximos (fecha posterior a hoy)
         const hoy = new Date();

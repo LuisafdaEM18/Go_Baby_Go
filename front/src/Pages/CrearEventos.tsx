@@ -232,12 +232,7 @@ const CrearEventos = () => {
               </button>
               <button
                 type="submit"
-                className="px-6 py-2 rounded-md font-semibold flex items-center shadow-sm"
-                style={{
-                  backgroundColor: '#1e3766',
-                  color: 'white',
-                  fontFamily: "'Recoleta', serif"
-                }}
+                className="px-6 py-2 bg-blue-600 text-white rounded-md font-semibold flex items-center hover:bg-blue-700"
                 disabled={isLoading || isSaving}
               >
                 <FaSave className="mr-2" />

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FaEdit, FaTrash, FaSearch, FaPlus, FaExclamationCircle } from 'react-icons/fa';
+import { FaEdit, FaTrash, FaSearch, FaExclamationCircle } from 'react-icons/fa';
 import Layout from '../Components/Layout';
 import { getEventosWithStats, deleteEvento } from '../services/eventoService';
 import { EventoWithStats } from '../services/types';
@@ -144,12 +144,7 @@ const GestionarEventos = () => {
             </div>
             <button
               onClick={() => navigate('/eventos/crear')}
-              className="bg-blue-900 text-white font-semibold px-4 py-2 rounded"
-                style={{
-                  backgroundColor: '#1e3766',
-                  color: 'white',
-                  fontFamily: "'Recoleta', serif"
-                }}
+              className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
               disabled={isLoading}
             >
               Nuevo Evento
@@ -246,22 +241,14 @@ const GestionarEventos = () => {
             <div className="flex justify-end space-x-4">
               <button
                 onClick={cancelarEliminacion}
-                className="bg-blue-900 text-white font-semibold px-4 py-2 rounded"
-                style={{
-                  backgroundColor: '#1e3766',
-                  color: 'white',
-                  fontFamily: "'Recoleta', serif"
-                }}
+                className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50"
                 disabled={isLoading}
               >
                 Cancelar
               </button>
               <button
                 onClick={handleDelete}
-                className="bg-red-600 text-white font-semibold px-4 py-2 rounded"
-                style={{
-                  fontFamily: "'Recoleta', serif"
-                }}
+                className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700"
                 disabled={isLoading}
               >
                 {isLoading ? 'Eliminando...' : 'Eliminar'}

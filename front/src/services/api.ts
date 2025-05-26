@@ -202,9 +202,4 @@ export const loginWithFormData = async (username: string, password: string) => {
   }
 };
 
-// Logout method
-export const logout = () => {
-  localStorage.removeItem('token');
-  localStorage.removeItem('user');
-  // Redirect to login page or update application state
-}; 
+ 

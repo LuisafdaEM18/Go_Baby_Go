@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate, Link } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { FaUser, FaEnvelope, FaIdCard, FaCheck, FaExclamationTriangle, FaArrowLeft, FaSpinner } from 'react-icons/fa';
 import { getEventoById } from '../services/eventoService';
 import { inscribirVoluntario } from '../services/voluntarioService';
@@ -8,7 +8,6 @@ import { useNotification } from '../context/NotificationContext';
 
 const RegistroVoluntario = () => {
   const { id } = useParams<{ id: string }>();
-  const navigate = useNavigate();
   const { showNotification } = useNotification();
   
   const [evento, setEvento] = useState<Evento | null>(null);

@@ -5,7 +5,7 @@ import { useAuth } from '../context/AuthContext';
 import { getFormularios } from '../services/formularioService';
 import { getEventosWithStats } from '../services/eventoService';
 import { getVoluntarios } from '../services/voluntarioService';
-import { Formulario, Evento, Voluntario, EventoWithStats } from '../services/types';
+import { Formulario, Voluntario, EventoWithStats } from '../services/types';
 
 interface DashboardCardProps {
   title: string;

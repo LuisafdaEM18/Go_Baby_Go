@@ -1,4 +1,4 @@
-import { api, loginWithFormData, logout as apiLogout } from './api';
+import { api, loginWithFormData } from './api';
 import { AdminUser, LoginResponse, RegisterData } from './types';
 
 // Get current user from localStorage
@@ -27,7 +27,8 @@ export const login = async (username: string, password: string): Promise<LoginRe
 
 // Logout user
 export const logout = (): void => {
-  apiLogout();
+  localStorage.removeItem('token');
+  localStorage.removeItem('user');
 };
 
 // Check if user is authenticated

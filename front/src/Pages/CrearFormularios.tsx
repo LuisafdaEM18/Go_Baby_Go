@@ -20,16 +20,7 @@ const FormularioCrear: React.FC = () => {
   const [mostrarConfirmacion, setMostrarConfirmacion] = useState(false);
   const [connectionRetries, setConnectionRetries] = useState(0);
 
-  // Constantes de estilo para mantener consistencia
-  const primaryColor = '#1e3766';
-  const primaryColorLight = '#2a4980';
-  const primaryColorDark = '#142952';
-  const accentColor = '#FF8A00'; // Naranja
-  const primaryBgColor = 'bg-[#1e3766]';
-  const accentBgColor = 'bg-[#FF8A00]';
-  const primaryHoverBgColor = 'hover:bg-[#2a4980]';
-  const accentHoverBgColor = 'hover:bg-[#ff9d33]';
-  const fontStyle = { fontFamily: "'Recoleta', serif" };
+
 
   const agregarPregunta = () => {
     setPreguntas([...preguntas, { texto: '', tipo: 'textual' }]);
@@ -214,12 +205,11 @@ const FormularioCrear: React.FC = () => {
         <form 
           onSubmit={handleCrearClick}
           className="max-w-4xl mx-auto space-y-6 p-8 shadow-lg rounded-lg bg-white"
-          style={fontStyle}
+
         >
-          <h2 
-            className="text-3xl font-bold text-center mb-8"
-            style={{ color: primaryColor, ...fontStyle }}
-          >
+                      <h2 
+              className="text-3xl font-bold text-center mb-8 text-gray-900"
+            >
             Crear Formulario
           </h2>
 
@@ -330,8 +320,7 @@ const FormularioCrear: React.FC = () => {
                     <button
                       type="button"
                       onClick={() => agregarOpcion(idx)}
-                      className="flex items-center text-sm px-3 py-1 rounded-md text-white transition duration-150 shadow-sm hover:shadow-md transform hover:translate-y-[-1px]"
-                      style={{ backgroundColor: accentColor }}
+                      className="flex items-center text-sm px-3 py-1 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition duration-150"
                     >
                       <FaPlus className="mr-1" />
                       Agregar opción
@@ -345,8 +334,7 @@ const FormularioCrear: React.FC = () => {
           <button
             type="button"
             onClick={agregarPregunta}
-            className="w-full px-6 py-3 rounded-md font-semibold shadow-md hover:shadow-lg transition flex items-center justify-center text-white transform hover:translate-y-[-2px]"
-            style={{ backgroundColor: accentColor, ...fontStyle }}
+            className="w-full px-6 py-3 bg-blue-600 text-white rounded-md font-semibold hover:bg-blue-700 transition flex items-center justify-center"
           >
             <FaPlus className="mr-2" />
             Agregar nueva pregunta
@@ -362,8 +350,7 @@ const FormularioCrear: React.FC = () => {
             </button>
             <button
               type="submit"
-              className="px-6 py-2 rounded-md font-semibold shadow-md hover:shadow-lg transition flex items-center text-white transform hover:translate-y-[-1px]"
-              style={{ backgroundColor: primaryColor, ...fontStyle }}
+              className="px-6 py-2 bg-blue-600 text-white rounded-md font-semibold hover:bg-blue-700 transition flex items-center"
               disabled={isSubmitting}
             >
               {isSubmitting ? (
@@ -386,7 +373,7 @@ const FormularioCrear: React.FC = () => {
       {mostrarConfirmacion && (
         <div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-50">
           <div className="bg-white p-6 rounded-lg shadow-xl max-w-md w-full animate-fade-in-down">
-            <h3 className="text-xl font-bold mb-4" style={{ color: primaryColor, ...fontStyle }}>Confirmar creación</h3>
+            <h3 className="text-xl font-bold mb-4 text-gray-900">Confirmar creación</h3>
             <p className="mb-6 text-gray-700">
               ¿Estás seguro de que deseas crear este formulario? Esta acción no se puede deshacer.
             </p>
@@ -400,8 +387,7 @@ const FormularioCrear: React.FC = () => {
               </button>
               <button
                 onClick={confirmarCrear}
-                className="px-4 py-2 rounded-md text-white transition duration-150 shadow-md hover:shadow-lg transform hover:translate-y-[-1px]"
-                style={{ backgroundColor: primaryColor }}
+                className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition duration-150"
                 disabled={isSubmitting}
               >
                 {isSubmitting ? (
@@ -420,7 +406,3 @@ const FormularioCrear: React.FC = () => {
 };
 
 export default FormularioCrear;
-
-
-
-
