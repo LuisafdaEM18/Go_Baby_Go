@@ -146,7 +146,28 @@ const Sidebar: React.FC<SidebarProps> = ({
               to="/dashboard"
               isSidebarOpen={isSidebarOpen}
             />
-            
+            <SidebarLink
+              icon={<FaFileAlt />}
+              text="Formularios"
+              isSidebarOpen={isSidebarOpen}
+              isExpandable={true}
+              isExpanded={formulariosExpanded}
+              onClick={toggleFormularios}
+            >
+              <SubMenuItem
+                icon={<FaPlus />}
+                text="Crear Formulario"
+                to="/formularios/crear"
+                isSidebarOpen={isSidebarOpen}
+              />
+              <SubMenuItem
+                icon={<FaCog />}
+                text="Gestionar Formularios"
+                to="/formularios/gestionar"
+                isSidebarOpen={isSidebarOpen}
+              />
+            </SidebarLink>
+                      
             <SidebarLink
               icon={<FaCalendarAlt />}
               text="Eventos"
@@ -169,27 +190,6 @@ const Sidebar: React.FC<SidebarProps> = ({
               />
             </SidebarLink>
             
-            <SidebarLink
-              icon={<FaFileAlt />}
-              text="Formularios"
-              isSidebarOpen={isSidebarOpen}
-              isExpandable={true}
-              isExpanded={formulariosExpanded}
-              onClick={toggleFormularios}
-            >
-              <SubMenuItem
-                icon={<FaPlus />}
-                text="Crear Formulario"
-                to="/formularios/crear"
-                isSidebarOpen={isSidebarOpen}
-              />
-              <SubMenuItem
-                icon={<FaCog />}
-                text="Gestionar Formularios"
-                to="/formularios/gestionar"
-                isSidebarOpen={isSidebarOpen}
-              />
-            </SidebarLink>
           </div>
         </div>
       </div>
