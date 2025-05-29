@@ -30,6 +30,7 @@ export interface RegisterData {
 export interface Opcion {
   id?: number;
   texto_opcion: string;
+  es_correcta?: boolean;
 }
 
 export interface Pregunta {
@@ -42,6 +43,7 @@ export interface Pregunta {
 export interface Formulario {
   id?: number;
   nombre: string;
+  descripcion?: string;
   fecha_creacion?: string;
   preguntas: Pregunta[];
 }

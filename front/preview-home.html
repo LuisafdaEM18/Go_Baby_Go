@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Go Baby Go - Preview Home</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Recoleta:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Animaciones para el fondo */
+        @keyframes gradientShift {
+          0%, 100% { 
+            background: linear-gradient(45deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #f5576c 75%, #4facfe 100%);
+          }
+          25% { 
+            background: linear-gradient(45deg, #4facfe 0%, #667eea 25%, #764ba2 50%, #f093fb 75%, #f5576c 100%);
+          }
+          50% { 
+            background: linear-gradient(45deg, #f5576c 0%, #4facfe 25%, #667eea 50%, #764ba2 75%, #f093fb 100%);
+          }
+          75% { 
+            background: linear-gradient(45deg, #f093fb 0%, #f5576c 25%, #4facfe 50%, #667eea 75%, #764ba2 100%);
+          }
+        }
+
+        @keyframes float1 {
+          0%, 100% { transform: translateY(0px) translateX(0px) rotate(0deg); }
+          25% { transform: translateY(-20px) translateX(10px) rotate(90deg); }
+          50% { transform: translateY(-10px) translateX(-15px) rotate(180deg); }
+          75% { transform: translateY(-30px) translateX(5px) rotate(270deg); }
+        }
+
+        @keyframes float2 {
+          0%, 100% { transform: translateY(0px) translateX(0px) rotate(0deg); }
+          33% { transform: translateY(-25px) translateX(-10px) rotate(120deg); }
+          66% { transform: translateY(-5px) translateX(20px) rotate(240deg); }
+        }
+
+        @keyframes float3 {
+          0%, 100% { transform: translateY(0px) translateX(0px) rotate(0deg); }
+          50% { transform: translateY(-35px) translateX(-25px) rotate(180deg); }
+        }
+
+        @keyframes float4 {
+          0%, 100% { transform: translateY(0px) translateX(0px) rotate(0deg); }
+          25% { transform: translateY(-15px) translateX(15px) rotate(90deg); }
+          50% { transform: translateY(-25px) translateX(-10px) rotate(180deg); }
+          75% { transform: translateY(-5px) translateX(-20px) rotate(270deg); }
+        }
+
+        @keyframes float5 {
+          0%, 100% { transform: translateY(0px) translateX(0px) rotate(0deg); }
+          40% { transform: translateY(-20px) translateX(-15px) rotate(144deg); }
+          80% { transform: translateY(-10px) translateX(25px) rotate(288deg); }
+        }
+
+        @keyframes float6 {
+          0%, 100% { transform: translateY(0px) translateX(0px) rotate(0deg); }
+          33% { transform: translateY(-30px) translateX(20px) rotate(120deg); }
+          66% { transform: translateY(-15px) translateX(-30px) rotate(240deg); }
+        }
+
+        @keyframes wave1 {
+          0% { transform: rotate(0deg) scale(1); }
+          100% { transform: rotate(360deg) scale(1.1); }
+        }
+
+        @keyframes wave2 {
+          0% { transform: rotate(0deg) scale(1.1); }
+          100% { transform: rotate(-360deg) scale(0.9); }
+        }
+
+        @keyframes wave3 {
+          0% { transform: rotate(0deg) scale(0.9); }
+          100% { transform: rotate(360deg) scale(1.2); }
+        }
+
+        @keyframes particle1 {
+          0%, 100% { transform: translateY(0px) scale(1); opacity: 0.3; }
+          50% { transform: translateY(-50px) scale(1.5); opacity: 0.8; }
+        }
+
+        @keyframes particle2 {
+          0%, 100% { transform: translateX(0px) scale(1); opacity: 0.3; }
+          50% { transform: translateX(30px) scale(1.2); opacity: 0.7; }
+        }
+
+        @keyframes particle3 {
+          0%, 100% { transform: translateY(0px) translateX(0px) scale(1); opacity: 0.3; }
+          33% { transform: translateY(-30px) translateX(20px) scale(1.3); opacity: 0.6; }
+          66% { transform: translateY(-10px) translateX(-15px) scale(0.8); opacity: 0.9; }
+        }
+
+        .font-recoleta { font-family: 'Recoleta', serif; }
+    </style>
+</head>
+<body>
+    <div class="min-h-screen flex flex-col justify-between relative overflow-hidden">
+        <!-- Fondo animado tipo marca de agua -->
+        <div class="absolute inset-0 z-0">
+            <!-- Gradiente de fondo principal -->
+            <div class="absolute inset-0 opacity-30" style="background: linear-gradient(45deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #f5576c 75%, #4facfe 100%); animation: gradientShift 8s ease-in-out infinite;"></div>
+            
+            <!-- Círculos flotantes animados -->
+            <div class="absolute inset-0">
+                <div class="absolute rounded-full opacity-20" style="width: 80px; height: 80px; background: linear-gradient(45deg, #ff6b6b 0%, #ee5a24 100%); left: 10%; top: 10%; animation: float1 6s ease-in-out infinite; animation-delay: 0s;"></div>
+                <div class="absolute rounded-full opacity-20" style="width: 110px; height: 110px; background: linear-gradient(105deg, #4ecdc4 0%, #00d2d3 100%); left: 25%; top: 20%; animation: float2 8s ease-in-out infinite; animation-delay: 0.5s;"></div>
+                <div class="absolute rounded-full opacity-20" style="width: 140px; height: 140px; background: linear-gradient(165deg, #45b7d1 0%, #54a0ff 100%); left: 40%; top: 30%; animation: float3 10s ease-in-out infinite; animation-delay: 1s;"></div>
+                <div class="absolute rounded-full opacity-20" style="width: 170px; height: 170px; background: linear-gradient(225deg, #96ceb4 0%, #5f27cd 100%); left: 55%; top: 40%; animation: float4 12s ease-in-out infinite; animation-delay: 1.5s;"></div>
+                <div class="absolute rounded-full opacity-20" style="width: 200px; height: 200px; background: linear-gradient(285deg, #feca57 0%, #feca57 100%); left: 70%; top: 50%; animation: float5 14s ease-in-out infinite; animation-delay: 2s;"></div>
+                <div class="absolute rounded-full opacity-20" style="width: 230px; height: 230px; background: linear-gradient(345deg, #ff9ff3 0%, #a55eea 100%); left: 85%; top: 60%; animation: float6 16s ease-in-out infinite; animation-delay: 2.5s;"></div>
+            </div>
+
+            <!-- Ondas animadas -->
+            <div class="absolute inset-0">
+                <div class="absolute" style="width: 200%; height: 200%; background: radial-gradient(circle at 50% 50%, rgba(255, 107, 107, 0.1) 0%, transparent 70%); border-radius: 50%; left: -50%; top: -50%; animation: wave1 12s linear infinite;"></div>
+                <div class="absolute" style="width: 200%; height: 200%; background: radial-gradient(circle at 50% 50%, rgba(78, 205, 196, 0.1) 0%, transparent 70%); border-radius: 50%; left: -50%; top: -50%; animation: wave2 16s linear infinite;"></div>
+                <div class="absolute" style="width: 200%; height: 200%; background: radial-gradient(circle at 50% 50%, rgba(69, 183, 209, 0.1) 0%, transparent 70%); border-radius: 50%; left: -50%; top: -50%; animation: wave3 20s linear infinite;"></div>
+            </div>
+
+            <!-- Partículas flotantes -->
+            <div class="absolute inset-0">
+                <!-- Partículas generadas dinámicamente -->
+                <div class="absolute w-2 h-2 rounded-full opacity-30" style="background: #ff6b6b; left: 15%; top: 25%; animation: particle1 10s ease-in-out infinite; animation-delay: 0s;"></div>
+                <div class="absolute w-2 h-2 rounded-full opacity-30" style="background: #4ecdc4; left: 85%; top: 15%; animation: particle2 12s ease-in-out infinite; animation-delay: 1s;"></div>
+                <div class="absolute w-2 h-2 rounded-full opacity-30" style="background: #45b7d1; left: 75%; top: 85%; animation: particle3 14s ease-in-out infinite; animation-delay: 2s;"></div>
+                <div class="absolute w-2 h-2 rounded-full opacity-30" style="background: #96ceb4; left: 25%; top: 75%; animation: particle1 11s ease-in-out infinite; animation-delay: 3s;"></div>
+                <div class="absolute w-2 h-2 rounded-full opacity-30" style="background: #feca57; left: 45%; top: 65%; animation: particle2 9s ease-in-out infinite; animation-delay: 1.5s;"></div>
+                <div class="absolute w-2 h-2 rounded-full opacity-30" style="background: #ff6b6b; left: 65%; top: 35%; animation: particle3 13s ease-in-out infinite; animation-delay: 2.5s;"></div>
+                <div class="absolute w-2 h-2 rounded-full opacity-30" style="background: #4ecdc4; left: 35%; top: 55%; animation: particle1 8s ease-in-out infinite; animation-delay: 0.5s;"></div>
+                <div class="absolute w-2 h-2 rounded-full opacity-30" style="background: #45b7d1; left: 55%; top: 15%; animation: particle2 15s ease-in-out infinite; animation-delay: 3.5s;"></div>
+            </div>
+        </div>
+
+        <!-- Contenido principal -->
+        <main class="relative z-10 flex-grow flex flex-col items-center justify-center p-4 mx-auto max-w-4xl w-full">
+            <div class="bg-white/90 backdrop-blur-sm rounded-3xl p-8 shadow-2xl border border-white/30">
+                <h1 class="text-6xl font-extrabold text-center mb-8 bg-gradient-to-r from-blue-900 via-purple-800 to-blue-900 bg-clip-text text-transparent font-recoleta">
+                    Go Baby Go
+                </h1>
+                
+                <div class="space-y-6 w-full max-w-md mx-auto">
+                    <div class="text-center mb-6">
+                        <p class="text-lg text-gray-700 mb-2 font-recoleta">
+                            Próximos eventos disponibles
+                        </p>
+                        <p class="text-sm text-gray-600 font-recoleta">
+                            Regístrate como voluntario para participar
+                        </p>
+                    </div>
+                    
+                    <button class="block w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold py-4 px-6 rounded-2xl text-center transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl font-recoleta">
+                        Registrarse como Voluntario
+                    </button>
+                    
+                    <button class="block w-full bg-white border-2 border-blue-600 hover:bg-blue-50 text-blue-600 font-semibold py-4 px-6 rounded-2xl text-center transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl font-recoleta">
+                        Iniciar Sesión
+                    </button>
+                </div>
+            </div>
+        </main>
+
+        <footer class="relative z-10 p-6 text-center">
+            <div class="bg-white/80 backdrop-blur-sm rounded-2xl p-4 shadow-lg border border-white/30 max-w-md mx-auto">
+                <p class="text-gray-600 text-sm font-recoleta">
+                    Todos los derechos reservados
+                </p>
+            </div>
+        </footer>
+    </div>
+</body>
+</html> 

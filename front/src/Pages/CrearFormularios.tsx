@@ -213,41 +213,42 @@ const FormularioCrear: React.FC = () => {
   return (
     <Layout>
       <div className="min-h-screen" style={{ 
-        background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.9) 25%, rgba(241, 245, 249, 0.85) 75%, rgba(226, 232, 240, 0.9) 100%)'
+        background: 'linear-gradient(135deg, #f8fafc 0%, #eef2ff 100%)',
+        backgroundImage: `
+          radial-gradient(at 0% 0%, rgba(59, 130, 246, 0.05) 0px, transparent 50%),
+          radial-gradient(at 100% 0%, rgba(99, 102, 241, 0.05) 0px, transparent 50%),
+          radial-gradient(at 100% 100%, rgba(79, 70, 229, 0.05) 0px, transparent 50%),
+          radial-gradient(at 0% 100%, rgba(37, 99, 235, 0.05) 0px, transparent 50%)
+        `
       }}>
-        <div className="max-w-5xl mx-auto p-6">
+        <div className="max-w-4xl mx-auto p-4">
           {/* Header mejorado */}
-          <div className="relative mb-8">
-            <div className="absolute inset-0 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-3xl transform rotate-1"></div>
-            <div className="relative bg-white rounded-3xl p-8 shadow-2xl border border-gray-100" style={{
+          <div className="relative mb-6">
+            <div className="absolute inset-0 bg-gradient-to-r from-green-600 to-emerald-600 rounded-2xl transform rotate-1"></div>
+            <div className="relative bg-white rounded-2xl p-4 shadow-xl border border-gray-100" style={{
               background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.9) 100%)',
               backdropFilter: 'blur(10px)'
             }}>
               <div className="text-center">
-                <div className="flex items-center justify-center mb-4">
-                  <div className="w-16 h-16 rounded-full flex items-center justify-center shadow-lg" style={{ backgroundColor: '#1e3766' }}>
-                    <FaClipboardList className="text-white text-2xl" />
-                  </div>
-                </div>
-                <h1 className="text-4xl font-bold mb-2" style={{ color: '#1e3766', fontFamily: "'Recoleta Medium', serif" }}>
+                <h1 className="text-xl font-bold mb-1" style={{ color: '#1e3766', fontFamily: "'Recoleta Medium', serif" }}>
                   Crear Formulario
                 </h1>
-                <p className="text-xl text-gray-600" style={{ fontFamily: "'Recoleta Light', serif" }}>
-                  Diseña un formulario personalizado para tus eventos
+                <p className="text-sm text-gray-600" style={{ fontFamily: "'Recoleta Light', serif" }}>
+                  Diseña un nuevo formulario personalizado
                 </p>
               </div>
 
               {error && (
-                <div className="mt-6 p-6 rounded-2xl flex items-center shadow-lg" style={{
+                <div className="mt-4 p-3 rounded-xl flex items-center shadow-md" style={{
                   background: 'linear-gradient(135deg, rgba(254, 242, 242, 0.95) 0%, rgba(252, 231, 243, 0.9) 100%)',
                   border: '1px solid rgba(239, 68, 68, 0.2)'
                 }}>
-                  <div className="w-10 h-10 rounded-full flex items-center justify-center bg-red-100 mr-4">
-                    <FaExclamationTriangle className="text-red-500 text-lg" />
+                  <div className="w-6 h-6 rounded-full flex items-center justify-center bg-red-100 mr-2">
+                    <FaExclamationTriangle className="text-red-500 text-xs" />
                   </div>
                   <div>
-                    <p className="font-semibold text-red-800" style={{ fontFamily: "'Recoleta Medium', serif" }}>Error</p>
-                    <p className="text-red-700 text-sm" style={{ fontFamily: "'Recoleta Light', serif" }}>{error}</p>
+                    <p className="font-semibold text-red-800 text-xs" style={{ fontFamily: "'Recoleta Medium', serif" }}>Error</p>
+                    <p className="text-red-700 text-xs" style={{ fontFamily: "'Recoleta Light', serif" }}>{error}</p>
                   </div>
                 </div>
               )}
@@ -256,16 +257,18 @@ const FormularioCrear: React.FC = () => {
 
           {/* Información básica del formulario mejorada */}
           <div className="relative mb-8">
-            <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-green-600 rounded-3xl transform -rotate-1"></div>
-            <div className="relative bg-white rounded-3xl p-8 shadow-2xl border border-gray-100" style={{
-              background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(248, 250, 252, 0.95) 50%, rgba(241, 245, 249, 0.98) 100%)',
-              backdropFilter: 'blur(15px)'
+            <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-indigo-500/10 rounded-3xl transform -rotate-1 blur-xl"></div>
+            <div className="relative bg-white/90 rounded-3xl p-8 shadow-2xl border border-white/50" style={{
+              backdropFilter: 'blur(20px)',
+              background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.9) 100%)'
             }}>
-              <div className="flex items-center space-x-3 mb-6">
-                <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ backgroundColor: '#1e3766' }}>
-                  <FaFileAlt className="text-white text-lg" />
+              <div className="flex items-center space-x-4 mb-8">
+                <div className="w-12 h-12 rounded-full flex items-center justify-center shadow-lg" style={{
+                  background: 'linear-gradient(135deg, #1e3766 0%, #2563eb 100%)'
+                }}>
+                  <FaFileAlt className="text-white text-xl" />
                 </div>
-                <h2 className="text-2xl font-bold text-gray-900" style={{ color: '#1e3766', fontFamily: "'Recoleta Medium', serif" }}>
+                <h2 className="text-2xl font-bold" style={{ color: '#1e3766', fontFamily: "'Recoleta Medium', serif" }}>
                   Información del formulario
                 </h2>
               </div>
@@ -279,10 +282,14 @@ const FormularioCrear: React.FC = () => {
                     type="text"
                     value={nombreFormulario}
                     onChange={(e) => setNombreFormulario(e.target.value)}
-                    className={`w-full px-4 py-4 border rounded-2xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 shadow-sm hover:shadow-md ${
-                      errorNombre ? 'border-red-300 bg-red-50' : 'border-gray-300 bg-white'
+                    className={`w-full px-4 py-4 border rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300 ${
+                      errorNombre ? 'border-red-300 bg-red-50' : 'border-gray-200 bg-white/80'
                     }`}
-                    style={{ fontFamily: "'Recoleta Light', serif" }}
+                    style={{ 
+                      fontFamily: "'Recoleta Light', serif",
+                      backdropFilter: 'blur(8px)',
+                      boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03)'
+                    }}
                     placeholder="Ej: Formulario de registro pre-evento"
                   />
                   {errorNombre && <p className="mt-1 text-sm text-red-600 font-medium" style={{ fontFamily: "'Recoleta Medium', serif" }}>{errorNombre}</p>}
@@ -296,8 +303,12 @@ const FormularioCrear: React.FC = () => {
                     type="text"
                     value={descripcion}
                     onChange={(e) => setDescripcion(e.target.value)}
-                    className="w-full px-4 py-4 border border-gray-300 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 shadow-sm hover:shadow-md"
-                    style={{ fontFamily: "'Recoleta Light', serif" }}
+                    className="w-full px-4 py-4 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300 bg-white/80"
+                    style={{ 
+                      fontFamily: "'Recoleta Light', serif",
+                      backdropFilter: 'blur(8px)',
+                      boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03)'
+                    }}
                     placeholder="Breve descripción del formulario"
                   />
                 </div>
@@ -307,18 +318,20 @@ const FormularioCrear: React.FC = () => {
 
           {/* Sección de preguntas mejorada */}
           <div className="relative mb-8">
-            <div className="absolute inset-0 bg-gradient-to-r from-purple-500 to-pink-600 rounded-3xl transform rotate-1"></div>
-            <div className="relative bg-white rounded-3xl p-8 shadow-2xl border border-gray-100" style={{
-              background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(248, 250, 252, 0.95) 50%, rgba(241, 245, 249, 0.98) 100%)',
-              backdropFilter: 'blur(15px)'
+            <div className="absolute inset-0 bg-gradient-to-r from-indigo-500/10 to-purple-500/10 rounded-3xl transform rotate-1 blur-xl"></div>
+            <div className="relative bg-white/90 rounded-3xl p-8 shadow-2xl border border-white/50" style={{
+              backdropFilter: 'blur(20px)',
+              background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.9) 100%)'
             }}>
               <div className="flex justify-between items-center mb-8">
-                <div className="flex items-center space-x-3">
-                  <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ backgroundColor: '#1e3766' }}>
-                    <FaQuestionCircle className="text-white text-lg" />
+                <div className="flex items-center space-x-4">
+                  <div className="w-12 h-12 rounded-full flex items-center justify-center shadow-lg" style={{
+                    background: 'linear-gradient(135deg, #1e3766 0%, #2563eb 100%)'
+                  }}>
+                    <FaQuestionCircle className="text-white text-xl" />
                   </div>
                   <div>
-                    <h2 className="text-2xl font-bold text-gray-900" style={{ color: '#1e3766', fontFamily: "'Recoleta Medium', serif" }}>
+                    <h2 className="text-2xl font-bold" style={{ color: '#1e3766', fontFamily: "'Recoleta Medium', serif" }}>
                       Preguntas del formulario
                     </h2>
                     <p className="text-gray-600 mt-1" style={{ fontFamily: "'Recoleta Light', serif" }}>
@@ -328,17 +341,21 @@ const FormularioCrear: React.FC = () => {
                 </div>
                 
                 <div className="flex items-center space-x-4">
-                  <div className="text-sm text-gray-500 bg-gradient-to-r from-gray-100 to-purple-50 px-4 py-2 rounded-xl" style={{ fontFamily: "'Recoleta Light', serif" }}>
+                  <div className="text-sm text-gray-500 bg-gradient-to-r from-gray-50 to-indigo-50 px-4 py-2 rounded-xl border border-indigo-100/50" style={{ 
+                    fontFamily: "'Recoleta Light', serif",
+                    backdropFilter: 'blur(8px)'
+                  }}>
                     <span className="font-semibold">Total:</span> {preguntas.length} pregunta{preguntas.length !== 1 ? 's' : ''}
                   </div>
                   <button
                     type="button"
                     onClick={agregarPregunta}
-                    className="px-6 py-3 rounded-2xl font-semibold transition-all duration-300 transform hover:scale-105 flex items-center shadow-lg hover:shadow-xl"
+                    className="px-6 py-3 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 flex items-center"
                     style={{
                       background: 'linear-gradient(135deg, #1e3766 0%, #2563eb 100%)',
                       color: 'white',
-                      fontFamily: "'Recoleta Medium', serif"
+                      fontFamily: "'Recoleta Medium', serif",
+                      boxShadow: '0 4px 6px -1px rgba(37, 99, 235, 0.2), 0 2px 4px -1px rgba(37, 99, 235, 0.1)'
                     }}
                   >
                     <FaPlus className="mr-2" />
@@ -348,42 +365,37 @@ const FormularioCrear: React.FC = () => {
               </div>
 
               {preguntas.length === 0 ? (
-                <div className="text-center py-20 border-2 border-dashed border-gray-200 rounded-3xl bg-gradient-to-br from-gray-50 to-purple-50">
-                  <div className="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6 bg-gray-100">
-                    <FaQuestionCircle className="text-4xl text-gray-400" />
+                <div className="text-center py-20 border border-dashed border-indigo-200 rounded-3xl bg-gradient-to-br from-white/50 to-indigo-50/30" style={{
+                  backdropFilter: 'blur(8px)'
+                }}>
+                  <div className="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg" style={{
+                    background: 'linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 100%)'
+                  }}>
+                    <FaQuestionCircle className="text-4xl text-indigo-600" />
                   </div>
                   <h3 className="text-2xl font-bold mb-4" style={{ color: '#1e3766', fontFamily: "'Recoleta Medium', serif" }}>
                     No hay preguntas aún
                   </h3>
-                  <p className="text-gray-500 text-lg mb-6" style={{ fontFamily: "'Recoleta Light', serif" }}>
+                  <p className="text-gray-600 text-lg" style={{ fontFamily: "'Recoleta Light', serif" }}>
                     Haz clic en "Nueva pregunta" para comenzar a crear tu formulario
                   </p>
-                  <button
-                    onClick={agregarPregunta}
-                    className="px-8 py-4 rounded-2xl font-semibold transition-all duration-300 transform hover:scale-105 flex items-center shadow-lg hover:shadow-xl mx-auto"
-                    style={{
-                      background: 'linear-gradient(135deg, #1e3766 0%, #2563eb 100%)',
-                      color: 'white',
-                      fontFamily: "'Recoleta Medium', serif"
-                    }}
-                  >
-                    <FaPlus className="mr-3" />
-                    Agregar primera pregunta
-                  </button>
                 </div>
               ) : (
                 <div className="space-y-6">
                   {preguntas.map((pregunta, index) => (
                     <div key={index} className="relative group">
-                      <div className="absolute inset-0 bg-gradient-to-r from-blue-100 to-purple-100 rounded-3xl transform rotate-1 group-hover:rotate-2 transition-transform duration-300"></div>
-                      <div className="relative bg-white border border-gray-200 rounded-3xl p-6 shadow-lg transform group-hover:-translate-y-1 transition-all duration-300" style={{
-                        background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.9) 100%)',
-                        backdropFilter: 'blur(10px)'
+                      <div className="absolute inset-0 bg-gradient-to-r from-blue-100/50 to-indigo-100/50 rounded-3xl transform rotate-1 group-hover:rotate-2 transition-transform duration-300 blur-xl"></div>
+                      <div className="relative bg-white/80 border border-white/50 rounded-3xl p-6 shadow-lg transform group-hover:-translate-y-1 transition-all duration-300" style={{
+                        backdropFilter: 'blur(12px)',
+                        background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(248, 250, 252, 0.85) 100%)'
                       }}>
                         {/* Header de la pregunta */}
                         <div className="flex items-start space-x-4 mb-6">
                           <div className="flex-shrink-0">
-                            <div className="w-12 h-12 border-2 border-blue-300 rounded-full flex items-center justify-center shadow-lg" style={{ backgroundColor: '#1e3766' }}>
+                            <div className="w-12 h-12 rounded-full flex items-center justify-center shadow-lg" style={{
+                              background: 'linear-gradient(135deg, #1e3766 0%, #2563eb 100%)',
+                              border: '2px solid rgba(255, 255, 255, 0.5)'
+                            }}>
                               <span className="text-white font-bold">{index + 1}</span>
                             </div>
                           </div>
@@ -395,16 +407,21 @@ const FormularioCrear: React.FC = () => {
                                 placeholder="Escribe tu pregunta aquí..."
                                 value={pregunta.texto}
                                 onChange={(e) => actualizarPregunta(index, 'texto', e.target.value)}
-                                className="flex-1 px-4 py-4 border border-gray-300 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white transition-all duration-200 shadow-sm hover:shadow-md"
-                                style={{ fontFamily: "'Recoleta Light', serif" }}
+                                className="flex-1 px-4 py-4 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white/80 transition-all duration-300"
+                                style={{ 
+                                  fontFamily: "'Recoleta Light', serif",
+                                  backdropFilter: 'blur(8px)',
+                                  boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03)'
+                                }}
                               />
                               <button
                                 type="button"
                                 onClick={() => eliminarPregunta(index)}
-                                className="p-3 rounded-2xl transition-all duration-200 shadow-sm hover:shadow-md"
+                                className="p-3 rounded-xl transition-all duration-300 transform hover:scale-105 hover:-translate-y-1"
                                 style={{
                                   background: 'linear-gradient(135deg, #dc2626 0%, #b91c1c 100%)',
-                                  color: 'white'
+                                  color: 'white',
+                                  boxShadow: '0 4px 6px -1px rgba(220, 38, 38, 0.2), 0 2px 4px -1px rgba(220, 38, 38, 0.1)'
                                 }}
                                 title="Eliminar pregunta"
                               >
@@ -416,17 +433,23 @@ const FormularioCrear: React.FC = () => {
                               <label className="text-sm font-medium text-gray-700" style={{ fontFamily: "'Recoleta Medium', serif" }}>
                                 Tipo de respuesta:
                               </label>
-                              <div className="flex items-center space-x-3 bg-gray-50 p-2 rounded-xl">
+                              <div className="flex items-center space-x-3 bg-gradient-to-r from-gray-50 to-indigo-50/30 p-2 rounded-xl border border-indigo-100/50" style={{
+                                backdropFilter: 'blur(8px)'
+                              }}>
                                 <div className="w-8 h-8 bg-white rounded-lg flex items-center justify-center shadow-sm">
-                                  {pregunta.tipo === 'textual' && <FaEdit className="text-gray-600 text-sm" />}
-                                  {pregunta.tipo === 'seleccion_unica' && <FaDotCircle className="text-gray-600 text-sm" />}
-                                  {pregunta.tipo === 'seleccion_multiple' && <FaCheckSquare className="text-gray-600 text-sm" />}
+                                  {pregunta.tipo === 'textual' && <FaEdit className="text-indigo-600 text-sm" />}
+                                  {pregunta.tipo === 'seleccion_unica' && <FaDotCircle className="text-indigo-600 text-sm" />}
+                                  {pregunta.tipo === 'seleccion_multiple' && <FaCheckSquare className="text-indigo-600 text-sm" />}
                                 </div>
                                 <select
                                   value={pregunta.tipo}
                                   onChange={(e) => actualizarPregunta(index, 'tipo', e.target.value)}
-                                  className="px-4 py-2 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white transition-all duration-200 shadow-sm hover:shadow-md"
-                                  style={{ fontFamily: "'Recoleta Light', serif" }}
+                                  className="px-4 py-2 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white/80 transition-all duration-300"
+                                  style={{ 
+                                    fontFamily: "'Recoleta Light', serif",
+                                    backdropFilter: 'blur(8px)',
+                                    boxShadow: '0 2px 4px -1px rgba(0, 0, 0, 0.05)'
+                                  }}
                                 >
                                   <option value="textual">Texto libre</option>
                                   <option value="seleccion_unica">Selección única</option>
@@ -444,7 +467,9 @@ const FormularioCrear: React.FC = () => {
                               <h4 className="text-sm font-semibold text-gray-700" style={{ fontFamily: "'Recoleta Medium', serif" }}>
                                 Opciones de respuesta
                               </h4>
-                              <div className="text-xs text-gray-500 bg-yellow-50 px-3 py-1 rounded-full border border-yellow-200" style={{ fontFamily: "'Recoleta Light', serif" }}>
+                              <div className="text-xs text-gray-600 bg-gradient-to-r from-yellow-50 to-amber-50/30 px-4 py-2 rounded-xl border border-amber-100/50" style={{
+                                backdropFilter: 'blur(8px)'
+                              }}>
                                 💡 Marca las respuestas correctas
                               </div>
                             </div>
@@ -452,38 +477,46 @@ const FormularioCrear: React.FC = () => {
                             <div className="space-y-3">
                               {pregunta.opciones.map((opcion, opcionIndex) => (
                                 <div key={opcionIndex} className="flex items-center space-x-3 group/option">
-                                  <div className="flex-shrink-0">
-                                    <button
-                                      type="button"
-                                      onClick={() => marcarRespuestaCorrecta(index, opcionIndex)}
-                                      className={`w-10 h-10 rounded-full border-2 flex items-center justify-center transition-all duration-200 shadow-sm ${
-                                        opcion.es_correcta
-                                          ? 'bg-green-500 border-green-500 text-white shadow-green-200'
-                                          : 'bg-white border-gray-300 hover:border-green-400 text-gray-400'
-                                      }`}
-                                      title={opcion.es_correcta ? 'Respuesta correcta' : 'Marcar como correcta'}
-                                    >
-                                      {opcion.es_correcta && <FaCheck className="text-sm" />}
-                                    </button>
-                                  </div>
+                                  <button
+                                    type="button"
+                                    onClick={() => marcarRespuestaCorrecta(index, opcionIndex)}
+                                    className={`w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-300 transform hover:scale-105 ${
+                                      opcion.es_correcta
+                                        ? 'bg-gradient-to-r from-green-500 to-emerald-500 border-0 text-white shadow-lg'
+                                        : 'bg-white border-2 border-gray-200 hover:border-green-400 text-gray-400'
+                                    }`}
+                                    style={{
+                                      boxShadow: opcion.es_correcta 
+                                        ? '0 4px 6px -1px rgba(16, 185, 129, 0.2), 0 2px 4px -1px rgba(16, 185, 129, 0.1)'
+                                        : 'none'
+                                    }}
+                                    title={opcion.es_correcta ? 'Respuesta correcta' : 'Marcar como correcta'}
+                                  >
+                                    {opcion.es_correcta && <FaCheck className="text-sm" />}
+                                  </button>
 
                                   <input
                                     type="text"
                                     placeholder={`Opción ${opcionIndex + 1}`}
                                     value={opcion.texto_opcion}
                                     onChange={(e) => actualizarOpcion(index, opcionIndex, e.target.value)}
-                                    className="flex-1 px-4 py-3 border border-gray-300 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white transition-all duration-200 shadow-sm hover:shadow-md"
-                                    style={{ fontFamily: "'Recoleta Light', serif" }}
+                                    className="flex-1 px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white/80 transition-all duration-300"
+                                    style={{ 
+                                      fontFamily: "'Recoleta Light', serif",
+                                      backdropFilter: 'blur(8px)',
+                                      boxShadow: '0 2px 4px -1px rgba(0, 0, 0, 0.05)'
+                                    }}
                                   />
 
                                   {pregunta.opciones && pregunta.opciones.length > 1 && (
                                     <button
                                       type="button"
                                       onClick={() => eliminarOpcion(index, opcionIndex)}
-                                      className="p-2 rounded-xl transition-all duration-200 opacity-0 group-hover/option:opacity-100 shadow-sm hover:shadow-md"
+                                      className="p-2 rounded-xl transition-all duration-300 transform hover:scale-105 opacity-0 group-hover/option:opacity-100"
                                       style={{
                                         background: 'linear-gradient(135deg, #dc2626 0%, #b91c1c 100%)',
-                                        color: 'white'
+                                        color: 'white',
+                                        boxShadow: '0 4px 6px -1px rgba(220, 38, 38, 0.2), 0 2px 4px -1px rgba(220, 38, 38, 0.1)'
                                       }}
                                       title="Eliminar opción"
                                     >
@@ -497,7 +530,7 @@ const FormularioCrear: React.FC = () => {
                             <button
                               type="button"
                               onClick={() => agregarOpcion(index)}
-                              className="px-4 py-2 rounded-xl font-medium transition-all duration-200 flex items-center border-2 border-dashed border-blue-300 hover:border-blue-500 text-blue-600 hover:bg-blue-50"
+                              className="px-4 py-2 rounded-xl font-medium transition-all duration-300 flex items-center hover:bg-indigo-50/50 border-2 border-dashed border-indigo-200 text-indigo-600"
                               style={{ fontFamily: "'Recoleta Medium', serif" }}
                             >
                               <FaPlus className="mr-2" />
@@ -515,21 +548,21 @@ const FormularioCrear: React.FC = () => {
 
           {/* Botones de acción mejorados */}
           <div className="relative">
-            <div className="absolute inset-0 bg-gradient-to-r from-gray-400 to-gray-600 rounded-3xl transform -rotate-1"></div>
-            <div className="relative bg-white rounded-3xl p-6 shadow-2xl border border-gray-100" style={{
-              background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.9) 100%)',
-              backdropFilter: 'blur(10px)'
+            <div className="absolute inset-0 bg-gradient-to-r from-gray-400/10 to-slate-400/10 rounded-3xl transform -rotate-1 blur-xl"></div>
+            <div className="relative bg-white/90 rounded-3xl p-6 shadow-2xl border border-white/50" style={{
+              backdropFilter: 'blur(20px)',
+              background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.9) 100%)'
             }}>
               <div className="flex justify-between items-center">
                 <button
                   type="button"
                   onClick={() => navigate('/formularios/gestionar')}
-                  className="px-8 py-4 rounded-2xl font-semibold transition-all duration-200 transform hover:scale-105 border-2"
+                  className="px-8 py-4 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 border-2 bg-white"
                   style={{
-                    backgroundColor: 'white',
                     color: '#1e3766',
                     borderColor: '#1e3766',
-                    fontFamily: "'Recoleta Medium', serif"
+                    fontFamily: "'Recoleta Medium', serif",
+                    boxShadow: '0 4px 6px -1px rgba(30, 55, 102, 0.1), 0 2px 4px -1px rgba(30, 55, 102, 0.05)'
                   }}
                 >
                   ← Cancelar
@@ -538,11 +571,12 @@ const FormularioCrear: React.FC = () => {
                 <button
                   type="submit"
                   onClick={handleCrearClick}
-                  className="px-8 py-4 rounded-2xl font-semibold transition-all duration-300 transform hover:scale-105 flex items-center shadow-lg hover:shadow-xl"
+                  className="px-8 py-4 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 flex items-center"
                   style={{
                     background: 'linear-gradient(135deg, #1e3766 0%, #2563eb 100%)',
                     color: 'white',
-                    fontFamily: "'Recoleta Medium', serif"
+                    fontFamily: "'Recoleta Medium', serif",
+                    boxShadow: '0 4px 6px -1px rgba(37, 99, 235, 0.2), 0 2px 4px -1px rgba(37, 99, 235, 0.1)'
                   }}
                   disabled={isSubmitting}
                 >

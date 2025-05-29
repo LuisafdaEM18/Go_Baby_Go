@@ -42,7 +42,7 @@ const DashboardCard: React.FC<DashboardCardProps> = ({
       
       {/* Header with icon */}
       <div className="flex items-center justify-between mb-4">
-        <div className={`w-12 h-12 ${bgGradient} rounded-xl flex items-center justify-center shadow-sm`}>
+        <div className={`w-12 h-12 ${bgGradient} rounded-full flex items-center justify-center shadow-lg`}>
           <div className="text-white text-lg">
             {icon}
           </div>
@@ -233,8 +233,10 @@ const Dashboard: React.FC = () => {
                 <div className="bg-white rounded-2xl p-8 shadow-sm border border-gray-100 hover:shadow-md transition-all duration-300">
                   <div className="flex items-center justify-between mb-6">
                     <h3 className="text-lg font-semibold text-gray-800">Eventos</h3>
-                    <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl flex items-center justify-center">
-                      <FaCalendarAlt className="text-white text-sm" />
+                    <div className="w-12 h-12 rounded-full flex items-center justify-center shadow-lg" style={{
+                      background: 'linear-gradient(135deg, #1e3766 0%, #2563eb 100%)'
+                    }}>
+                      <FaCalendarAlt className="text-white text-lg" />
                     </div>
                   </div>
                   <div className="space-y-4">
@@ -262,8 +264,10 @@ const Dashboard: React.FC = () => {
                 <div className="bg-white rounded-2xl p-8 shadow-sm border border-gray-100 hover:shadow-md transition-all duration-300">
                   <div className="flex items-center justify-between mb-6">
                     <h3 className="text-lg font-semibold text-gray-800">Comunidad</h3>
-                    <div className="w-10 h-10 bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl flex items-center justify-center">
-                      <FaUsers className="text-white text-sm" />
+                    <div className="w-12 h-12 rounded-full flex items-center justify-center shadow-lg" style={{
+                      background: 'linear-gradient(135deg, #1e3766 0%, #2563eb 100%)'
+                    }}>
+                      <FaUsers className="text-white text-lg" />
                     </div>
                   </div>
                   <div className="space-y-4">

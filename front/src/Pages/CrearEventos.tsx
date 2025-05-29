@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FaSave, FaExclamationTriangle, FaCalendarPlus, FaMapMarkerAlt, FaFileAlt, FaClipboardList } from 'react-icons/fa';
+import { FaSave, FaExclamationTriangle, FaCalendarPlus, FaMapMarkerAlt, FaFileAlt, FaClipboardList, FaCalendarAlt } from 'react-icons/fa';
 import Layout from '../Components/Layout'; 
 import { getFormularios } from '../services/formularioService';
 import { createEvento } from '../services/eventoService';
@@ -122,41 +122,42 @@ const CrearEventos = () => {
   return (
     <Layout>
       <div className="min-h-screen" style={{ 
-        background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.9) 25%, rgba(241, 245, 249, 0.85) 75%, rgba(226, 232, 240, 0.9) 100%)'
+        background: 'linear-gradient(135deg, #f8fafc 0%, #eef2ff 100%)',
+        backgroundImage: `
+          radial-gradient(at 0% 0%, rgba(59, 130, 246, 0.05) 0px, transparent 50%),
+          radial-gradient(at 100% 0%, rgba(99, 102, 241, 0.05) 0px, transparent 50%),
+          radial-gradient(at 100% 100%, rgba(79, 70, 229, 0.05) 0px, transparent 50%),
+          radial-gradient(at 0% 100%, rgba(37, 99, 235, 0.05) 0px, transparent 50%)
+        `
       }}>
-        <div className="max-w-5xl mx-auto p-6">
+        <div className="max-w-4xl mx-auto p-4">
           {/* Header mejorado */}
-          <div className="relative mb-8">
-            <div className="absolute inset-0 bg-gradient-to-r from-green-600 to-blue-600 rounded-3xl transform rotate-1"></div>
-            <div className="relative bg-white rounded-3xl p-8 shadow-2xl border border-gray-100" style={{
+          <div className="relative mb-6">
+            <div className="absolute inset-0 bg-gradient-to-r from-orange-500 to-amber-500 rounded-2xl transform rotate-1"></div>
+            <div className="relative bg-white rounded-2xl p-4 shadow-xl border border-gray-100" style={{
               background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.9) 100%)',
               backdropFilter: 'blur(10px)'
             }}>
               <div className="text-center">
-                <div className="flex items-center justify-center mb-4">
-                  <div className="w-16 h-16 rounded-full flex items-center justify-center shadow-lg" style={{ backgroundColor: '#1e3766' }}>
-                    <FaCalendarPlus className="text-white text-2xl" />
-                  </div>
-                </div>
-                <h1 className="text-4xl font-bold mb-2" style={{ color: '#1e3766', fontFamily: "'Recoleta Medium', serif" }}>
+                <h1 className="text-xl font-bold mb-1" style={{ color: '#1e3766', fontFamily: "'Recoleta Medium', serif" }}>
                   Crear Evento
                 </h1>
-                <p className="text-xl text-gray-600" style={{ fontFamily: "'Recoleta Light', serif" }}>
-                  Organiza un nuevo evento de Go Baby Go y configura todos sus detalles
+                <p className="text-sm text-gray-600" style={{ fontFamily: "'Recoleta Light', serif" }}>
+                  Organiza un nuevo evento de Go Baby Go
                 </p>
               </div>
 
               {error && (
-                <div className="mt-6 p-6 rounded-2xl flex items-center shadow-lg" style={{
+                <div className="mt-4 p-3 rounded-xl flex items-center shadow-md" style={{
                   background: 'linear-gradient(135deg, rgba(254, 242, 242, 0.95) 0%, rgba(252, 231, 243, 0.9) 100%)',
                   border: '1px solid rgba(239, 68, 68, 0.2)'
                 }}>
-                  <div className="w-10 h-10 rounded-full flex items-center justify-center bg-red-100 mr-4">
-                    <FaExclamationTriangle className="text-red-500 text-lg" />
+                  <div className="w-6 h-6 rounded-full flex items-center justify-center bg-red-100 mr-2">
+                    <FaExclamationTriangle className="text-red-500 text-xs" />
                   </div>
                   <div>
-                    <p className="font-semibold text-red-800" style={{ fontFamily: "'Recoleta Medium', serif" }}>Error</p>
-                    <p className="text-red-700 text-sm" style={{ fontFamily: "'Recoleta Light', serif" }}>{error}</p>
+                    <p className="font-semibold text-red-800 text-xs" style={{ fontFamily: "'Recoleta Medium', serif" }}>Error</p>
+                    <p className="text-red-700 text-xs" style={{ fontFamily: "'Recoleta Light', serif" }}>{error}</p>
                   </div>
                 </div>
               )}
@@ -165,103 +166,104 @@ const CrearEventos = () => {
 
           {/* Formulario mejorado */}
           <div className="relative mb-8">
-            <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-600 rounded-3xl transform -rotate-1"></div>
-            <div className="relative bg-white rounded-3xl p-8 shadow-2xl border border-gray-100" style={{
-              background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(248, 250, 252, 0.95) 50%, rgba(241, 245, 249, 0.98) 100%)',
-              backdropFilter: 'blur(15px)'
+            <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-indigo-500/20 rounded-3xl transform rotate-1 blur-2xl"></div>
+            <div className="relative bg-white/80 rounded-3xl p-8 shadow-xl border border-white/50" style={{
+              backdropFilter: 'blur(20px)',
+              background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(248, 250, 252, 0.8) 100%)'
             }}>
-              <form onSubmit={handleSubmit} className="space-y-8">
-                {/* Información básica */}
-                <div>
-                  <div className="flex items-center space-x-3 mb-6">
-                    <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ backgroundColor: '#1e3766' }}>
-                      <FaFileAlt className="text-white text-lg" />
-                    </div>
-                    <h2 className="text-2xl font-bold text-gray-900" style={{ color: '#1e3766', fontFamily: "'Recoleta Medium', serif" }}>
-                      Información del evento
-                    </h2>
+              <form onSubmit={handleSubmit} className="space-y-6">
+                <div className="flex items-center space-x-4 mb-8">
+                  <div className="w-12 h-12 rounded-full flex items-center justify-center shadow-lg" style={{
+                    background: 'linear-gradient(135deg, #1e3766 0%, #2563eb 100%)'
+                  }}>
+                    <FaCalendarAlt className="text-white text-xl" />
                   </div>
-                  
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div className="space-y-2">
-                      <label className="block text-sm font-semibold text-gray-700" style={{ fontFamily: "'Recoleta Medium', serif" }}>
-                        Nombre del evento *
-                      </label>
-                      <div className="relative">
-                        <div className="absolute inset-y-0 left-0 flex items-center pl-4">
-                          <FaCalendarPlus className="text-gray-400" />
-                        </div>
-                        <input
-                          type="text"
-                          name="nombre"
-                          value={formData.nombre}
-                          onChange={handleChange}
-                          className="w-full pl-12 pr-4 py-4 border border-gray-300 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 shadow-sm hover:shadow-md"
-                          style={{ fontFamily: "'Recoleta Light', serif" }}
-                          placeholder="Ej: Evento de construcción de carritos"
-                          required
-                        />
+                  <h2 className="text-2xl font-bold" style={{ color: '#1e3766', fontFamily: "'Recoleta Medium', serif" }}>
+                    Información del evento
+                  </h2>
+                </div>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="space-y-2">
+                    <label className="block text-sm font-semibold text-gray-700" style={{ fontFamily: "'Recoleta Medium', serif" }}>
+                      Nombre del evento *
+                    </label>
+                    <div className="relative">
+                      <div className="absolute inset-y-0 left-0 flex items-center pl-4">
+                        <FaCalendarPlus className="text-gray-400" />
                       </div>
-                    </div>
-
-                    <div className="space-y-2">
-                      <label className="block text-sm font-semibold text-gray-700" style={{ fontFamily: "'Recoleta Medium', serif" }}>
-                        Fecha del evento *
-                      </label>
                       <input
-                        type="date"
-                        name="fecha_evento"
-                        value={formData.fecha_evento}
+                        type="text"
+                        name="nombre"
+                        value={formData.nombre}
                         onChange={handleChange}
-                        className="w-full px-4 py-4 border border-gray-300 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 shadow-sm hover:shadow-md"
+                        className="w-full pl-12 pr-4 py-4 border border-gray-300 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 shadow-sm hover:shadow-md"
                         style={{ fontFamily: "'Recoleta Light', serif" }}
+                        placeholder="Ej: Evento de construcción de carritos"
                         required
                       />
                     </div>
+                  </div>
 
-                    <div className="space-y-2">
-                      <label className="block text-sm font-semibold text-gray-700" style={{ fontFamily: "'Recoleta Medium', serif" }}>
-                        Ubicación *
-                      </label>
-                      <div className="relative">
-                        <div className="absolute inset-y-0 left-0 flex items-center pl-4">
-                          <FaMapMarkerAlt className="text-gray-400" />
-                        </div>
-                        <input
-                          type="text"
-                          name="lugar"
-                          value={formData.lugar}
-                          onChange={handleChange}
-                          className="w-full pl-12 pr-4 py-4 border border-gray-300 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 shadow-sm hover:shadow-md"
-                          style={{ fontFamily: "'Recoleta Light', serif" }}
-                          placeholder="Dirección del evento"
-                          required
-                        />
+                  <div className="space-y-2">
+                    <label className="block text-sm font-semibold text-gray-700" style={{ fontFamily: "'Recoleta Medium', serif" }}>
+                      Fecha del evento *
+                    </label>
+                    <input
+                      type="date"
+                      name="fecha_evento"
+                      value={formData.fecha_evento}
+                      onChange={handleChange}
+                      className="w-full px-4 py-4 border border-gray-300 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 shadow-sm hover:shadow-md"
+                      style={{ fontFamily: "'Recoleta Light', serif" }}
+                      required
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <label className="block text-sm font-semibold text-gray-700" style={{ fontFamily: "'Recoleta Medium', serif" }}>
+                      Ubicación *
+                    </label>
+                    <div className="relative">
+                      <div className="absolute inset-y-0 left-0 flex items-center pl-4">
+                        <FaMapMarkerAlt className="text-gray-400" />
                       </div>
-                    </div>
-
-                    <div className="space-y-2">
-                      <label className="block text-sm font-semibold text-gray-700" style={{ fontFamily: "'Recoleta Medium', serif" }}>
-                        Descripción *
-                      </label>
-                      <textarea
-                        name="descripcion"
-                        value={formData.descripcion}
+                      <input
+                        type="text"
+                        name="lugar"
+                        value={formData.lugar}
                         onChange={handleChange}
-                        rows={4}
-                        className="w-full px-4 py-4 border border-gray-300 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 shadow-sm hover:shadow-md resize-none"
+                        className="w-full pl-12 pr-4 py-4 border border-gray-300 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 shadow-sm hover:shadow-md"
                         style={{ fontFamily: "'Recoleta Light', serif" }}
-                        placeholder="Describe los objetivos y actividades del evento"
+                        placeholder="Dirección del evento"
                         required
                       />
                     </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <label className="block text-sm font-semibold text-gray-700" style={{ fontFamily: "'Recoleta Medium', serif" }}>
+                      Descripción *
+                    </label>
+                    <textarea
+                      name="descripcion"
+                      value={formData.descripcion}
+                      onChange={handleChange}
+                      rows={4}
+                      className="w-full px-4 py-4 border border-gray-300 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 shadow-sm hover:shadow-md resize-none"
+                      style={{ fontFamily: "'Recoleta Light', serif" }}
+                      placeholder="Describe los objetivos y actividades del evento"
+                      required
+                    />
                   </div>
                 </div>
 
                 {/* Formularios */}
                 <div className="border-t border-gray-200 pt-8">
                   <div className="flex items-center space-x-3 mb-6">
-                    <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ backgroundColor: '#1e3766' }}>
+                    <div className="w-10 h-10 rounded-full flex items-center justify-center shadow-lg" style={{
+                      background: 'linear-gradient(135deg, #1e3766 0%, #2563eb 100%)'
+                    }}>
                       <FaClipboardList className="text-white text-lg" />
                     </div>
                     <h2 className="text-2xl font-bold text-gray-900" style={{ color: '#1e3766', fontFamily: "'Recoleta Medium', serif" }}>
@@ -319,21 +321,22 @@ const CrearEventos = () => {
 
           {/* Botones de acción mejorados */}
           <div className="relative">
-            <div className="absolute inset-0 bg-gradient-to-r from-gray-400 to-gray-600 rounded-3xl transform rotate-1"></div>
-            <div className="relative bg-white rounded-3xl p-6 shadow-2xl border border-gray-100" style={{
-              background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.9) 100%)',
-              backdropFilter: 'blur(10px)'
+            <div className="absolute inset-0 bg-gradient-to-r from-gray-400/10 to-slate-400/10 rounded-3xl transform -rotate-1 blur-xl"></div>
+            <div className="relative bg-white/90 rounded-3xl p-6 shadow-2xl border border-white/50" style={{
+              backdropFilter: 'blur(20px)',
+              background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.9) 100%)'
             }}>
               <div className="flex justify-between items-center">
                 <button
                   type="button"
                   onClick={() => navigate('/eventos/gestionar')}
-                  className="px-8 py-4 rounded-2xl font-semibold transition-all duration-200 transform hover:scale-105 border-2"
+                  className="px-8 py-4 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 border-2"
                   style={{
                     backgroundColor: 'white',
                     color: '#1e3766',
                     borderColor: '#1e3766',
-                    fontFamily: "'Recoleta Medium', serif"
+                    fontFamily: "'Recoleta Medium', serif",
+                    boxShadow: '0 4px 6px -1px rgba(30, 55, 102, 0.1), 0 2px 4px -1px rgba(30, 55, 102, 0.05)'
                   }}
                 >
                   ← Cancelar
@@ -342,18 +345,19 @@ const CrearEventos = () => {
                 <button
                   type="submit"
                   onClick={handleSubmit}
-                  className="px-8 py-4 rounded-2xl font-semibold transition-all duration-300 transform hover:scale-105 flex items-center shadow-lg hover:shadow-xl"
+                  className="px-8 py-4 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 flex items-center"
                   style={{
                     background: 'linear-gradient(135deg, #1e3766 0%, #2563eb 100%)',
                     color: 'white',
-                    fontFamily: "'Recoleta Medium', serif"
+                    fontFamily: "'Recoleta Medium', serif",
+                    boxShadow: '0 4px 6px -1px rgba(37, 99, 235, 0.2), 0 2px 4px -1px rgba(37, 99, 235, 0.1)'
                   }}
                   disabled={isLoading || isSaving}
                 >
                   {isSaving ? (
                     <>
                       <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-3"></div>
-                      Creando...
+                      Guardando...
                     </>
                   ) : (
                     <>

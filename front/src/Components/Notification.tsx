@@ -93,13 +93,7 @@ const Notification: React.FC<NotificationProps> = ({
     >
       <div className="flex items-center justify-between">
         <div className="flex items-center">
-          <span className="font-bold text-lg mr-2">{getIcon()}</span>
-          <span className="font-medium mr-2">
-            {type === 'success' && 'Éxito:'}
-            {type === 'error' && 'Error:'}
-            {type === 'warning' && 'Advertencia:'}
-            {type === 'info' && 'Información:'}
-          </span>
+          <span className="font-bold text-lg mr-3">{getIcon()}</span>
           <span className="block sm:inline">{message}</span>
         </div>
         <button 

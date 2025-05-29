@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { FaUser, FaEnvelope, FaIdCard, FaCheck, FaExclamationTriangle, FaArrowLeft, FaSpinner, FaTimes } from 'react-icons/fa';
+import { FaUser, FaEnvelope, FaIdCard, FaCheck, FaExclamationTriangle, FaArrowLeft, FaSpinner, FaTimes, FaCalendarAlt, FaMapMarkerAlt } from 'react-icons/fa';
 import { getEventoById } from '../services/eventoService';
 import { getFormularioById } from '../services/formularioService';
 import { inscribirVoluntario, guardarRespuestas } from '../services/voluntarioService';
@@ -449,23 +449,18 @@ const RegistroVoluntario = () => {
           {/* Header mejorado */}
           <div className="relative mb-8">
             <div className="absolute inset-0 bg-gradient-to-r from-green-600 to-blue-600 rounded-3xl transform rotate-1"></div>
-            <div className="relative bg-white rounded-3xl p-8 shadow-2xl border border-gray-100" style={{
+            <div className="relative bg-white rounded-3xl p-6 shadow-2xl border border-gray-100" style={{
               background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.9) 100%)',
               backdropFilter: 'blur(10px)'
             }}>
               <div className="text-center">
-                <div className="flex items-center justify-center mb-6">
-                  <div className="w-20 h-20 rounded-full flex items-center justify-center shadow-lg" style={{ backgroundColor: '#1e3766' }}>
-                    <FaUser className="text-white text-3xl" />
-                  </div>
-                </div>
-                <h1 className="text-5xl font-extrabold mb-4" style={{ color: '#1e3766', fontFamily: "'Recoleta Medium', serif" }}>
+                <h1 className="text-2xl font-bold mb-2" style={{ color: '#1e3766', fontFamily: "'Recoleta Medium', serif" }}>
                   Go Baby Go
                 </h1>
-                <p className="text-2xl text-gray-600 mb-2" style={{ fontFamily: "'Recoleta Light', serif" }}>
+                <p className="text-lg text-gray-600 mb-1" style={{ fontFamily: "'Recoleta Light', serif" }}>
                   Registro de Voluntario
                 </p>
-                <p className="text-lg text-gray-500" style={{ fontFamily: "'Recoleta Light', serif" }}>
+                <p className="text-base text-gray-500" style={{ fontFamily: "'Recoleta Light', serif" }}>
                   Únete a nuestra misión de crear sonrisas y movilidad
                 </p>
               </div>
@@ -481,11 +476,6 @@ const RegistroVoluntario = () => {
                 backdropFilter: 'blur(15px)'
               }}>
                 <div className="flex items-center space-x-6">
-                  <div className="flex-shrink-0">
-                    <div className="w-16 h-16 rounded-full flex items-center justify-center shadow-lg" style={{ backgroundColor: '#1e3766' }}>
-                      <span className="text-white font-bold text-2xl">📅</span>
-                    </div>
-                  </div>
                   <div className="flex-1">
                     <h2 className="text-3xl font-bold mb-4" style={{ color: '#1e3766', fontFamily: "'Recoleta Medium', serif" }}>
                       {evento.nombre}
@@ -493,7 +483,7 @@ const RegistroVoluntario = () => {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div className="flex items-center space-x-3">
                         <div className="w-10 h-10 rounded-full flex items-center justify-center bg-blue-100 shadow-sm">
-                          <span className="text-blue-600 font-semibold text-sm">📅</span>
+                          <FaCalendarAlt className="text-blue-600 text-sm" />
                         </div>
                         <div>
                           <span className="font-semibold text-sm uppercase tracking-wide" style={{ color: '#1e3766', fontFamily: "'Recoleta Medium', serif" }}>Fecha:</span>
@@ -504,7 +494,7 @@ const RegistroVoluntario = () => {
                       </div>
                       <div className="flex items-center space-x-3">
                         <div className="w-10 h-10 rounded-full flex items-center justify-center bg-green-100 shadow-sm">
-                          <span className="text-green-600 font-semibold text-sm">📍</span>
+                          <FaMapMarkerAlt className="text-green-600 text-sm" />
                         </div>
                         <div>
                           <span className="font-semibold text-sm uppercase tracking-wide" style={{ color: '#1e3766', fontFamily: "'Recoleta Medium', serif" }}>Lugar:</span>
@@ -552,16 +542,11 @@ const RegistroVoluntario = () => {
                 </div>
               )}
 
-              <div className="text-center mb-10">
-                <div className="flex items-center justify-center mb-6">
-                  <div className="w-16 h-16 rounded-full flex items-center justify-center shadow-lg" style={{ backgroundColor: '#1e3766' }}>
-                    <span className="text-white font-bold text-2xl">📝</span>
-                  </div>
-                </div>
-                <h3 className="text-3xl font-bold mb-4" style={{ color: '#1e3766', fontFamily: "'Recoleta Medium', serif" }}>
+              <div className="text-center mb-8">
+                <h3 className="text-2xl font-bold mb-3" style={{ color: '#1e3766', fontFamily: "'Recoleta Medium', serif" }}>
                   Formulario de Inscripción
                 </h3>
-                <p className="text-xl text-gray-600" style={{ fontFamily: "'Recoleta Light', serif" }}>
+                <p className="text-lg text-gray-600" style={{ fontFamily: "'Recoleta Light', serif" }}>
                   Completa tu información para registrarte como voluntario
                 </p>
               </div>
@@ -668,16 +653,11 @@ const RegistroVoluntario = () => {
                 {/* Renderizar preguntas del formulario después de los campos básicos */}
                 {formulario && formulario.preguntas.length > 0 && (
                   <div className="bg-gradient-to-r from-purple-50 to-indigo-50 p-8 rounded-3xl border border-purple-200">
-                    <div className="text-center mb-8">
-                      <div className="flex items-center justify-center mb-6">
-                        <div className="w-16 h-16 rounded-full flex items-center justify-center shadow-lg" style={{ backgroundColor: '#1e3766' }}>
-                          <span className="text-white font-bold text-2xl">📋</span>
-                        </div>
-                      </div>
-                      <h3 className="text-3xl font-bold mb-4" style={{ color: '#1e3766', fontFamily: "'Recoleta Medium', serif" }}>
+                    <div className="text-center mb-6">
+                      <h3 className="text-2xl font-bold mb-3" style={{ color: '#1e3766', fontFamily: "'Recoleta Medium', serif" }}>
                         {formulario.nombre}
                       </h3>
-                      <p className="text-xl text-gray-600" style={{ fontFamily: "'Recoleta Light', serif" }}>
+                      <p className="text-lg text-gray-600" style={{ fontFamily: "'Recoleta Light', serif" }}>
                         Por favor completa las siguientes preguntas
                       </p>
                     </div>
@@ -768,54 +748,42 @@ const RegistroVoluntario = () => {
                   </div>
                 )}
 
-                {/* Términos y condiciones mejorados */}
-                <div className="bg-gradient-to-r from-orange-50 to-yellow-50 p-8 rounded-3xl border border-orange-200">
-                  <div className="flex items-center space-x-4">
-                    <div className="flex-shrink-0">
-                      <div className="w-16 h-16 rounded-full flex items-center justify-center shadow-lg" style={{ backgroundColor: '#1e3766' }}>
-                        <span className="text-white font-bold text-xl">⚖️</span>
-                      </div>
+                {/* Términos y condiciones */}
+                <div className="p-6 rounded-2xl border border-gray-200 bg-gray-50">
+                  <div className="flex items-start space-x-4">
+                    <div className="flex items-center h-6 mt-1">
+                      <input
+                        type="checkbox"
+                        name="aceptacion_terminos"
+                        checked={formData.aceptacion_terminos}
+                        onChange={handleChange}
+                        className="h-5 w-5 border-gray-300 rounded focus:ring-2 focus:ring-blue-600 transition-all duration-200"
+                        style={{ accentColor: '#1e3766' }}
+                        required
+                      />
                     </div>
-                    <div className="flex-1">
-                      <h4 className="text-2xl font-bold mb-4" style={{ color: '#1e3766', fontFamily: "'Recoleta Medium', serif" }}>
-                        Términos y Condiciones
-                      </h4>
-                      <div className="flex items-start space-x-4">
-                        <div className="flex items-center h-6 mt-1">
-                          <input
-                            type="checkbox"
-                            name="aceptacion_terminos"
-                            checked={formData.aceptacion_terminos}
-                            onChange={handleChange}
-                            className="h-6 w-6 border-gray-300 rounded focus:ring-2 focus:ring-blue-600 transition-all duration-200"
-                            style={{ accentColor: '#1e3766' }}
-                            required
-                          />
-                        </div>
-                        <div className="text-lg">
-                          <label className="text-gray-700 cursor-pointer" style={{ fontFamily: "'Recoleta Light', serif" }}>
-                            Acepto los{' '}
-                            <button
-                              type="button"
-                              onClick={() => setShowTermsModal(true)}
-                              className="font-semibold hover:underline transition-all duration-200 hover:scale-105 px-2 py-1 rounded-lg hover:bg-blue-100"
-                              style={{ color: '#1e3766' }}
-                            >
-                              términos y condiciones
-                            </button>
-                            {' '}de participación como voluntario en Go Baby Go
-                          </label>
-                        </div>
-                      </div>
+                    <div>
+                      <label className="text-sm text-gray-700 cursor-pointer leading-relaxed" style={{ fontFamily: "'Recoleta Light', serif" }}>
+                        Acepto los{' '}
+                        <button
+                          type="button"
+                          onClick={() => setShowTermsModal(true)}
+                          className="font-semibold hover:underline transition-all duration-200"
+                          style={{ color: '#1e3766' }}
+                        >
+                          términos y condiciones
+                        </button>
+                        {' '}de participación como voluntario en Go Baby Go
+                      </label>
                     </div>
                   </div>
                 </div>
 
                 {/* Botones de acción mejorados */}
-                <div className="space-y-6">
+                <div className="flex flex-col sm:flex-row gap-4">
                   <button
                     type="submit"
-                    className="w-full px-10 py-6 rounded-3xl font-semibold transition-all duration-300 transform hover:scale-105 flex items-center justify-center shadow-2xl hover:shadow-3xl text-xl"
+                    className="flex-1 px-6 py-3 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 flex items-center justify-center shadow-lg hover:shadow-xl"
                     style={{
                       background: 'linear-gradient(135deg, #1e3766 0%, #2563eb 50%, #3b82f6 100%)',
                       color: 'white',
@@ -825,20 +793,20 @@ const RegistroVoluntario = () => {
                   >
                     {submitting ? (
                       <>
-                        <FaSpinner className="animate-spin mr-4 text-xl" /> 
-                        Procesando inscripción...
+                        <FaSpinner className="animate-spin mr-2" /> 
+                        Procesando...
                       </>
                     ) : (
                       <>
-                        <FaCheck className="mr-4 text-xl" />
-                        Inscribirme como voluntario
+                        <FaCheck className="mr-2" />
+                        Inscribirme
                       </>
                     )}
                   </button>
 
                   <Link 
                     to="/" 
-                    className="w-full px-10 py-6 rounded-3xl font-semibold transition-all duration-300 border-3 hover:bg-gray-50 flex items-center justify-center hover:scale-105 text-xl shadow-lg hover:shadow-xl"
+                    className="flex-1 px-6 py-3 rounded-xl font-semibold transition-all duration-300 border-2 hover:bg-gray-50 flex items-center justify-center hover:scale-105 shadow-md hover:shadow-lg"
                     style={{
                       backgroundColor: 'white',
                       color: '#1e3766',
@@ -846,8 +814,8 @@ const RegistroVoluntario = () => {
                       fontFamily: "'Recoleta Medium', serif"
                     }}
                   >
-                    <FaArrowLeft className="mr-4 text-xl" />
-                    Volver al inicio
+                    <FaArrowLeft className="mr-2" />
+                    Volver
                   </Link>
                 </div>
               </form>
