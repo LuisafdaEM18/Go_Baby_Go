@@ -142,7 +142,7 @@ export const loginWithFormData = async (username: string, password: string) => {
     }
     
     // Use the same approach as the working test page
-    const response = await fetch('http://localhost:8001/api/auth/login', {
+    const response = await fetch(`${API_URL}/api/auth/login`, {
       method: 'POST',
       body: formData
     });

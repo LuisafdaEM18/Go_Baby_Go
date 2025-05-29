@@ -1,5 +1,5 @@
 import { api } from './api';
-import { Voluntario, VoluntarioInscripcion, Inscripcion, RespuestaEnvio } from './types';
+import { Voluntario, VoluntarioInscripcion, Inscripcion, RespuestaEnvio, InscripcionDetallada } from './types';
 
 // Get all voluntarios (admin only)
 export const getVoluntarios = async (): Promise<Voluntario[]> => {
@@ -18,12 +18,17 @@ export const createVoluntario = async (voluntario: Voluntario): Promise<Voluntar
 
 // Inscribir voluntario a evento
 export const inscribirVoluntario = async (inscripcion: VoluntarioInscripcion): Promise<Inscripcion> => {
-  return api.post<Inscripcion>('/voluntarios/inscripcion', inscripcion, false);
+  return api.post<Inscripcion>('/voluntarios/inscripcion/', inscripcion, false);
 };
 
 // Get inscripciones for an evento
 export const getInscripcionesByEvento = async (eventoId: number): Promise<Inscripcion[]> => {
   return api.get<Inscripcion[]>(`/voluntarios/inscripciones/evento/${eventoId}`);
+};
+
+// Get inscripciones with complete details (voluntario and responses) for an evento
+export const getInscripcionesDetalladas = async (eventoId: number): Promise<InscripcionDetallada[]> => {
+  return api.get<InscripcionDetallada[]>(`/voluntarios/inscripciones/evento/${eventoId}/detalladas`);
 };
 
 // Aceptar/rechazar inscripción

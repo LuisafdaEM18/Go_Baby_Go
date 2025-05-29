@@ -37,15 +37,15 @@ const Notification: React.FC<NotificationProps> = ({
   const getStyles = () => {
     switch (type) {
       case 'success':
-        return 'bg-green-100 border-green-500 text-green-800';
+        return 'bg-gradient-to-r from-green-50 to-emerald-50 border-green-400 text-green-800 shadow-green-100/50';
       case 'error':
-        return 'bg-red-100 border-red-500 text-red-800';
+        return 'bg-gradient-to-r from-red-50 to-rose-50 border-red-400 text-red-800 shadow-red-100/50';
       case 'warning':
-        return 'bg-yellow-100 border-yellow-500 text-yellow-800';
+        return 'bg-gradient-to-r from-yellow-50 to-amber-50 border-yellow-400 text-yellow-800 shadow-yellow-100/50';
       case 'info':
-        return 'bg-blue-100 border-blue-500 text-blue-800';
+        return 'bg-gradient-to-r from-blue-50 to-sky-50 border-blue-400 text-blue-800 shadow-blue-100/50';
       default:
-        return 'bg-gray-100 border-gray-500 text-gray-800';
+        return 'bg-gradient-to-r from-gray-50 to-slate-50 border-gray-400 text-gray-800 shadow-gray-100/50';
     }
   };
 
@@ -67,17 +67,27 @@ const Notification: React.FC<NotificationProps> = ({
 
   return (
     <div 
-      className={`px-4 py-3 rounded-md border-l-4 shadow-lg transition-all duration-300 ${getStyles()} ${
+      className={`px-5 py-4 rounded-2xl border-l-4 shadow-xl transition-all duration-300 ${getStyles()} ${
         isVisible 
-          ? 'opacity-100 translate-y-0' 
-          : 'opacity-0 -translate-y-4'
+          ? 'opacity-100 translate-y-0 scale-100' 
+          : 'opacity-0 -translate-y-4 scale-95'
       }`}
       role="alert"
       style={{ 
-        minWidth: '300px',
-        maxWidth: '450px',
-        boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15), 0 2px 4px rgba(0, 0, 0, 0.12)',
-        zIndex: 9999
+        minWidth: '320px',
+        maxWidth: '480px',
+        boxShadow: '0 10px 25px rgba(0, 0, 0, 0.1), 0 4px 10px rgba(0, 0, 0, 0.06)',
+        zIndex: 9999,
+        backdropFilter: 'blur(8px)',
+        background: type === 'success' 
+          ? 'linear-gradient(135deg, rgba(236, 253, 245, 0.95) 0%, rgba(209, 250, 229, 0.95) 100%)'
+          : type === 'error'
+          ? 'linear-gradient(135deg, rgba(254, 242, 242, 0.95) 0%, rgba(252, 231, 243, 0.95) 100%)'
+          : type === 'warning'
+          ? 'linear-gradient(135deg, rgba(255, 251, 235, 0.95) 0%, rgba(254, 243, 199, 0.95) 100%)'
+          : type === 'info'
+          ? 'linear-gradient(135deg, rgba(239, 246, 255, 0.95) 0%, rgba(219, 234, 254, 0.95) 100%)'
+          : 'linear-gradient(135deg, rgba(249, 250, 251, 0.95) 0%, rgba(241, 245, 249, 0.95) 100%)'
       }}
       data-testid="notification"
     >

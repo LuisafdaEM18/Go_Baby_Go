@@ -66,3 +66,84 @@ button {
   }
 }
 
+/* Header button specific styles */
+.header-admin-button {
+  background-color: #1e3677 !important;
+  background-image: none !important;
+}
+
+.header-admin-button:hover {
+  background-color: #1d4ed8 !important;
+}
+
+/* Header title specific styles */
+.header-title {
+  font-size: 2rem !important; /* text-base equivalent, un poco más grande que text-sm */
+  line-height: 1.5rem !important;
+  font-weight: 300 !important;
+}
+
+/* Form button specific styles to override global button styles */
+.form-button-primary {
+  background-color: #2563eb !important;
+  color: white !important;
+  border: none !important;
+}
+
+.form-button-primary:hover {
+  background-color: #1d4ed8 !important;
+}
+
+.form-button-secondary {
+  background-color: #ffffff !important;
+  color: #374151 !important;
+  border: 1px solid #d1d5db !important;
+}
+
+.form-button-secondary:hover {
+  background-color: #f9fafb !important;
+}
+
+.form-button-success {
+  background-color: #059669 !important;
+  color: white !important;
+  border: none !important;
+}
+
+.form-button-success:hover {
+  background-color: #047857 !important;
+}
+
+.form-button-danger {
+  background-color: #dc2626 !important;
+  color: white !important;
+  border: none !important;
+}
+
+.form-button-danger:hover {
+  background-color: #b91c1c !important;
+}
+
+/* Enhanced modal and notification styles */
+.modal-backdrop {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.85) 0%, rgba(219, 234, 254, 0.9) 50%, rgba(229, 231, 235, 0.95) 100%);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.notification-gradient {
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 
+    0 20px 25px -5px rgba(0, 0, 0, 0.1),
+    0 10px 10px -5px rgba(0, 0, 0, 0.04),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.1);
+}
+
+.glass-effect {
+  background: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+

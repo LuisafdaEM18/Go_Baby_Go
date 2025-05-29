@@ -205,9 +205,13 @@ const Login: React.FC = () => {
                 </label>
               </div>
 
-              <a href="#" className="text-sm text-indigo-600 hover:text-indigo-500">
+              <button 
+                type="button"
+                onClick={() => navigate('/forgot-password')}
+                className="text-sm text-blue-900 hover:text-indigo-500 cursor-pointer"
+              >
                 ¿Olvidaste tu contraseña?
-              </a>
+              </button>
             </div>
 
             {/* Contenedor para los botones alineados horizontalmente */}

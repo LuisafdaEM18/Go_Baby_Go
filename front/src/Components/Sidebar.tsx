@@ -142,7 +142,7 @@ const Sidebar: React.FC<SidebarProps> = ({
           <div className="mt-6">
             <SidebarLink
               icon={<FaHome />}
-              text="Dashboard"
+              text="Menú"
               to="/dashboard"
               isSidebarOpen={isSidebarOpen}
             />

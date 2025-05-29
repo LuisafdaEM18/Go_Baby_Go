@@ -1,6 +1,8 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from '../Pages/Home';
 import Login from '../Pages/Login';
+import ForgotPassword from '../Pages/ForgotPassword';
+import ResetPassword from '../Pages/ResetPassword';
 import Dashboard from '../Pages/Dashboard';
 import CrearEventos from '../Pages/CrearEventos';
 import GestionarEventos from '../Pages/GestionarEventos';
@@ -20,6 +22,8 @@ const App = () => {
           {/* Public routes */}
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
           <Route path="/voluntario/registro/:id" element={<RegistroVoluntario />} />
           
           {/* Protected admin routes */}

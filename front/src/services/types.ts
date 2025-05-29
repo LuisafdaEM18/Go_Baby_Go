@@ -91,6 +91,22 @@ export interface Inscripcion {
   evento?: Evento;
 }
 
+// Inscripción detallada con voluntario y respuestas
+export interface InscripcionDetallada extends Inscripcion {
+  voluntario: Voluntario;
+  respuestas_pre?: RespuestaFormulario[];
+  respuestas_post?: RespuestaFormulario[];
+}
+
+// Respuesta a formulario con detalles
+export interface RespuestaFormulario {
+  pregunta_id: number;
+  pregunta_texto: string;
+  tipo_pregunta: 'textual' | 'seleccion_unica' | 'seleccion_multiple';
+  respuesta_texto?: string;
+  opciones_seleccionadas?: string[];
+}
+
 // Respuestas interfaces
 export interface RespuestaDetalle {
   [pregunta_id: string]: string | number | string[] | { opcion_id: number };

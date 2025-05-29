@@ -1,26 +1,33 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FaExclamationTriangle, FaSave, FaPlus, FaTimes } from 'react-icons/fa';
+import { FaExclamationTriangle, FaSave, FaPlus, FaTimes, FaCheck, FaGripVertical, FaQuestionCircle, FaEdit, FaDotCircle, FaCheckSquare, FaFileAlt, FaClipboardList } from 'react-icons/fa';
 import Layout from '../Components/Layout';
 import { createFormulario } from '../services/formularioService';
 import { useNotification } from '../context/NotificationContext';
 
+interface Opcion {
+  texto_opcion: string;
+  es_correcta?: boolean;
+}
+
+interface Pregunta {
+  texto: string;
+  tipo: 'textual' | 'seleccion_multiple' | 'seleccion_unica';
+  opciones?: Opcion[];
+}
+
 const FormularioCrear: React.FC = () => {
   const navigate = useNavigate();
   const [nombreFormulario, setNombreFormulario] = useState('');
+  const [descripcion, setDescripcion] = useState('');
   const [errorNombre, setErrorNombre] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const { showNotification } = useNotification();
 
-  const [preguntas, setPreguntas] = useState<
-    { texto: string; tipo: 'textual' | 'seleccion_multiple' | 'seleccion_unica'; opciones?: { texto_opcion: string }[] }[]
-  >([]);
-
+  const [preguntas, setPreguntas] = useState<Pregunta[]>([]);
   const [mostrarConfirmacion, setMostrarConfirmacion] = useState(false);
   const [connectionRetries, setConnectionRetries] = useState(0);
-
-
 
   const agregarPregunta = () => {
     setPreguntas([...preguntas, { texto: '', tipo: 'textual' }]);
@@ -36,7 +43,7 @@ const FormularioCrear: React.FC = () => {
     if (campo === 'tipo') {
       nuevas[index].tipo = valor as 'textual' | 'seleccion_multiple' | 'seleccion_unica';
       if (valor === 'seleccion_multiple' || valor === 'seleccion_unica') {
-        nuevas[index].opciones = [{ texto_opcion: '' }];
+        nuevas[index].opciones = [{ texto_opcion: '', es_correcta: false }];
       } else {
         delete nuevas[index].opciones;
       }
@@ -54,9 +61,26 @@ const FormularioCrear: React.FC = () => {
     }
   };
 
+  const marcarRespuestaCorrecta = (preguntaIndex: number, opcionIndex: number) => {
+    const nuevas = [...preguntas];
+    if (nuevas[preguntaIndex].opciones) {
+      if (nuevas[preguntaIndex].tipo === 'seleccion_unica') {
+        // Para selección única, solo una puede ser correcta
+        nuevas[preguntaIndex].opciones!.forEach((op, i) => {
+          op.es_correcta = i === opcionIndex;
+        });
+      } else {
+        // Para selección múltiple, toggle la opción
+        nuevas[preguntaIndex].opciones![opcionIndex].es_correcta = 
+          !nuevas[preguntaIndex].opciones![opcionIndex].es_correcta;
+      }
+      setPreguntas(nuevas);
+    }
+  };
+
   const agregarOpcion = (index: number) => {
     const nuevas = [...preguntas];
-    nuevas[index].opciones?.push({ texto_opcion: '' });
+    nuevas[index].opciones?.push({ texto_opcion: '', es_correcta: false });
     setPreguntas(nuevas);
   };
 
@@ -186,217 +210,408 @@ const FormularioCrear: React.FC = () => {
     setMostrarConfirmacion(false);
   };
 
-  // Obtener un color de fondo aleatorio para los números de preguntas
-  const getRandomPastelColor = (index: number) => {
-    const colors = [
-      'bg-blue-100 border-blue-300 text-blue-800',
-      'bg-purple-100 border-purple-300 text-purple-800',
-      'bg-green-100 border-green-300 text-green-800',
-      'bg-pink-100 border-pink-300 text-pink-800',
-      'bg-yellow-100 border-yellow-300 text-yellow-800',
-      'bg-indigo-100 border-indigo-300 text-indigo-800',
-    ];
-    return colors[index % colors.length];
-  };
-
   return (
     <Layout>
-     <div className="min-h-screen py-8 px-4 bg-gray-50">
-        <form 
-          onSubmit={handleCrearClick}
-          className="max-w-4xl mx-auto space-y-6 p-8 shadow-lg rounded-lg bg-white"
+      <div className="min-h-screen" style={{ 
+        background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.9) 25%, rgba(241, 245, 249, 0.85) 75%, rgba(226, 232, 240, 0.9) 100%)'
+      }}>
+        <div className="max-w-5xl mx-auto p-6">
+          {/* Header mejorado */}
+          <div className="relative mb-8">
+            <div className="absolute inset-0 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-3xl transform rotate-1"></div>
+            <div className="relative bg-white rounded-3xl p-8 shadow-2xl border border-gray-100" style={{
+              background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.9) 100%)',
+              backdropFilter: 'blur(10px)'
+            }}>
+              <div className="text-center">
+                <div className="flex items-center justify-center mb-4">
+                  <div className="w-16 h-16 rounded-full flex items-center justify-center shadow-lg" style={{ backgroundColor: '#1e3766' }}>
+                    <FaClipboardList className="text-white text-2xl" />
+                  </div>
+                </div>
+                <h1 className="text-4xl font-bold mb-2" style={{ color: '#1e3766', fontFamily: "'Recoleta Medium', serif" }}>
+                  Crear Formulario
+                </h1>
+                <p className="text-xl text-gray-600" style={{ fontFamily: "'Recoleta Light', serif" }}>
+                  Diseña un formulario personalizado para tus eventos
+                </p>
+              </div>
 
-        >
-                      <h2 
-              className="text-3xl font-bold text-center mb-8 text-gray-900"
-            >
-            Crear Formulario
-          </h2>
-
-          {error && (
-            <div className="p-4 mb-4 text-red-700 bg-red-100 rounded-lg flex items-center">
-              <FaExclamationTriangle className="mr-2" />
-              {error}
-            </div>
-          )}
-
-          <div className="space-y-4">
-            <div className="space-y-2">
-              <label className="block text-sm font-medium text-gray-700">Nombre del formulario</label>
-              <input
-                type="text"
-                value={nombreFormulario}
-                onChange={(e) => setNombreFormulario(e.target.value)}
-                className={`w-full px-4 py-3 border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
-                  errorNombre ? 'border-red-500' : 'border-gray-300'
-                }`}
-                placeholder="Ej: Formulario pre-evento"
-              />
-              {errorNombre && <p className="mt-1 text-sm text-red-600">{errorNombre}</p>}
+              {error && (
+                <div className="mt-6 p-6 rounded-2xl flex items-center shadow-lg" style={{
+                  background: 'linear-gradient(135deg, rgba(254, 242, 242, 0.95) 0%, rgba(252, 231, 243, 0.9) 100%)',
+                  border: '1px solid rgba(239, 68, 68, 0.2)'
+                }}>
+                  <div className="w-10 h-10 rounded-full flex items-center justify-center bg-red-100 mr-4">
+                    <FaExclamationTriangle className="text-red-500 text-lg" />
+                  </div>
+                  <div>
+                    <p className="font-semibold text-red-800" style={{ fontFamily: "'Recoleta Medium', serif" }}>Error</p>
+                    <p className="text-red-700 text-sm" style={{ fontFamily: "'Recoleta Light', serif" }}>{error}</p>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
 
-          <div className="space-y-6 mt-8">
-            <div className="flex justify-between items-center">
-              <h3 className="font-medium text-lg text-gray-900">Preguntas del formulario</h3>
-              <span className="text-sm text-gray-500">Total: {preguntas.length}</span>
-            </div>
-            
-            {preguntas.length === 0 && (
-              <div className="text-center p-6 border border-dashed border-gray-300 rounded-lg">
-                <p className="text-gray-500">Aún no hay preguntas. Haz clic en "Agregar nueva pregunta" para comenzar.</p>
+          {/* Información básica del formulario mejorada */}
+          <div className="relative mb-8">
+            <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-green-600 rounded-3xl transform -rotate-1"></div>
+            <div className="relative bg-white rounded-3xl p-8 shadow-2xl border border-gray-100" style={{
+              background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(248, 250, 252, 0.95) 50%, rgba(241, 245, 249, 0.98) 100%)',
+              backdropFilter: 'blur(15px)'
+            }}>
+              <div className="flex items-center space-x-3 mb-6">
+                <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ backgroundColor: '#1e3766' }}>
+                  <FaFileAlt className="text-white text-lg" />
+                </div>
+                <h2 className="text-2xl font-bold text-gray-900" style={{ color: '#1e3766', fontFamily: "'Recoleta Medium', serif" }}>
+                  Información del formulario
+                </h2>
               </div>
-            )}
-            
-            {preguntas.map((preg, idx) => (
-              <div key={idx} className="border border-gray-200 p-5 rounded-lg bg-blue-50 space-y-4 relative shadow-md hover:shadow-lg transition-all duration-200">
-                <div className="flex justify-between items-start">
-                  <div className="flex items-center space-x-2 w-full">
-                    <span 
-                      className={`font-bold w-8 h-8 flex items-center justify-center rounded-full border-2 shadow-sm ${getRandomPastelColor(idx)}`}
-                    >
-                      {idx + 1}
-                    </span>
-                    <input
-                      type="text"
-                      placeholder="Escribe tu pregunta"
-                      value={preg.texto}
-                      onChange={(e) => actualizarPregunta(idx, 'texto', e.target.value)}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 shadow-sm"
-                    />
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="space-y-2">
+                  <label className="block text-sm font-semibold text-gray-700" style={{ fontFamily: "'Recoleta Medium', serif" }}>
+                    Nombre del formulario *
+                  </label>
+                  <input
+                    type="text"
+                    value={nombreFormulario}
+                    onChange={(e) => setNombreFormulario(e.target.value)}
+                    className={`w-full px-4 py-4 border rounded-2xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 shadow-sm hover:shadow-md ${
+                      errorNombre ? 'border-red-300 bg-red-50' : 'border-gray-300 bg-white'
+                    }`}
+                    style={{ fontFamily: "'Recoleta Light', serif" }}
+                    placeholder="Ej: Formulario de registro pre-evento"
+                  />
+                  {errorNombre && <p className="mt-1 text-sm text-red-600 font-medium" style={{ fontFamily: "'Recoleta Medium', serif" }}>{errorNombre}</p>}
+                </div>
+
+                <div className="space-y-2">
+                  <label className="block text-sm font-semibold text-gray-700" style={{ fontFamily: "'Recoleta Medium', serif" }}>
+                    Descripción (opcional)
+                  </label>
+                  <input
+                    type="text"
+                    value={descripcion}
+                    onChange={(e) => setDescripcion(e.target.value)}
+                    className="w-full px-4 py-4 border border-gray-300 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 shadow-sm hover:shadow-md"
+                    style={{ fontFamily: "'Recoleta Light', serif" }}
+                    placeholder="Breve descripción del formulario"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Sección de preguntas mejorada */}
+          <div className="relative mb-8">
+            <div className="absolute inset-0 bg-gradient-to-r from-purple-500 to-pink-600 rounded-3xl transform rotate-1"></div>
+            <div className="relative bg-white rounded-3xl p-8 shadow-2xl border border-gray-100" style={{
+              background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(248, 250, 252, 0.95) 50%, rgba(241, 245, 249, 0.98) 100%)',
+              backdropFilter: 'blur(15px)'
+            }}>
+              <div className="flex justify-between items-center mb-8">
+                <div className="flex items-center space-x-3">
+                  <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ backgroundColor: '#1e3766' }}>
+                    <FaQuestionCircle className="text-white text-lg" />
+                  </div>
+                  <div>
+                    <h2 className="text-2xl font-bold text-gray-900" style={{ color: '#1e3766', fontFamily: "'Recoleta Medium', serif" }}>
+                      Preguntas del formulario
+                    </h2>
+                    <p className="text-gray-600 mt-1" style={{ fontFamily: "'Recoleta Light', serif" }}>
+                      Agrega y configura las preguntas para tu formulario
+                    </p>
+                  </div>
+                </div>
+                
+                <div className="flex items-center space-x-4">
+                  <div className="text-sm text-gray-500 bg-gradient-to-r from-gray-100 to-purple-50 px-4 py-2 rounded-xl" style={{ fontFamily: "'Recoleta Light', serif" }}>
+                    <span className="font-semibold">Total:</span> {preguntas.length} pregunta{preguntas.length !== 1 ? 's' : ''}
                   </div>
                   <button
                     type="button"
-                    onClick={() => eliminarPregunta(idx)}
-                    className="ml-2 p-2 text-red-600 hover:text-red-800 hover:bg-red-100 rounded-full transition duration-150 shadow-sm"
-                    aria-label="Eliminar pregunta"
-                    title="Eliminar pregunta"
+                    onClick={agregarPregunta}
+                    className="px-6 py-3 rounded-2xl font-semibold transition-all duration-300 transform hover:scale-105 flex items-center shadow-lg hover:shadow-xl"
+                    style={{
+                      background: 'linear-gradient(135deg, #1e3766 0%, #2563eb 100%)',
+                      color: 'white',
+                      fontFamily: "'Recoleta Medium', serif"
+                    }}
                   >
-                    <FaTimes className="text-sm" />
+                    <FaPlus className="mr-2" />
+                    Nueva pregunta
                   </button>
                 </div>
+              </div>
 
-                <div className="mt-2">
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Tipo de pregunta</label>
-                  <select
-                    value={preg.tipo}
-                    onChange={(e) => actualizarPregunta(idx, 'tipo', e.target.value)}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 shadow-sm"
+              {preguntas.length === 0 ? (
+                <div className="text-center py-20 border-2 border-dashed border-gray-200 rounded-3xl bg-gradient-to-br from-gray-50 to-purple-50">
+                  <div className="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6 bg-gray-100">
+                    <FaQuestionCircle className="text-4xl text-gray-400" />
+                  </div>
+                  <h3 className="text-2xl font-bold mb-4" style={{ color: '#1e3766', fontFamily: "'Recoleta Medium', serif" }}>
+                    No hay preguntas aún
+                  </h3>
+                  <p className="text-gray-500 text-lg mb-6" style={{ fontFamily: "'Recoleta Light', serif" }}>
+                    Haz clic en "Nueva pregunta" para comenzar a crear tu formulario
+                  </p>
+                  <button
+                    onClick={agregarPregunta}
+                    className="px-8 py-4 rounded-2xl font-semibold transition-all duration-300 transform hover:scale-105 flex items-center shadow-lg hover:shadow-xl mx-auto"
+                    style={{
+                      background: 'linear-gradient(135deg, #1e3766 0%, #2563eb 100%)',
+                      color: 'white',
+                      fontFamily: "'Recoleta Medium', serif"
+                    }}
                   >
-                    <option value="textual">Respuesta de texto</option>
-                    <option value="seleccion_unica">Selección única</option>
-                    <option value="seleccion_multiple">Selección múltiple</option>
-                  </select>
+                    <FaPlus className="mr-3" />
+                    Agregar primera pregunta
+                  </button>
                 </div>
+              ) : (
+                <div className="space-y-6">
+                  {preguntas.map((pregunta, index) => (
+                    <div key={index} className="relative group">
+                      <div className="absolute inset-0 bg-gradient-to-r from-blue-100 to-purple-100 rounded-3xl transform rotate-1 group-hover:rotate-2 transition-transform duration-300"></div>
+                      <div className="relative bg-white border border-gray-200 rounded-3xl p-6 shadow-lg transform group-hover:-translate-y-1 transition-all duration-300" style={{
+                        background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.9) 100%)',
+                        backdropFilter: 'blur(10px)'
+                      }}>
+                        {/* Header de la pregunta */}
+                        <div className="flex items-start space-x-4 mb-6">
+                          <div className="flex-shrink-0">
+                            <div className="w-12 h-12 border-2 border-blue-300 rounded-full flex items-center justify-center shadow-lg" style={{ backgroundColor: '#1e3766' }}>
+                              <span className="text-white font-bold">{index + 1}</span>
+                            </div>
+                          </div>
 
-                {(preg.tipo === 'seleccion_multiple' || preg.tipo === 'seleccion_unica') && preg.opciones && (
-                  <div className="space-y-3 mt-3 pl-4 border-l-2 border-blue-200">
-                    <label className="block text-sm font-medium text-gray-700">Opciones de respuesta</label>
-                    {preg.opciones.map((op, i) => (
-                      <div key={i} className="flex items-center">
-                        <div className={`w-6 h-6 flex items-center justify-center mr-2 rounded-full shadow-sm ${getRandomPastelColor(i)}`}>
-                          {i + 1}
+                          <div className="flex-1 space-y-4">
+                            <div className="flex items-center space-x-4">
+                              <input
+                                type="text"
+                                placeholder="Escribe tu pregunta aquí..."
+                                value={pregunta.texto}
+                                onChange={(e) => actualizarPregunta(index, 'texto', e.target.value)}
+                                className="flex-1 px-4 py-4 border border-gray-300 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white transition-all duration-200 shadow-sm hover:shadow-md"
+                                style={{ fontFamily: "'Recoleta Light', serif" }}
+                              />
+                              <button
+                                type="button"
+                                onClick={() => eliminarPregunta(index)}
+                                className="p-3 rounded-2xl transition-all duration-200 shadow-sm hover:shadow-md"
+                                style={{
+                                  background: 'linear-gradient(135deg, #dc2626 0%, #b91c1c 100%)',
+                                  color: 'white'
+                                }}
+                                title="Eliminar pregunta"
+                              >
+                                <FaTimes />
+                              </button>
+                            </div>
+
+                            <div className="flex items-center space-x-4">
+                              <label className="text-sm font-medium text-gray-700" style={{ fontFamily: "'Recoleta Medium', serif" }}>
+                                Tipo de respuesta:
+                              </label>
+                              <div className="flex items-center space-x-3 bg-gray-50 p-2 rounded-xl">
+                                <div className="w-8 h-8 bg-white rounded-lg flex items-center justify-center shadow-sm">
+                                  {pregunta.tipo === 'textual' && <FaEdit className="text-gray-600 text-sm" />}
+                                  {pregunta.tipo === 'seleccion_unica' && <FaDotCircle className="text-gray-600 text-sm" />}
+                                  {pregunta.tipo === 'seleccion_multiple' && <FaCheckSquare className="text-gray-600 text-sm" />}
+                                </div>
+                                <select
+                                  value={pregunta.tipo}
+                                  onChange={(e) => actualizarPregunta(index, 'tipo', e.target.value)}
+                                  className="px-4 py-2 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white transition-all duration-200 shadow-sm hover:shadow-md"
+                                  style={{ fontFamily: "'Recoleta Light', serif" }}
+                                >
+                                  <option value="textual">Texto libre</option>
+                                  <option value="seleccion_unica">Selección única</option>
+                                  <option value="seleccion_multiple">Selección múltiple</option>
+                                </select>
+                              </div>
+                            </div>
+                          </div>
                         </div>
-                        <input
-                          type="text"
-                          placeholder={`Opción ${i + 1}`}
-                          value={op.texto_opcion}
-                          onChange={(e) => actualizarOpcion(idx, i, e.target.value)}
-                          className="flex-1 px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 shadow-sm"
-                        />
-                        {preg.opciones && preg.opciones.length > 1 && (
-                          <button
-                            type="button"
-                            onClick={() => eliminarOpcion(idx, i)}
-                            className="ml-2 p-2 text-red-600 hover:text-red-800 hover:bg-red-100 rounded-full transition duration-150 shadow-sm"
-                            aria-label="Eliminar opción"
-                            title="Eliminar opción"
-                          >
-                            <FaTimes className="text-sm" />
-                          </button>
+
+                        {/* Opciones para preguntas de selección */}
+                        {(pregunta.tipo === 'seleccion_multiple' || pregunta.tipo === 'seleccion_unica') && pregunta.opciones && (
+                          <div className="ml-16 space-y-4">
+                            <div className="flex items-center justify-between">
+                              <h4 className="text-sm font-semibold text-gray-700" style={{ fontFamily: "'Recoleta Medium', serif" }}>
+                                Opciones de respuesta
+                              </h4>
+                              <div className="text-xs text-gray-500 bg-yellow-50 px-3 py-1 rounded-full border border-yellow-200" style={{ fontFamily: "'Recoleta Light', serif" }}>
+                                💡 Marca las respuestas correctas
+                              </div>
+                            </div>
+
+                            <div className="space-y-3">
+                              {pregunta.opciones.map((opcion, opcionIndex) => (
+                                <div key={opcionIndex} className="flex items-center space-x-3 group/option">
+                                  <div className="flex-shrink-0">
+                                    <button
+                                      type="button"
+                                      onClick={() => marcarRespuestaCorrecta(index, opcionIndex)}
+                                      className={`w-10 h-10 rounded-full border-2 flex items-center justify-center transition-all duration-200 shadow-sm ${
+                                        opcion.es_correcta
+                                          ? 'bg-green-500 border-green-500 text-white shadow-green-200'
+                                          : 'bg-white border-gray-300 hover:border-green-400 text-gray-400'
+                                      }`}
+                                      title={opcion.es_correcta ? 'Respuesta correcta' : 'Marcar como correcta'}
+                                    >
+                                      {opcion.es_correcta && <FaCheck className="text-sm" />}
+                                    </button>
+                                  </div>
+
+                                  <input
+                                    type="text"
+                                    placeholder={`Opción ${opcionIndex + 1}`}
+                                    value={opcion.texto_opcion}
+                                    onChange={(e) => actualizarOpcion(index, opcionIndex, e.target.value)}
+                                    className="flex-1 px-4 py-3 border border-gray-300 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white transition-all duration-200 shadow-sm hover:shadow-md"
+                                    style={{ fontFamily: "'Recoleta Light', serif" }}
+                                  />
+
+                                  {pregunta.opciones && pregunta.opciones.length > 1 && (
+                                    <button
+                                      type="button"
+                                      onClick={() => eliminarOpcion(index, opcionIndex)}
+                                      className="p-2 rounded-xl transition-all duration-200 opacity-0 group-hover/option:opacity-100 shadow-sm hover:shadow-md"
+                                      style={{
+                                        background: 'linear-gradient(135deg, #dc2626 0%, #b91c1c 100%)',
+                                        color: 'white'
+                                      }}
+                                      title="Eliminar opción"
+                                    >
+                                      <FaTimes className="text-sm" />
+                                    </button>
+                                  )}
+                                </div>
+                              ))}
+                            </div>
+
+                            <button
+                              type="button"
+                              onClick={() => agregarOpcion(index)}
+                              className="px-4 py-2 rounded-xl font-medium transition-all duration-200 flex items-center border-2 border-dashed border-blue-300 hover:border-blue-500 text-blue-600 hover:bg-blue-50"
+                              style={{ fontFamily: "'Recoleta Medium', serif" }}
+                            >
+                              <FaPlus className="mr-2" />
+                              Agregar opción
+                            </button>
+                          </div>
                         )}
                       </div>
-                    ))}
-                    <button
-                      type="button"
-                      onClick={() => agregarOpcion(idx)}
-                      className="flex items-center text-sm px-3 py-1 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition duration-150"
-                    >
-                      <FaPlus className="mr-1" />
-                      Agregar opción
-                    </button>
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
-
-          <button
-            type="button"
-            onClick={agregarPregunta}
-            className="w-full px-6 py-3 bg-blue-600 text-white rounded-md font-semibold hover:bg-blue-700 transition flex items-center justify-center"
-          >
-            <FaPlus className="mr-2" />
-            Agregar nueva pregunta
-          </button>
-
-          <div className="flex justify-end space-x-4 mt-8 pt-4 border-t border-gray-200">
-            <button
-              type="button"
-              onClick={() => navigate('/formularios/gestionar')}
-              className="px-6 py-2 border border-gray-300 rounded-md font-semibold shadow-sm hover:bg-gray-50 transition duration-150"
-            >
-              Cancelar
-            </button>
-            <button
-              type="submit"
-              className="px-6 py-2 bg-blue-600 text-white rounded-md font-semibold hover:bg-blue-700 transition flex items-center"
-              disabled={isSubmitting}
-            >
-              {isSubmitting ? (
-                <>
-                  <span className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></span>
-                  Guardando...
-                </>
-              ) : (
-                <>
-                  <FaSave className="mr-2" />
-                  Guardar formulario
-                </>
+                    </div>
+                  ))}
+                </div>
               )}
-            </button>
+            </div>
           </div>
-        </form>
+
+          {/* Botones de acción mejorados */}
+          <div className="relative">
+            <div className="absolute inset-0 bg-gradient-to-r from-gray-400 to-gray-600 rounded-3xl transform -rotate-1"></div>
+            <div className="relative bg-white rounded-3xl p-6 shadow-2xl border border-gray-100" style={{
+              background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.9) 100%)',
+              backdropFilter: 'blur(10px)'
+            }}>
+              <div className="flex justify-between items-center">
+                <button
+                  type="button"
+                  onClick={() => navigate('/formularios/gestionar')}
+                  className="px-8 py-4 rounded-2xl font-semibold transition-all duration-200 transform hover:scale-105 border-2"
+                  style={{
+                    backgroundColor: 'white',
+                    color: '#1e3766',
+                    borderColor: '#1e3766',
+                    fontFamily: "'Recoleta Medium', serif"
+                  }}
+                >
+                  ← Cancelar
+                </button>
+                
+                <button
+                  type="submit"
+                  onClick={handleCrearClick}
+                  className="px-8 py-4 rounded-2xl font-semibold transition-all duration-300 transform hover:scale-105 flex items-center shadow-lg hover:shadow-xl"
+                  style={{
+                    background: 'linear-gradient(135deg, #1e3766 0%, #2563eb 100%)',
+                    color: 'white',
+                    fontFamily: "'Recoleta Medium', serif"
+                  }}
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting ? (
+                    <>
+                      <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-3"></div>
+                      Guardando...
+                    </>
+                  ) : (
+                    <>
+                      <FaSave className="mr-3" />
+                      Guardar formulario
+                    </>
+                  )}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
-      {/* Diálogo de confirmación */}
+      {/* Modal de confirmación mejorado */}
       {mostrarConfirmacion && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-50">
-          <div className="bg-white p-6 rounded-lg shadow-xl max-w-md w-full animate-fade-in-down">
-            <h3 className="text-xl font-bold mb-4 text-gray-900">Confirmar creación</h3>
-            <p className="mb-6 text-gray-700">
-              ¿Estás seguro de que deseas crear este formulario? Esta acción no se puede deshacer.
-            </p>
-            <div className="flex justify-end space-x-3">
-              <button
-                onClick={cancelarCrear}
-                className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 transition duration-150 shadow-sm"
-                disabled={isSubmitting}
-              >
-                Cancelar
-              </button>
-              <button
-                onClick={confirmarCrear}
-                className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition duration-150"
-                disabled={isSubmitting}
-              >
-                {isSubmitting ? (
-                  <div className="flex items-center">
-                    <span className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></span>
-                    Guardando...
-                  </div>
-                ) : 'Confirmar'}
-              </button>
+        <div className="fixed inset-0 bg-gradient-to-br from-white/80 via-blue-50/90 to-gray-100/95 backdrop-blur-md flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-3xl shadow-2xl max-w-md w-full transform transition-all duration-300">
+            <div className="p-8">
+              <div className="text-center mb-8">
+                <div className="w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg">
+                  <FaSave className="text-3xl text-blue-600" />
+                </div>
+                <h3 className="text-2xl font-bold text-gray-900 mb-4" style={{ color: '#1e3766', fontFamily: "'Recoleta Medium', serif" }}>
+                  Confirmar creación
+                </h3>
+                <p className="text-gray-600 leading-relaxed" style={{ fontFamily: "'Recoleta Light', serif" }}>
+                  ¿Estás seguro de que deseas crear este formulario con {preguntas.length} pregunta{preguntas.length !== 1 ? 's' : ''}?
+                </p>
+              </div>
+
+              <div className="flex space-x-4">
+                <button
+                  onClick={cancelarCrear}
+                  className="flex-1 px-6 py-4 rounded-2xl font-semibold transition-all duration-200 border-2"
+                  style={{
+                    backgroundColor: 'white',
+                    color: '#1e3766',
+                    borderColor: '#1e3766',
+                    fontFamily: "'Recoleta Medium', serif"
+                  }}
+                  disabled={isSubmitting}
+                >
+                  Cancelar
+                </button>
+                <button
+                  onClick={confirmarCrear}
+                  className="flex-1 px-6 py-4 rounded-2xl font-semibold transition-all duration-200 flex items-center justify-center shadow-lg hover:shadow-xl"
+                  style={{
+                    background: 'linear-gradient(135deg, #1e3766 0%, #2563eb 100%)',
+                    color: 'white',
+                    fontFamily: "'Recoleta Medium', serif"
+                  }}
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting ? (
+                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+                  ) : (
+                    'Confirmar'
+                  )}
+                </button>
+              </div>
             </div>
           </div>
         </div>
