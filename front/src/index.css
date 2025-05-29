@@ -27,6 +27,11 @@
   font-weight: 500;
 }
 
+@font-face {
+  font-family: "Recoleta SemiBold";
+  src: url("./assets/Font/Recoleta SemiBold.otf") format("opentype");
+  font-weight: 600;
+}
 
 a {
   font-weight: 500;
@@ -46,6 +51,8 @@ body {
 h1 {
   font-size: 5em;
   line-height: 1.1;
+  font-family: "Recoleta SemiBold", serif !important;
+  font-weight: 600 !important;
 }
 button {
  

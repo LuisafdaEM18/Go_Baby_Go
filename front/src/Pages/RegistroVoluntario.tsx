@@ -781,6 +781,20 @@ const RegistroVoluntario = () => {
 
                 {/* Botones de acción mejorados */}
                 <div className="flex flex-col sm:flex-row gap-4">
+                  <Link 
+                    to="/" 
+                    className="flex-1 px-6 py-3 rounded-xl font-semibold transition-all duration-300 border-2 hover:bg-gray-50 flex items-center justify-center hover:scale-105 shadow-md hover:shadow-lg"
+                    style={{
+                      backgroundColor: 'white',
+                      color: '#1e3766',
+                      borderColor: '#1e3766',
+                      fontFamily: "'Recoleta Medium', serif"
+                    }}
+                  >
+                    <FaArrowLeft className="mr-2" />
+                    Volver
+                  </Link>
+
                   <button
                     type="submit"
                     className="flex-1 px-6 py-3 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 flex items-center justify-center shadow-lg hover:shadow-xl"
@@ -803,20 +817,6 @@ const RegistroVoluntario = () => {
                       </>
                     )}
                   </button>
-
-                  <Link 
-                    to="/" 
-                    className="flex-1 px-6 py-3 rounded-xl font-semibold transition-all duration-300 border-2 hover:bg-gray-50 flex items-center justify-center hover:scale-105 shadow-md hover:shadow-lg"
-                    style={{
-                      backgroundColor: 'white',
-                      color: '#1e3766',
-                      borderColor: '#1e3766',
-                      fontFamily: "'Recoleta Medium', serif"
-                    }}
-                  >
-                    <FaArrowLeft className="mr-2" />
-                    Volver
-                  </Link>
                 </div>
               </form>
             </div>

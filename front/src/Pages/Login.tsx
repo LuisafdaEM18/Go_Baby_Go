@@ -145,13 +145,13 @@ const Login: React.FC = () => {
             <div className="inline-block">
               <div className="relative">
                 <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-indigo-500/20 rounded-full transform rotate-6 blur-2xl animate-pulse"></div>
-                <h1 className="relative text-5xl font-extrabold mb-2 bg-gradient-to-r from-corporate-primary to-corporate-secondary bg-clip-text text-transparent transform hover:scale-105 transition-transform duration-300" 
+                <h1 className="relative text-6xl font-extrabold mb-2 bg-gradient-to-r from-corporate-primary to-corporate-secondary bg-clip-text text-transparent transform hover:scale-105 transition-transform duration-300" 
                     style={{ fontFamily: "'Recoleta Bold', serif" }}>
                   El Comité
                 </h1>
               </div>
             </div>
-            <p className="text-[2.5rem] font-bold mt-4 bg-gradient-to-r from-[#1e3766] to-[#2563eb] bg-clip-text text-transparent transform hover:scale-105 transition-transform duration-300" 
+            <p className="text-[3.5rem] font-bold mt-4 bg-gradient-to-r from-[#1e3766] to-[#2563eb] bg-clip-text text-transparent transform hover:scale-105 transition-transform duration-300" 
                style={{ fontFamily: "'Recoleta Bold', serif" }}>
               El Comité
             </p>
@@ -272,6 +272,19 @@ const Login: React.FC = () => {
                 {/* Botones de Acción */}
                 <div className="flex flex-col sm:flex-row gap-4 pt-4">
                   <button
+                    type="button"
+                    onClick={handleBack}
+                    disabled={loading}
+                    className="flex-1 bg-white border-2 border-gray-200 hover:border-corporate-primary text-gray-700 hover:text-corporate-primary font-semibold py-3 px-6 rounded-xl transition-all duration-300 hover:bg-gray-50 transform hover:scale-105 hover:-translate-y-1"
+                    style={{ fontFamily: "'Recoleta Medium', serif" }}
+                  >
+                    <div className="flex items-center justify-center space-x-3">
+                      <FaArrowLeft className="text-sm group-hover:-translate-x-1 transition-transform" />
+                      <span>Volver</span>
+                    </div>
+                  </button>
+
+                  <button
                     type="submit"
                     disabled={loading}
                     className="flex-1 bg-gradient-to-r from-[#1e3766] to-[#2563eb] text-white font-bold py-3.5 px-6 rounded-xl transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 shadow-lg hover:shadow-xl disabled:opacity-70 disabled:transform-none hover:from-[#2563eb] hover:to-[#3b82f6]"
@@ -285,19 +298,6 @@ const Login: React.FC = () => {
                     ) : (
                       <span>Iniciar Sesión</span>
                     )}
-                  </button>
-
-                  <button
-                    type="button"
-                    onClick={handleBack}
-                    disabled={loading}
-                    className="flex-1 bg-white border-2 border-gray-200 hover:border-corporate-primary text-gray-700 hover:text-corporate-primary font-semibold py-3 px-6 rounded-xl transition-all duration-300 hover:bg-gray-50 transform hover:scale-105 hover:-translate-y-1"
-                    style={{ fontFamily: "'Recoleta Medium', serif" }}
-                  >
-                    <div className="flex items-center justify-center space-x-3">
-                      <FaArrowLeft className="text-sm group-hover:-translate-x-1 transition-transform" />
-                      <span>Volver</span>
-                    </div>
                   </button>
                 </div>
               </form>
