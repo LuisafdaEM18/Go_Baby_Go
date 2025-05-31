@@ -1,8 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import { FaUser, FaCog, FaSignOutAlt } from "react-icons/fa";
-import GoBabyGo from "../assets/Logo-Go-baby-Go-2024-02-1.png";
+import { FaUser, FaCog, FaSignOutAlt, FaUserCircle } from "react-icons/fa";
 
 type HeaderProps = {
   isSidebarOpen: boolean;
@@ -66,12 +65,8 @@ const Header: React.FC<HeaderProps> = () => {
             }}
             onClick={() => setMenuOpen(!menuOpen)}
           >
-            <div className="w-8 h-8 rounded-full overflow-hidden border-2 border-white bg-white flex-shrink-0">
-              <img 
-                src={GoBabyGo} 
-                alt="Go Baby Go Logo"
-                className="w-full h-full object-contain"
-              />
+            <div className="w-8 h-8 rounded-full overflow-hidden border-2 border-white bg-white flex items-center justify-center flex-shrink-0">
+              <FaUserCircle className="w-full h-full text-[#1e3766]" />
             </div>
             <div className="text-left text-white">
               <div className="text-sm font-medium">{user?.nombre || 'Usuario'}</div>

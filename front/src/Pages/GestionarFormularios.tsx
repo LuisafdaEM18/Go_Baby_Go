@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { FaEdit, FaTrash, FaSearch, FaPlus, FaExclamationCircle, FaCheck, FaSpinner, FaFilter, FaEye, FaTimes, FaQuestionCircle, FaClipboardList } from 'react-icons/fa';
+import { FaEdit, FaTrash, FaSearch, FaPlus, FaExclamationCircle, FaCheck, FaSpinner, FaEye, FaTimes, FaQuestionCircle, FaClipboardList } from 'react-icons/fa';
 import Layout from '../Components/Layout';
 import { getFormularios, deleteFormulario } from '../services/formularioService';
 import { Formulario } from '../services/types';
@@ -21,7 +21,6 @@ const GestionarFormularios = () => {
   const [successMessage, setSuccessMessage] = useState<string | null>(
     location.state?.message || null
   );
-  const [tipoFiltro, setTipoFiltro] = useState<string>('todos');
 
   // Estados para vista previa
   const [mostrarVistaPrevia, setMostrarVistaPrevia] = useState(false);
@@ -74,33 +73,17 @@ const GestionarFormularios = () => {
   const handleBuscar = (e: React.ChangeEvent<HTMLInputElement>) => {
     const valor = e.target.value;
     setTerminoBusqueda(valor);
-    aplicarFiltros(valor, tipoFiltro);
-  };
-
-  const aplicarFiltros = (busqueda: string, tipo: string) => {
-    let filtrados = [...formulariosOriginales];
     
-    // Aplicar filtro de búsqueda
-    if (busqueda) {
-      filtrados = filtrados.filter(form => 
-        form.nombre.toLowerCase().includes(busqueda.toLowerCase())
-      );
+    if (valor === '') {
+      setFormulariosFiltrados(formulariosOriginales);
+      return;
     }
     
-    // Aplicar filtro de tipo
-    if (tipo !== 'todos') {
-      filtrados = filtrados.filter(form => {
-        const tipoForm = determinarTipoFormulario(form);
-        return tipoForm.toLowerCase() === tipo.toLowerCase();
-      });
-    }
+    const filtrados = formulariosOriginales.filter(form => 
+      form.nombre.toLowerCase().includes(valor.toLowerCase())
+    );
     
     setFormulariosFiltrados(filtrados);
-  };
-
-  const handleCambioTipoFiltro = (tipo: string) => {
-    setTipoFiltro(tipo);
-    aplicarFiltros(terminoBusqueda, tipo);
   };
 
   const handleDelete = async () => {
@@ -152,17 +135,6 @@ const GestionarFormularios = () => {
   const cerrarVistaPrevia = () => {
     setMostrarVistaPrevia(false);
     setFormularioVistaPrevia(null);
-  };
-
-  // Determinar el tipo de formulario basado en su nombre o características
-  const determinarTipoFormulario = (formulario: Formulario): string => {
-    const nombre = formulario.nombre.toLowerCase();
-    if (nombre.includes('pre') || nombre.includes('inicial') || nombre.includes('registro')) {
-      return 'Pre-evento';
-    } else if (nombre.includes('post') || nombre.includes('satisfacción') || nombre.includes('evaluación')) {
-      return 'Post-evento';
-    }
-    return 'General';
   };
 
   return (
@@ -252,25 +224,6 @@ const GestionarFormularios = () => {
                 </div>
                 
                 <div className="flex items-center gap-3">
-                  <div className="relative flex items-center">
-                    <FaFilter className="text-gray-400 mr-2 text-sm" />
-                    <select
-                      value={tipoFiltro}
-                      onChange={(e) => handleCambioTipoFiltro(e.target.value)}
-                      className="pl-2 pr-6 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white/80 transition-all duration-300"
-                      style={{ 
-                        fontFamily: "'Recoleta Light', serif",
-                        backdropFilter: 'blur(8px)',
-                        boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03)'
-                      }}
-                    >
-                      <option value="todos">Todos</option>
-                      <option value="pre-evento">Pre-evento</option>
-                      <option value="post-evento">Post-evento</option>
-                      <option value="general">General</option>
-                    </select>
-                  </div>
-                
                   <button
                     onClick={() => navigate('/formularios/crear')}
                     className="px-6 py-3 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 flex items-center"
@@ -316,10 +269,10 @@ const GestionarFormularios = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {formulariosFiltrados.map((formulario) => (
                   <div key={formulario.id} className="relative group">
-                    <div className="absolute inset-0 bg-gradient-to-r from-blue-100/50 to-indigo-100/50 rounded-3xl transform rotate-1 group-hover:rotate-2 transition-transform duration-300 blur-xl"></div>
-                    <div className="relative bg-white/80 border border-white/50 rounded-3xl p-6 shadow-lg transform group-hover:-translate-y-1 transition-all duration-300" style={{
-                      backdropFilter: 'blur(12px)',
-                      background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(248, 250, 252, 0.85) 100%)'
+                    <div className="absolute inset-0 bg-gradient-to-r from-blue-400/20 to-purple-500/20 rounded-3xl transform rotate-1 group-hover:rotate-2 transition-transform duration-300 blur-xl"></div>
+                    <div className="relative bg-white/90 rounded-3xl p-6 shadow-2xl border border-white/50 transform group-hover:-translate-y-2 transition-all duration-300" style={{
+                      backdropFilter: 'blur(20px)',
+                      background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.9) 100%)'
                     }}>
                       {/* Header de la tarjeta */}
                       <div className="flex items-start justify-between mb-4">
@@ -329,18 +282,6 @@ const GestionarFormularios = () => {
                           }}>
                             <FaClipboardList className="text-white text-lg" />
                           </div>
-                          <span className={`px-3 py-1 text-xs font-medium rounded-full ${
-                            determinarTipoFormulario(formulario) === 'Pre-evento' 
-                              ? 'bg-gradient-to-r from-green-50 to-emerald-50 text-green-800 border border-green-200/50' 
-                              : determinarTipoFormulario(formulario) === 'Post-evento'
-                                ? 'bg-gradient-to-r from-blue-50 to-sky-50 text-blue-800 border border-blue-200/50'
-                                : 'bg-gradient-to-r from-gray-50 to-slate-50 text-gray-800 border border-gray-200/50'
-                          }`} style={{ 
-                            fontFamily: "'Recoleta Medium', serif",
-                            backdropFilter: 'blur(8px)'
-                          }}>
-                            {determinarTipoFormulario(formulario)}
-                          </span>
                         </div>
                       </div>
 
@@ -416,7 +357,7 @@ const GestionarFormularios = () => {
                   <h3 className="text-2xl font-bold mb-4" style={{ color: '#1e3766', fontFamily: "'Recoleta Medium', serif" }}>
                     No se encontraron formularios
                   </h3>
-                  {(terminoBusqueda || tipoFiltro !== 'todos') ? (
+                  {(terminoBusqueda) ? (
                     <div className="space-y-4">
                       <p className="text-gray-600" style={{ fontFamily: "'Recoleta Light', serif" }}>
                         No hay formularios que coincidan con los filtros seleccionados
@@ -424,7 +365,6 @@ const GestionarFormularios = () => {
                       <button 
                         onClick={() => {
                           setTerminoBusqueda('');
-                          setTipoFiltro('todos');
                           setFormulariosFiltrados(formulariosOriginales);
                         }}
                         className="px-6 py-3 rounded-xl font-semibold transition-all duration-200 transform hover:scale-105"
@@ -541,15 +481,6 @@ const GestionarFormularios = () => {
                       {formularioVistaPrevia.nombre}
                     </h2>
                     <div className="flex items-center space-x-6" style={{ fontFamily: "'Recoleta Light', serif" }}>
-                      <span className={`px-3 py-1 text-xs font-medium rounded-full ${
-                        determinarTipoFormulario(formularioVistaPrevia) === 'Pre-evento' 
-                          ? 'bg-gradient-to-r from-green-50 to-emerald-50 text-green-800 border border-green-200/50' 
-                          : determinarTipoFormulario(formularioVistaPrevia) === 'Post-evento'
-                            ? 'bg-gradient-to-r from-blue-50 to-sky-50 text-blue-800 border border-blue-200/50'
-                            : 'bg-gradient-to-r from-gray-50 to-slate-50 text-gray-800 border border-gray-200/50'
-                      }`} style={{ backdropFilter: 'blur(8px)' }}>
-                        {determinarTipoFormulario(formularioVistaPrevia)}
-                      </span>
                       <span className="text-gray-600 bg-gradient-to-r from-gray-50 to-indigo-50/30 px-3 py-1 rounded-xl border border-indigo-100/50" style={{ backdropFilter: 'blur(8px)' }}>
                         <strong>{formularioVistaPrevia.preguntas?.length || 0}</strong> pregunta{(formularioVistaPrevia.preguntas?.length || 0) !== 1 ? 's' : ''}
                       </span>

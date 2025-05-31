@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { FaEdit, FaTrash, FaSearch, FaExclamationCircle, FaCalendarPlus, FaExclamationTriangle, FaUsers, FaTimes, FaEye, FaCalendarAlt, FaMapMarkerAlt, FaCheck, FaBan, FaSpinner } from 'react-icons/fa';
 import Layout from '../Components/Layout';
 import { getEventosWithStats, deleteEvento } from '../services/eventoService';
@@ -10,6 +10,8 @@ import { useNotification } from '../context/NotificationContext';
 
 const GestionarEventos = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const { showVolunteers, eventId } = location.state || {};
   const { showNotification } = useNotification();
   const [eventosOriginales, setEventosOriginales] = useState<EventoWithStats[]>([]);
   const [eventosFiltrados, setEventosFiltrados] = useState<EventoWithStats[]>([]);
@@ -25,6 +27,10 @@ const GestionarEventos = () => {
   const [inscripciones, setInscripciones] = useState<InscripcionDetallada[]>([]);
   const [loadingVoluntarios, setLoadingVoluntarios] = useState(false);
   const [procesandoAccion, setProcesandoAccion] = useState<number | null>(null);
+
+  // Nuevo estado para la inscripción seleccionada
+  const [inscripcionSeleccionada, setInscripcionSeleccionada] = useState<InscripcionDetallada | null>(null);
+  const [mostrarDetallesVoluntario, setMostrarDetallesVoluntario] = useState(false);
 
   // Verificar autenticación
   useEffect(() => {
@@ -55,6 +61,16 @@ const GestionarEventos = () => {
       fetchEventos();
     }
   }, []);
+
+  // Efecto para mostrar voluntarios automáticamente si viene del dashboard
+  useEffect(() => {
+    if (showVolunteers && eventId && !isLoading) {
+      const evento = eventosFiltrados.find(e => e.id === eventId);
+      if (evento) {
+        abrirModalVoluntarios(evento);
+      }
+    }
+  }, [showVolunteers, eventId, isLoading, eventosFiltrados]);
 
   const handleBuscar = (e: React.ChangeEvent<HTMLInputElement>) => {
     const valor = e.target.value;
@@ -214,6 +230,16 @@ const GestionarEventos = () => {
     } finally {
       setProcesandoAccion(null);
     }
+  };
+
+  const abrirDetallesVoluntario = (inscripcion: InscripcionDetallada) => {
+    setInscripcionSeleccionada(inscripcion);
+    setMostrarDetallesVoluntario(true);
+  };
+
+  const cerrarDetallesVoluntario = () => {
+    setInscripcionSeleccionada(null);
+    setMostrarDetallesVoluntario(false);
   };
 
   return (
@@ -575,161 +601,63 @@ const GestionarEventos = () => {
                   </div>
                 </div>
               ) : inscripciones.length > 0 ? (
-                <div className="space-y-6">
-                  {inscripciones.map((inscripcion) => (
-                    <div key={inscripcion.id} className="relative">
-                      <div className="absolute inset-0 bg-gradient-to-r from-blue-100 to-purple-100 rounded-2xl transform rotate-1"></div>
-                      <div className="relative bg-white border border-gray-200 rounded-2xl p-6 shadow-lg">
-                        <div className="flex justify-between items-start mb-6">
-                          <div className="flex-1">
-                            <div className="flex items-center space-x-4 mb-4">
-                              <div className="w-12 h-12 rounded-full flex items-center justify-center shadow-lg" style={{ backgroundColor: '#1e3766' }}>
-                                <span className="text-white font-bold text-lg">
-                                  {inscripcion.voluntario.nombre.charAt(0).toUpperCase()}
-                                </span>
-                              </div>
-                              <div>
-                                <h3 className="text-xl font-bold text-gray-900" style={{ color: '#1e3766', fontFamily: "'Recoleta Medium', serif" }}>
-                                  {inscripcion.voluntario.nombre}
-                                </h3>
-                              </div>
-                            </div>
-                            
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm" style={{ fontFamily: "'Recoleta Light', serif" }}>
-                              <div className="bg-gray-50 p-3 rounded-xl">
-                                <span className="font-medium text-gray-700">Email:</span>
-                                <p className="text-gray-600">{inscripcion.voluntario.correo}</p>
-                              </div>
-                              <div className="bg-gray-50 p-3 rounded-xl">
-                                <span className="font-medium text-gray-700">Identificación:</span>
-                                <p className="text-gray-600">{inscripcion.voluntario.numero_identificacion}</p>
-                              </div>
-                              <div className="bg-gray-50 p-3 rounded-xl">
-                                <span className="font-medium text-gray-700">Fecha inscripción:</span>
-                                <p className="text-gray-600">{new Date(inscripcion.fecha_inscripcion).toLocaleDateString()}</p>
-                              </div>
-                            </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {inscripciones.map((inscripcion: InscripcionDetallada) => (
+                    <div key={inscripcion.id} className="relative group">
+                      <div className="absolute inset-0 bg-gradient-to-r from-blue-400/20 to-purple-500/20 rounded-2xl transform rotate-1 group-hover:rotate-2 transition-transform duration-300 blur-xl"></div>
+                      <div 
+                        className="relative bg-white/90 rounded-2xl p-6 shadow-lg border border-white/50 transform group-hover:-translate-y-1 transition-all duration-300 cursor-pointer"
+                        onClick={() => abrirDetallesVoluntario(inscripcion)}
+                        style={{
+                          backdropFilter: 'blur(20px)',
+                          background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.9) 100%)'
+                        }}
+                      >
+                        <div className="flex items-center space-x-4 mb-4">
+                          <div className="w-12 h-12 rounded-full flex items-center justify-center shadow-lg" style={{ backgroundColor: '#1e3766' }}>
+                            <span className="text-white font-bold text-lg">
+                              {inscripcion.voluntario.nombre.split(' ')[0].charAt(0).toUpperCase()}
+                            </span>
+                          </div>
+                          <div>
+                            <h3 className="text-lg font-bold text-gray-900" style={{ color: '#1e3766', fontFamily: "'Recoleta Medium', serif" }}>
+                              {inscripcion.voluntario.nombre === "LUISA FERNANDA ESPINAL MONTOYA" 
+                                ? "luisa"
+                                : inscripcion.voluntario.nombre}
+                            </h3>
+                            <p className="text-sm text-gray-600">{inscripcion.voluntario.correo}</p>
                           </div>
                         </div>
-                        
-                        {/* Botones de acción modernos y sofisticados */}
-                        <div className="flex items-center space-x-3 ml-auto">
-                          {!inscripcion.aceptado ? (
-                            <button
-                              onClick={() => manejarEstadoVoluntario(inscripcion.id, true)}
-                              disabled={procesandoAccion === inscripcion.id}
-                              className="group relative px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-300 transform hover:scale-105 active:scale-95 shadow-sm hover:shadow-md"
-                              style={{
-                                background: 'rgba(16, 185, 129, 0.1)',
-                                backdropFilter: 'blur(10px)',
-                                border: '1px solid rgba(16, 185, 129, 0.2)',
-                                color: '#065f46',
-                                fontFamily: "'Recoleta Medium', serif"
-                              }}
-                              title="Aceptar voluntario"
-                            >
-                              <div className="absolute inset-0 rounded-full bg-gradient-to-r from-emerald-400/20 to-green-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                              <div className="relative flex items-center space-x-1.5">
-                                {procesandoAccion === inscripcion.id ? (
-                                  <FaSpinner className="animate-spin text-xs" />
-                                ) : (
-                                  <>
-                                    <FaCheck className="text-xs" />
-                                    <span>Aceptar</span>
-                                  </>
-                                )}
-                              </div>
-                            </button>
-                          ) : (
-                            <button
-                              onClick={() => manejarEstadoVoluntario(inscripcion.id, false)}
-                              disabled={procesandoAccion === inscripcion.id}
-                              className="group relative px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-300 transform hover:scale-105 active:scale-95 shadow-sm hover:shadow-md"
-                              style={{
-                                background: 'rgba(239, 68, 68, 0.1)',
-                                backdropFilter: 'blur(10px)',
-                                border: '1px solid rgba(239, 68, 68, 0.2)',
-                                color: '#991b1b',
-                                fontFamily: "'Recoleta Medium', serif"
-                              }}
-                              title="Rechazar voluntario"
-                            >
-                              <div className="absolute inset-0 rounded-full bg-gradient-to-r from-red-400/20 to-rose-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                              <div className="relative flex items-center space-x-1.5">
-                                {procesandoAccion === inscripcion.id ? (
-                                  <FaSpinner className="animate-spin text-xs" />
-                                ) : (
-                                  <>
-                                    <FaBan className="text-xs" />
-                                    <span>Rechazar</span>
-                                  </>
-                                )}
-                              </div>
-                            </button>
-                          )}
-                          
-                          {/* Badge de estado mejorado */}
-                          <div className={`px-2.5 py-1 rounded-full text-xs font-semibold backdrop-blur-sm border ${
+
+                        <div className="flex items-center justify-between mt-4">
+                          <div className={`px-3 py-1 rounded-full text-xs font-semibold ${
                             inscripcion.aceptado 
-                              ? 'bg-emerald-50/80 text-emerald-700 border-emerald-200/50' 
-                              : 'bg-amber-50/80 text-amber-700 border-amber-200/50'
-                          }`} style={{ fontFamily: "'Recoleta Medium', serif" }}>
+                              ? 'bg-emerald-50 text-emerald-700 border border-emerald-200' 
+                              : 'bg-amber-50 text-amber-700 border border-amber-200'
+                          }`}>
                             {inscripcion.aceptado ? '✓ Aceptado' : 'Pendiente'}
                           </div>
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              manejarEstadoVoluntario(inscripcion.id, !inscripcion.aceptado);
+                            }}
+                            className={`px-3 py-1 rounded-full text-xs font-semibold transition-all duration-200 ${
+                              inscripcion.aceptado
+                                ? 'bg-red-50 text-red-700 hover:bg-red-100'
+                                : 'bg-green-50 text-green-700 hover:bg-green-100'
+                            }`}
+                            disabled={procesandoAccion === inscripcion.id}
+                          >
+                            {procesandoAccion === inscripcion.id ? (
+                              <FaSpinner className="animate-spin" />
+                            ) : inscripcion.aceptado ? (
+                              'Rechazar'
+                            ) : (
+                              'Aceptar'
+                            )}
+                          </button>
                         </div>
-                        
-                        {/* Respuestas al formulario pre-evento */}
-                        {inscripcion.respuestas_pre && inscripcion.respuestas_pre.length > 0 && (
-                          <div className="mt-6 pt-6 border-t border-gray-200">
-                            <h4 className="text-lg font-medium text-gray-900 mb-4 flex items-center" style={{ color: '#1e3766', fontFamily: "'Recoleta Medium', serif" }}>
-                              <FaEye className="mr-3 text-blue-600" />
-                              Respuestas al formulario
-                            </h4>
-                            <div className="space-y-4">
-                              {inscripcion.respuestas_pre.map((respuesta, index) => (
-                                <div key={index} className="bg-gradient-to-r from-gray-50 to-blue-50 rounded-2xl p-4 border border-gray-200">
-                                  <div className="flex items-start space-x-4">
-                                    <div className="flex-shrink-0">
-                                      <div className="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center text-sm font-semibold">
-                                        {index + 1}
-                                      </div>
-                                    </div>
-                                    <div className="flex-1">
-                                      <h5 className="text-sm font-medium text-gray-900 mb-3" style={{ fontFamily: "'Recoleta Medium', serif" }}>
-                                        {respuesta.pregunta_texto}
-                                      </h5>
-                                      <div className="text-sm text-gray-700" style={{ fontFamily: "'Recoleta Light', serif" }}>
-                                        {respuesta.tipo_pregunta === 'textual' && respuesta.respuesta_texto && (
-                                          <div className="bg-white p-3 rounded-xl border border-gray-200">
-                                            <p className="italic">"{respuesta.respuesta_texto}"</p>
-                                          </div>
-                                        )}
-                                        {(respuesta.tipo_pregunta === 'seleccion_unica' || respuesta.tipo_pregunta === 'seleccion_multiple') && respuesta.opciones_seleccionadas && (
-                                          <div className="space-y-2">
-                                            {respuesta.opciones_seleccionadas.map((opcion, opcionIndex) => (
-                                              <div key={opcionIndex} className="flex items-center space-x-3 bg-white p-2 rounded-lg border border-gray-200">
-                                                <div className="w-2 h-2 bg-blue-600 rounded-full"></div>
-                                                <span>{opcion}</span>
-                                              </div>
-                                            ))}
-                                          </div>
-                                        )}
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                              ))}
-                            </div>
-                          </div>
-                        )}
-                        
-                        {!inscripcion.respuestas_pre || inscripcion.respuestas_pre.length === 0 && (
-                          <div className="mt-6 pt-6 border-t border-gray-200">
-                            <p className="text-sm text-gray-500 italic text-center p-4 bg-gray-50 rounded-xl" style={{ fontFamily: "'Recoleta Light', serif" }}>
-                              No se encontraron respuestas al formulario pre-evento
-                            </p>
-                          </div>
-                        )}
                       </div>
                     </div>
                   ))}
@@ -747,19 +675,89 @@ const GestionarEventos = () => {
                   </p>
                 </div>
               )}
+            </div>
+          </div>
+        </div>
+      )}
 
-              <div className="mt-8 flex justify-end">
+      {/* Modal de detalles del voluntario */}
+      {mostrarDetallesVoluntario && inscripcionSeleccionada && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-[60] p-4">
+          <div className="bg-white rounded-3xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+            <div className="p-8">
+              <div className="flex justify-between items-center mb-6">
+                <div className="flex items-center space-x-4">
+                  <div className="w-16 h-16 rounded-full flex items-center justify-center shadow-lg" style={{ backgroundColor: '#1e3766' }}>
+                    <span className="text-white font-bold text-2xl">
+                      {inscripcionSeleccionada.voluntario.nombre.split(' ')[0].charAt(0).toUpperCase()}
+                    </span>
+                  </div>
+                  <div>
+                    <h3 className="text-2xl font-bold" style={{ color: '#1e3766', fontFamily: "'Recoleta Medium', serif" }}>
+                      {inscripcionSeleccionada.voluntario.nombre === "LUISA FERNANDA ESPINAL MONTOYA"
+                        ? "luisa"
+                        : inscripcionSeleccionada.voluntario.nombre}
+                    </h3>
+                    <p className="text-gray-600">{inscripcionSeleccionada.voluntario.correo}</p>
+                  </div>
+                </div>
                 <button
-                  onClick={cerrarModalVoluntarios}
-                  className="px-8 py-4 rounded-2xl font-semibold transition-all duration-200 shadow-lg hover:shadow-xl"
-                  style={{
-                    backgroundColor: '#1e3766',
-                    color: 'white',
-                    fontFamily: "'Recoleta Medium', serif"
-                  }}
+                  onClick={cerrarDetallesVoluntario}
+                  className="p-2 hover:bg-gray-100 rounded-full transition-colors"
                 >
-                  Cerrar
+                  <FaTimes className="text-xl text-gray-500" />
                 </button>
+              </div>
+
+              <div className="space-y-6">
+                <div className="bg-gray-50 rounded-xl p-4">
+                  <h4 className="text-lg font-semibold mb-2" style={{ color: '#1e3766', fontFamily: "'Recoleta Medium', serif" }}>
+                    Información Personal
+                  </h4>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <p className="text-sm text-gray-600">Identificación</p>
+                      <p className="font-medium">{inscripcionSeleccionada.voluntario.numero_identificacion}</p>
+                    </div>
+                    <div>
+                      <p className="text-sm text-gray-600">Fecha de Inscripción</p>
+                      <p className="font-medium">{new Date(inscripcionSeleccionada.fecha_inscripcion).toLocaleDateString()}</p>
+                    </div>
+                  </div>
+                </div>
+
+                {inscripcionSeleccionada.respuestas_pre && inscripcionSeleccionada.respuestas_pre.length > 0 && (
+                  <div>
+                    <h4 className="text-lg font-semibold mb-4" style={{ color: '#1e3766', fontFamily: "'Recoleta Medium', serif" }}>
+                      Respuestas al Formulario
+                    </h4>
+                    <div className="space-y-4">
+                      {inscripcionSeleccionada.respuestas_pre.map((respuesta, index) => (
+                        <div key={index} className="bg-gradient-to-r from-gray-50 to-blue-50/30 rounded-xl p-4 border border-gray-200">
+                          <p className="font-medium mb-2" style={{ fontFamily: "'Recoleta Medium', serif" }}>
+                            {respuesta.pregunta_texto}
+                          </p>
+                          {respuesta.tipo_pregunta === 'textual' && respuesta.respuesta_texto && (
+                            <p className="text-gray-700 bg-white p-3 rounded-lg border border-gray-100">
+                              {respuesta.respuesta_texto}
+                            </p>
+                          )}
+                          {(respuesta.tipo_pregunta === 'seleccion_unica' || respuesta.tipo_pregunta === 'seleccion_multiple') && 
+                            respuesta.opciones_seleccionadas && (
+                            <div className="space-y-2">
+                              {respuesta.opciones_seleccionadas.map((opcion, opcionIndex) => (
+                                <div key={opcionIndex} className="flex items-center space-x-2 bg-white p-2 rounded-lg border border-gray-100">
+                                  <div className="w-2 h-2 bg-blue-600 rounded-full"></div>
+                                  <span>{opcion}</span>
+                                </div>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           </div>

@@ -7,7 +7,7 @@ import { getEventosWithStats } from '../services/eventoService';
 import { getVoluntarios } from '../services/voluntarioService';
 import { Formulario, Voluntario, EventoWithStats } from '../services/types';
 import { FaClipboard, FaCalendarAlt, FaUsers, FaChartLine, FaStar } from 'react-icons/fa';
-import GoBabyGo from '../assets/Logo-Go-baby-Go-2024-02-1.png';
+import logoBabyGo from '../assets/Logo-Go-baby-Go-2024-02-1.png';
 
 interface DashboardCardProps {
   title: string;
@@ -143,8 +143,8 @@ const Dashboard: React.FC = () => {
               <div className="flex items-center justify-between">
                 <div>
                   <h1 className="text-4xl font-bold text-blue-900 mb-2">
-            Bienvenido, {user?.nombre || 'Administrador'}
-          </h1>
+                    Bienvenido, {user?.nombre || 'Administrador'}
+                  </h1>
                   <div className="flex items-center space-x-4 text-sm text-gray-600">
                     <div className="flex items-center">
                     </div>
@@ -152,7 +152,7 @@ const Dashboard: React.FC = () => {
                 </div>
                 <div className="hidden md:flex items-center space-x-2">
                   <div className="w-24 h-24 flex items-center justify-center">
-                    <img src={GoBabyGo} alt="Go Baby Go Logo" className="h-20 w-auto" />
+                    <img src={logoBabyGo} alt="Go Baby Go Logo" className="w-20 h-20 object-contain" />
                   </div>
                 </div>
               </div>
@@ -205,6 +205,18 @@ const Dashboard: React.FC = () => {
                 bgGradient="bg-gradient-to-br from-orange-500 to-orange-600"
                 icon={<FaUsers />}
               isLoading={isLoading}
+              onClick={() => {
+                const goBabyGoEvent = eventos.find(evento => 
+                  evento.nombre.toLowerCase().includes('go baby go') && 
+                  new Date(evento.fecha_evento) >= new Date()
+                );
+                navigate('/eventos/gestionar', { 
+                  state: { 
+                    showVolunteers: true,
+                    eventId: goBabyGoEvent?.id 
+                  }
+                });
+              }}
             />
             <DashboardCard
               title="Eventos Totales"
