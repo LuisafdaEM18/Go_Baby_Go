@@ -9,7 +9,8 @@ import imagen3 from '../assets/imagen 3.png';
 import imagen4 from '../assets/imagen 4.png';
 import imagen5 from '../assets/imagen 5.png';
 import imagen6 from '../assets/imagen 6.png';
-import logoBabyGo from '../assets/Logo-Go-baby-Go-2024-02-1.png';
+
+
 
 const Home = () => {
   const [proximosEventos, setProximosEventos] = useState<EventoWithStats[]>([]);
@@ -40,42 +41,41 @@ const Home = () => {
       title: "Tu Causa",
       icon: <FaHandsHelping className="text-3xl text-[#73a31d]" />,
       description: "Únete como voluntario",
-      image: imagen1,
       link: proximosEventos.length > 0 ? `/voluntario/registro/${proximosEventos[0].id}` : "/registro-voluntario"
     },
     {
       title: "Adaptación",
       icon: <FaTools className="text-3xl text-[#73a31d]" />,
       description: "Vehículos adaptados",
-      image: imagen2,
+
       link: "/about"
     },
     {
       title: "Impacto",
       icon: <FaHeart className="text-3xl text-[#73a31d]" />,
       description: "Historias de éxito",
-      image: imagen3,
+      
       link: "/impact"
     },
     {
       title: "Educación",
       icon: <FaChild className="text-3xl text-[#73a31d]" />,
       description: "Aprende con nosotros",
-      image: imagen4,
+    
       link: "/education"
     },
     {
       title: "Comunidad",
       icon: <FaUserShield className="text-3xl text-[#73a31d]" />,
       description: "Nuestra familia",
-      image: imagen5,
+     
       link: "/community"
     },
     {
       title: "Eventos",
       icon: <FaCalendarAlt className="text-3xl text-[#73a31d]" />,
       description: "Próximas actividades",
-      image: imagen6,
+   
       link: "/events"
     }
   ];
@@ -150,31 +150,29 @@ const Home = () => {
             const isLeftSide = index < 3;
             const verticalPosition = index % 3;
             
-            // Definimos tamaños diferentes para cada círculo
-            const sizes = [
-              { w: '160px', h: '160px' }, // Tu Causa - más grande
-              { w: '140px', h: '140px' }, // Adaptación
-              { w: '150px', h: '150px' }, // Impacto
-              { w: '145px', h: '145px' }, // Educación
-              { w: '155px', h: '155px' }, // Comunidad
-              { w: '135px', h: '135px' }  // Eventos - más pequeño
-            ];
+            // Posición X más separada
+            let xPosition = isLeftSide ? '20%' : '80%';
             
-            // Posiciones X ajustadas para cada círculo
-            let xPosition;
-            if (isLeftSide) {
-              xPosition = verticalPosition === 1 ? '18%' : '22%';
-            } else {
-              xPosition = verticalPosition === 1 ? '82%' : '78%';
+            // Círculos del medio sobresalen
+            if (verticalPosition === 1) {
+              xPosition = isLeftSide ? '15%' : '85%';
             }
             
-            // Posiciones Y ajustadas para distribución asimétrica
-            const yPositions = ['25%', '50%', '75%'];
-            let yPosition = yPositions[verticalPosition];
-            
-            // Ajustes adicionales para crear asimetría
-            if (index === 1) yPosition = '45%';
-            if (index === 4) yPosition = '55%';
+            // Ajustamos las posiciones verticales con más espacio
+            let yPosition;
+            switch(verticalPosition) {
+              case 0:
+                yPosition = '20%'; // Más arriba
+                break;
+              case 1:
+                yPosition = '50%'; // Centro
+                break;
+              case 2:
+                yPosition = '80%'; // Más abajo
+                break;
+              default:
+                yPosition = '50%';
+            }
 
             return (
               <Link
@@ -188,13 +186,9 @@ const Home = () => {
                   zIndex: verticalPosition === 1 ? 11 : 10
                 }}
               >
-                <div className={`relative rounded-full overflow-hidden group-hover:shadow-2xl transition-all duration-500 ${
+                <div className={`relative w-36 h-36 rounded-full overflow-hidden group-hover:shadow-2xl transition-all duration-500 ${
                   verticalPosition === 1 ? 'scale-110' : ''
-                }`}
-                style={{
-                  width: sizes[index].w,
-                  height: sizes[index].h
-                }}>
+                }`}>
                   {/* Borde circular con efecto de progreso */}
                   <div className="absolute inset-0 rounded-full">
                     {/* Capa base */}
@@ -214,7 +208,7 @@ const Home = () => {
                   {/* Contenedor de la imagen */}
                   <div className="absolute inset-[8px] bg-white rounded-full overflow-hidden shadow-lg">
                     <img
-                      src={category.image}
+                    
                       alt={category.title}
                       className="w-full h-full object-cover"
                     />
@@ -244,6 +238,7 @@ style.textContent = `
     to { transform: rotate(0deg); }
   }
 
+  
   @keyframes orbit-slower {
     from { transform: rotate(180deg); }
     to { transform: rotate(-180deg); }
