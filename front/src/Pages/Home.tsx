@@ -41,42 +41,43 @@ const Home = () => {
       title: "Tu Causa",
       icon: <FaHandsHelping className="text-3xl text-[#73a31d]" />,
       description: "Únete como voluntario",
-      link: proximosEventos.length > 0 ? `/voluntario/registro/${proximosEventos[0].id}` : "/registro-voluntario"
+      link: proximosEventos.length > 0 ? `/voluntario/registro/${proximosEventos[0].id}` : "/registro-voluntario",
+      image: imagen1
     },
     {
       title: "Adaptación",
       icon: <FaTools className="text-3xl text-[#73a31d]" />,
       description: "Vehículos adaptados",
-
-      link: "/about"
+      link: "/about",
+      image: imagen2
     },
     {
       title: "Impacto",
       icon: <FaHeart className="text-3xl text-[#73a31d]" />,
       description: "Historias de éxito",
-      
-      link: "/impact"
+      link: "/impact",
+      image: imagen3
     },
     {
       title: "Educación",
       icon: <FaChild className="text-3xl text-[#73a31d]" />,
       description: "Aprende con nosotros",
-    
-      link: "/education"
+      link: "/education",
+      image: imagen4
     },
     {
       title: "Comunidad",
       icon: <FaUserShield className="text-3xl text-[#73a31d]" />,
       description: "Nuestra familia",
-     
-      link: "/community"
+      link: "/community",
+      image: imagen5
     },
     {
       title: "Eventos",
       icon: <FaCalendarAlt className="text-3xl text-[#73a31d]" />,
       description: "Próximas actividades",
-   
-      link: "/events"
+      link: "/events",
+      image: imagen6
     }
   ];
 
@@ -150,25 +151,22 @@ const Home = () => {
             const isLeftSide = index < 3;
             const verticalPosition = index % 3;
             
-            // Posición X más separada
             let xPosition = isLeftSide ? '20%' : '80%';
             
-            // Círculos del medio sobresalen
             if (verticalPosition === 1) {
               xPosition = isLeftSide ? '15%' : '85%';
             }
             
-            // Ajustamos las posiciones verticales con más espacio
             let yPosition;
             switch(verticalPosition) {
               case 0:
-                yPosition = '20%'; // Más arriba
+                yPosition = '20%';
                 break;
               case 1:
-                yPosition = '50%'; // Centro
+                yPosition = '50%';
                 break;
               case 2:
-                yPosition = '80%'; // Más abajo
+                yPosition = '80%';
                 break;
               default:
                 yPosition = '50%';
@@ -191,9 +189,7 @@ const Home = () => {
                 }`}>
                   {/* Borde circular con efecto de progreso */}
                   <div className="absolute inset-0 rounded-full">
-                    {/* Capa base */}
                     <div className="absolute inset-0 rounded-full border-[6px] border-[#73a31d]"></div>
-                    {/* Capa de progreso animada */}
                     <div 
                       className="absolute inset-0 rounded-full border-[6px] opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                       style={{
@@ -208,7 +204,7 @@ const Home = () => {
                   {/* Contenedor de la imagen */}
                   <div className="absolute inset-[8px] bg-white rounded-full overflow-hidden shadow-lg">
                     <img
-                    
+                      src={category.image}
                       alt={category.title}
                       className="w-full h-full object-cover"
                     />
