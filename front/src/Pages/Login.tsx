@@ -5,7 +5,7 @@ import { useNotification } from '../context/NotificationContext';
 import { FaUser, FaLock } from 'react-icons/fa';
 import { IoEyeOutline, IoEyeOffOutline } from 'react-icons/io5';
 import { FaArrowLeft, FaSpinner } from 'react-icons/fa';
-import logoBabyGo from '../assets/logo-babygo.png';
+import logoBabyGo from '../assets/Logo-Go-baby-Go-2024-02-1.png';
 
 interface LoginFormData {
   email: string;
@@ -41,6 +41,55 @@ const Login: React.FC = () => {
       }));
     }
   }, [isAuthenticated, navigate]);
+
+  useEffect(() => {
+    // Agregar los estilos de animación
+    const styleElement = document.createElement('style');
+    styleElement.textContent = `
+      @keyframes radar-pulse {
+        0% {
+          transform: scale(0.98);
+          opacity: 0.3;
+        }
+        50% {
+          transform: scale(1);
+          opacity: 0.7;
+        }
+        100% {
+          transform: scale(0.98);
+          opacity: 0.3;
+        }
+      }
+
+      .radar-circle {
+        box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.2);
+      }
+
+      @media (max-width: 1024px) {
+        .radar-circle {
+          transform: scale(0.8);
+        }
+      }
+
+      @media (max-width: 768px) {
+        .radar-circle {
+          transform: scale(0.6);
+        }
+      }
+
+      @media (max-width: 480px) {
+        .radar-circle {
+          transform: scale(0.4);
+        }
+      }
+    `;
+    document.head.appendChild(styleElement);
+
+    // Limpiar los estilos cuando el componente se desmonte
+    return () => {
+      document.head.removeChild(styleElement);
+    };
+  }, []);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = e.target;
@@ -80,7 +129,6 @@ const Login: React.FC = () => {
     if (!formData.password.trim()) {
       const errorMsg = 'El campo de contraseña no puede estar vacío';
       setError(errorMsg);
-      showNotification(errorMsg, 'error');
       return false;
     }
     
@@ -132,9 +180,69 @@ const Login: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-gray-100">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-gray-100 relative overflow-hidden">
+      {/* Marcas de agua - Círculos concéntricos */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
+        {/* Círculos inferiores izquierdos */}
+        <div className="absolute left-0 bottom-0 transform -translate-x-1/3 translate-y-1/3">
+          {[...Array(6)].map((_, index) => (
+            <div
+              key={`bottom-left-${index}`}
+              className="absolute rounded-full"
+              style={{
+                width: `${(index + 1) * 200}px`,
+                height: `${(index + 1) * 200}px`,
+                border: '2px solid rgba(115, 163, 29, 0.3)',
+                animation: `radar-pulse ${5 + index * 0.5}s ease-in-out infinite`,
+                animationDelay: `${index * 0.8}s`,
+                opacity: 0.9 - index * 0.1,
+                background: `radial-gradient(circle at center, rgba(115, 163, 29, 0.2) 0%, rgba(115, 163, 29, 0.1) 50%, transparent 70%)`
+              }}
+            />
+          ))}
+        </div>
+
+        {/* Círculos inferiores derechos */}
+        <div className="absolute right-0 bottom-0 transform translate-x-1/3 translate-y-1/3">
+          {[...Array(6)].map((_, index) => (
+            <div
+              key={`bottom-right-${index}`}
+              className="absolute rounded-full"
+              style={{
+                width: `${(index + 1) * 180}px`,
+                height: `${(index + 1) * 180}px`,
+                border: '2px solid rgba(30, 55, 102, 0.3)',
+                animation: `radar-pulse ${5.5 + index * 0.5}s ease-in-out infinite`,
+                animationDelay: `${index * 0.6}s`,
+                opacity: 0.85 - index * 0.1,
+                background: `radial-gradient(circle at center, rgba(30, 55, 102, 0.2) 0%, rgba(30, 55, 102, 0.1) 50%, transparent 70%)`
+              }}
+            />
+          ))}
+        </div>
+
+        {/* Círculos superiores derechos */}
+        <div className="absolute right-0 top-0 transform translate-x-1/4 -translate-y-1/4">
+          {[...Array(5)].map((_, index) => (
+            <div
+              key={`top-right-${index}`}
+              className="absolute rounded-full"
+              style={{
+                width: `${(index + 1) * 160}px`,
+                height: `${(index + 1) * 160}px`,
+                border: '2px solid rgba(30, 55, 102, 0.3)',
+                animation: `radar-pulse ${6 + index * 0.5}s ease-in-out infinite`,
+                animationDelay: `${index * 0.7}s`,
+                opacity: 0.8 - index * 0.1,
+                background: `radial-gradient(circle at center, rgba(30, 55, 102, 0.2) 0%, rgba(30, 55, 102, 0.1) 50%, transparent 70%)`
+              }}
+            />
+          ))}
+        </div>
+      </div>
+
       {/* Elementos de fondo decorativos */}
-      <div className="absolute inset-0 overflow-hidden">
+      <div className="absolute inset-0 overflow-hidden z-10">
         <div className="absolute top-0 left-0 w-2/3 h-2/3 bg-gradient-to-br from-blue-500/5 to-indigo-500/5 rounded-full blur-3xl transform -translate-x-1/2 -translate-y-1/2"></div>
         <div className="absolute bottom-0 right-0 w-2/3 h-2/3 bg-gradient-to-tl from-blue-500/5 to-indigo-500/5 rounded-full blur-3xl transform translate-x-1/2 translate-y-1/2"></div>
         <div className="absolute top-1/2 left-1/2 w-1/2 h-1/2 bg-gradient-to-br from-blue-500/5 to-indigo-500/5 rounded-full blur-3xl transform -translate-x-1/2 -translate-y-1/2 animate-pulse"></div>
@@ -142,9 +250,9 @@ const Login: React.FC = () => {
 
       {/* Título del Comité y línea arcoíris */}
       <div className="relative z-20">
-        <div className="flex justify-between items-center px-8 pt-8">
+        <div className="flex justify-between items-start px-8 pt-8">
           <h1 
-            className="text-4xl font-bold"
+            className="text-5xl font-bold"
             style={{ 
               fontFamily: "'Recoleta SemiBold', serif",
               color: '#1e3766'
@@ -155,11 +263,11 @@ const Login: React.FC = () => {
           <img 
             src={logoBabyGo} 
             alt="Logo Baby Go" 
-            className="h-24 w-auto object-contain"
+            className="h-16 w-auto object-contain -mt-4"
           />
         </div>
         <div 
-          className="h-1 w-full mt-2"
+          className="h-1 w-full mt-4"
           style={{
             background: 'linear-gradient(to right, #ff0000, #ff8000, #ffff00, #00ff00, #0000ff, #4b0082, #8f00ff)'
           }}

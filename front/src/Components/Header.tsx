@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { FaUser, FaCog, FaSignOutAlt } from "react-icons/fa";
-import GoBabyGo from "../assets/logo-babygo.png";
+import GoBabyGo from "../assets/Logo-Go-baby-Go-2024-02-1.png";
 
 type HeaderProps = {
   isSidebarOpen: boolean;

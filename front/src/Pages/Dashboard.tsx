@@ -7,7 +7,7 @@ import { getEventosWithStats } from '../services/eventoService';
 import { getVoluntarios } from '../services/voluntarioService';
 import { Formulario, Voluntario, EventoWithStats } from '../services/types';
 import { FaClipboard, FaCalendarAlt, FaUsers, FaChartLine, FaStar } from 'react-icons/fa';
-import GoBabyGo from '../assets/logo-babygo.png';
+import GoBabyGo from '../assets/Logo-Go-baby-Go-2024-02-1.png';
 
 interface DashboardCardProps {
   title: string;
