@@ -75,9 +75,69 @@ const Home = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#f3f7eb]/30 via-[#e8f0d9]/20 to-[#dce8c7]/10 overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-[#f0f7ff]/80 via-[#e6f1ff]/70 to-[#dce9ff]/60 overflow-hidden">
+      {/* Sistema Solar en el fondo */}
+      <div className="absolute inset-0 pointer-events-none">
+        {/* Órbitas grandes */}
+        <div className="absolute inset-0 flex items-center justify-center">
+          <div className="relative w-[800px] h-[800px]">
+            <div className="absolute inset-0 rounded-full border-[1px] border-blue-500/20 animate-orbit-slow"></div>
+            <div className="absolute inset-[-50px] rounded-full border-[1px] border-blue-400/15 animate-orbit-reverse"></div>
+            <div className="absolute inset-[-100px] rounded-full border-[1px] border-blue-300/10 animate-orbit-slower"></div>
+            {/* Puntos orbitando */}
+            <div className="absolute inset-0 animate-orbit-slow">
+              <div className="absolute top-1/2 right-0 w-3 h-3 rounded-full bg-blue-500/30"></div>
+            </div>
+            <div className="absolute inset-[-50px] animate-orbit-reverse">
+              <div className="absolute top-1/2 left-0 w-3 h-3 rounded-full bg-blue-400/30"></div>
+            </div>
+            <div className="absolute inset-[-100px] animate-orbit-slower">
+              <div className="absolute top-1/2 right-1/4 w-3 h-3 rounded-full bg-blue-300/30"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center py-20">
+        {/* Elementos de fondo ajustados */}
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute top-1/3 left-1/3 w-96 h-96 bg-gradient-to-br from-blue-500/30 via-indigo-400/25 to-blue-500/20 rounded-full blur-3xl animate-float"></div>
+          <div className="absolute bottom-1/3 right-1/3 w-96 h-96 bg-gradient-to-tl from-blue-500/30 via-indigo-400/25 to-blue-500/20 rounded-full blur-3xl animate-float-delayed"></div>
+        </div>
+
+        {/* Contenido Central con padding ajustado */}
+        <div className="relative z-20 text-center max-w-2xl mx-auto px-4">
+          <p className="text-xl text-[#73a31d] mb-6 animate-fade-in" style={{ fontFamily: "'Recoleta', serif" }}>
+            Transformando la movilidad infantil
+          </p>
+          <h1 className="text-5xl md:text-7xl font-bold mb-8 leading-tight animate-fade-in-up" style={{ fontFamily: "'Recoleta Bold', serif" }}>
+            Juntos Creamos<br />
+            <span className="bg-gradient-to-r from-[#73a31d] to-[#90c290] bg-clip-text text-transparent">
+              Sonrisas en Movimiento
+            </span>
+          </h1>
+          <p className="text-xl text-gray-600 mb-12 max-w-xl mx-auto animate-fade-in" style={{ fontFamily: "'Recoleta Light', serif" }}>
+            Únete a nuestra comunidad de voluntarios y ayuda a transformar la vida de niños a través de la movilidad adaptada
+          </p>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <Link
+              to={proximosEventos.length > 0 ? `/voluntario/registro/${proximosEventos[0].id}` : "/registro-voluntario"}
+              className="inline-flex items-center px-8 py-4 text-lg font-semibold text-white bg-[#73a31d] rounded-full shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 animate-bounce-subtle"
+            >
+              Sé Voluntario
+              <FaArrowRight className="ml-2" />
+            </Link>
+            <Link
+              to="/login"
+              className="inline-flex items-center px-8 py-4 text-lg font-semibold text-[#73a31d] bg-white/80 border-2 border-[#73a31d] rounded-full shadow-lg hover:shadow-xl hover:bg-[#73a31d] hover:text-white transform hover:-translate-y-1 transition-all duration-300"
+            >
+              <FaUserShield className="mr-2" />
+              Administrador
+            </Link>
+          </div>
+        </div>
+
         {/* Círculos flotantes */}
         <div className="absolute inset-0 overflow-hidden">
           {categories.map((category, index) => {
@@ -139,56 +199,18 @@ const Home = () => {
                       }}
                     ></div>
                   </div>
-                  {/* Contenedor de la imagen con efecto de profundidad */}
-                  <div className="absolute inset-[8px] bg-white rounded-full overflow-hidden backdrop-blur-sm shadow-lg">
+                  {/* Contenedor de la imagen */}
+                  <div className="absolute inset-[8px] bg-white rounded-full overflow-hidden shadow-lg">
                     <img
                       src={category.image}
                       alt={category.title}
-                      className="w-full h-full object-cover transform group-hover:scale-110 transition-all duration-500"
+                      className="w-full h-full object-cover"
                     />
                   </div>
                 </div>
               </Link>
             );
           })}
-        </div>
-
-        {/* Contenido Central con padding ajustado */}
-        <div className="relative z-20 text-center max-w-2xl mx-auto px-4">
-          <p className="text-xl text-[#73a31d] mb-6 animate-fade-in" style={{ fontFamily: "'Recoleta', serif" }}>
-            Transformando la movilidad infantil
-          </p>
-          <h1 className="text-5xl md:text-7xl font-bold mb-8 leading-tight animate-fade-in-up" style={{ fontFamily: "'Recoleta Bold', serif" }}>
-            Juntos Creamos<br />
-            <span className="bg-gradient-to-r from-[#73a31d] to-[#90c290] bg-clip-text text-transparent">
-              Sonrisas en Movimiento
-            </span>
-          </h1>
-          <p className="text-xl text-gray-600 mb-12 max-w-xl mx-auto animate-fade-in" style={{ fontFamily: "'Recoleta Light', serif" }}>
-            Únete a nuestra comunidad de voluntarios y ayuda a transformar la vida de niños a través de la movilidad adaptada
-          </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Link
-              to={proximosEventos.length > 0 ? `/voluntario/registro/${proximosEventos[0].id}` : "/registro-voluntario"}
-              className="inline-flex items-center px-8 py-4 text-lg font-semibold text-white bg-[#73a31d] rounded-full shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 animate-bounce-subtle"
-            >
-              Sé Voluntario
-              <FaArrowRight className="ml-2" />
-            </Link>
-            <Link
-              to="/login"
-              className="inline-flex items-center px-8 py-4 text-lg font-semibold text-[#73a31d] bg-white/80 border-2 border-[#73a31d] rounded-full shadow-lg hover:shadow-xl hover:bg-[#73a31d] hover:text-white transform hover:-translate-y-1 transition-all duration-300"
-            >
-              <FaUserShield className="mr-2" />
-              Administrador
-            </Link>
-          </div>
-        </div>
-
-        {/* Elementos de fondo ajustados */}
-        <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-1/3 left-1/3 w-96 h-96 bg-gradient-to-br from-[#73a31d]/10 via-[#90c290]/10 to-[#73a31d]/5 rounded-full blur-3xl animate-float"></div>
-          <div className="absolute bottom-1/3 right-1/3 w-96 h-96 bg-gradient-to-tl from-[#73a31d]/10 via-[#90c290]/10 to-[#73a31d]/5 rounded-full blur-3xl animate-float-delayed"></div>
         </div>
       </section>
     </div>
@@ -197,9 +219,47 @@ const Home = () => {
 
 export default Home;
 
-// Actualizar las animaciones y agregar estilos para el degradado
+// Actualizar las animaciones
 const style = document.createElement('style');
 style.textContent = `
+  @keyframes orbit-slow {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  @keyframes orbit-reverse {
+    from { transform: rotate(360deg); }
+    to { transform: rotate(0deg); }
+  }
+
+  @keyframes orbit-slower {
+    from { transform: rotate(180deg); }
+    to { transform: rotate(-180deg); }
+  }
+
+  .animate-orbit-slow {
+    animation: orbit-slow 40s linear infinite;
+  }
+
+  .animate-orbit-reverse {
+    animation: orbit-reverse 50s linear infinite;
+  }
+
+  .animate-orbit-slower {
+    animation: orbit-slower 60s linear infinite;
+  }
+
+  /* Resto de las animaciones existentes */
+  @keyframes spin-once {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+  .animate-spin-once {
+    animation: spin-once 2s linear;
+    animation-fill-mode: forwards;
+  }
+
   @keyframes spin-slow {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
@@ -211,7 +271,7 @@ style.textContent = `
   }
 
   .animate-spin-slow {
-    animation: spin-slow 8s linear infinite;
+    animation: spin-slow 3s linear infinite;
   }
 
   .animate-spin-slow-reverse {
@@ -228,13 +288,55 @@ style.textContent = `
   }
 
   /* Resto de las animaciones */
+  @keyframes float {
+    0%, 100% { transform: translate(0, 0); }
+    25% { transform: translate(-10px, 15px); }
+    50% { transform: translate(10px, -15px); }
+    75% { transform: translate(15px, 10px); }
+  }
+
+  @keyframes float-delayed {
+    0%, 100% { transform: translate(0, 0); }
+    25% { transform: translate(15px, -10px); }
+    50% { transform: translate(-15px, 15px); }
+    75% { transform: translate(-10px, -15px); }
+  }
+
+  @keyframes float-slow {
+    0%, 100% { transform: translate(0, 0); }
+    33% { transform: translate(-15px, 10px); }
+    66% { transform: translate(10px, 15px); }
+  }
+
+  @keyframes float-slower {
+    0%, 100% { transform: translate(0, 0); }
+    33% { transform: translate(15px, -15px); }
+    66% { transform: translate(-10px, -10px); }
+  }
+
+  @keyframes float-slowest {
+    0%, 100% { transform: translate(0, 0); }
+    50% { transform: translate(-15px, 15px); }
+  }
+
   .animate-float {
-    animation: float 6s ease-in-out infinite;
+    animation: float 8s ease-in-out infinite;
   }
 
   .animate-float-delayed {
-    animation: float 6s ease-in-out infinite;
-    animation-delay: 3s;
+    animation: float-delayed 9s ease-in-out infinite;
+  }
+
+  .animate-float-slow {
+    animation: float-slow 10s ease-in-out infinite;
+  }
+
+  .animate-float-slower {
+    animation: float-slower 11s ease-in-out infinite;
+  }
+
+  .animate-float-slowest {
+    animation: float-slowest 12s ease-in-out infinite;
   }
 
   .animate-bounce-subtle {
@@ -268,11 +370,6 @@ style.textContent = `
   @keyframes bounce-subtle {
     0%, 100% { transform: translateY(0); }
     50% { transform: translateY(-5px); }
-  }
-
-  @keyframes float {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-20px); }
   }
 `;
 document.head.appendChild(style);
