@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import {
   FaBars,
   FaFileAlt,
@@ -111,12 +111,25 @@ const Sidebar: React.FC<SidebarProps> = ({
   const [eventosExpanded, setEventosExpanded] = useState(false)
   const [formulariosExpanded, setFormulariosExpanded] = useState(false)
 
+  // Guardar estado de expansión en localStorage
+  useEffect(() => {
+    const savedEventosState = localStorage.getItem('eventosExpanded')
+    const savedFormulariosState = localStorage.getItem('formulariosExpanded')
+    
+    if (savedEventosState) setEventosExpanded(savedEventosState === 'true')
+    if (savedFormulariosState) setFormulariosExpanded(savedFormulariosState === 'true')
+  }, [])
+
   const toggleEventos = () => {
-    setEventosExpanded(!eventosExpanded)
+    const newState = !eventosExpanded
+    setEventosExpanded(newState)
+    localStorage.setItem('eventosExpanded', String(newState))
   }
 
   const toggleFormularios = () => {
-    setFormulariosExpanded(!formulariosExpanded)
+    const newState = !formulariosExpanded
+    setFormulariosExpanded(newState)
+    localStorage.setItem('formulariosExpanded', String(newState))
   }
 
   return (
@@ -189,7 +202,6 @@ const Sidebar: React.FC<SidebarProps> = ({
                 isSidebarOpen={isSidebarOpen}
               />
             </SidebarLink>
-            
           </div>
         </div>
       </div>

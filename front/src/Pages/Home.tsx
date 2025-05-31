@@ -115,7 +115,7 @@ const Home = () => {
 
         {/* Contenido Central con padding ajustado */}
         <div className="relative z-20 text-center max-w-2xl mx-auto px-4">
-          <p className="text-xl text-[#73a31d] mb-6 animate-fade-in" style={{ fontFamily: "'Recoleta', serif" }}>
+          <p className="text-xl text-[#73a31d] mb-16 animate-fade-in" style={{ fontFamily: "'Recoleta', serif" }}>
             Transformando la movilidad infantil
           </p>
           <h1 className="text-5xl md:text-7xl font-bold mb-8 leading-tight animate-fade-in-up" style={{ fontFamily: "'Recoleta Bold', serif" }}>
@@ -172,11 +172,35 @@ const Home = () => {
                 yPosition = '50%';
             }
 
+            // Tamaños ligeramente más grandes que los originales
+            let circleSize;
+            switch(index) {
+              case 0: // Tu Causa - Más grande
+                circleSize = 'w-48 h-48';
+                break;
+              case 1: // Adaptación - Mediano
+                circleSize = 'w-40 h-40';
+                break;
+              case 2: // Impacto - Grande
+                circleSize = 'w-44 h-44';
+                break;
+              case 3: // Educación - Más grande
+                circleSize = 'w-48 h-48';
+                break;
+              case 4: // Comunidad - Mediano
+                circleSize = 'w-40 h-40';
+                break;
+              case 5: // Eventos - Grande
+                circleSize = 'w-44 h-44';
+                break;
+              default:
+                circleSize = 'w-40 h-40';
+            }
+
             return (
-              <Link
+              <div
                 key={index}
-                to={category.link}
-                className="absolute transition-all duration-500 hover:scale-105 group"
+                className="absolute transition-all duration-500 hover:scale-105 group cursor-pointer"
                 style={{
                   left: xPosition,
                   top: yPosition,
@@ -184,9 +208,7 @@ const Home = () => {
                   zIndex: verticalPosition === 1 ? 11 : 10
                 }}
               >
-                <div className={`relative w-36 h-36 rounded-full overflow-hidden group-hover:shadow-2xl transition-all duration-500 ${
-                  verticalPosition === 1 ? 'scale-110' : ''
-                }`}>
+                <div className={`relative ${circleSize} rounded-full overflow-hidden group-hover:shadow-2xl transition-all duration-500`}>
                   {/* Borde circular con efecto de progreso */}
                   <div className="absolute inset-0 rounded-full">
                     <div className="absolute inset-0 rounded-full border-[6px] border-[#73a31d]"></div>
@@ -210,7 +232,7 @@ const Home = () => {
                     />
                   </div>
                 </div>
-              </Link>
+              </div>
             );
           })}
         </div>
