@@ -2,7 +2,10 @@ import React, { useState, FormEvent, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useNotification } from '../context/NotificationContext';
-import { FaUser, FaLock, FaEye, FaEyeSlash, FaArrowLeft, FaSpinner } from 'react-icons/fa';
+import { FaUser, FaLock } from 'react-icons/fa';
+import { IoEyeOutline, IoEyeOffOutline } from 'react-icons/io5';
+import { FaArrowLeft, FaSpinner } from 'react-icons/fa';
+import logoBabyGo from '../assets/logo-babygo.png';
 
 interface LoginFormData {
   email: string;
@@ -137,26 +140,35 @@ const Login: React.FC = () => {
         <div className="absolute top-1/2 left-1/2 w-1/2 h-1/2 bg-gradient-to-br from-blue-500/5 to-indigo-500/5 rounded-full blur-3xl transform -translate-x-1/2 -translate-y-1/2 animate-pulse"></div>
       </div>
 
-      {/* Contenido Principal */}
-      <div className="relative z-10 min-h-screen flex items-center justify-center p-6">
-        <div className="w-full max-w-md">
-          {/* Logo y Título */}
-          <div className="text-center mb-8 animate-fade-in">
-            <div className="inline-block">
-              <div className="relative">
-                <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-indigo-500/20 rounded-full transform rotate-6 blur-2xl animate-pulse"></div>
-                <h1 className="relative text-6xl font-extrabold mb-2 bg-gradient-to-r from-corporate-primary to-corporate-secondary bg-clip-text text-transparent transform hover:scale-105 transition-transform duration-300" 
-                    style={{ fontFamily: "'Recoleta Bold', serif" }}>
-                  El Comité
-                </h1>
-              </div>
-            </div>
-            <p className="text-[3.5rem] font-bold mt-4 bg-gradient-to-r from-[#1e3766] to-[#2563eb] bg-clip-text text-transparent transform hover:scale-105 transition-transform duration-300" 
-               style={{ fontFamily: "'Recoleta Bold', serif" }}>
-              El Comité
-            </p>
-          </div>
+      {/* Título del Comité y línea arcoíris */}
+      <div className="relative z-20">
+        <div className="flex justify-between items-center px-8 pt-8">
+          <h1 
+            className="text-4xl font-bold"
+            style={{ 
+              fontFamily: "'Recoleta SemiBold', serif",
+              color: '#1e3766'
+            }}
+          >
+            El Comit<span style={{ color: '#73a31d' }}>é</span>
+          </h1>
+          <img 
+            src={logoBabyGo} 
+            alt="Logo Baby Go" 
+            className="h-24 w-auto object-contain"
+          />
+        </div>
+        <div 
+          className="h-1 w-full mt-2"
+          style={{
+            background: 'linear-gradient(to right, #ff0000, #ff8000, #ffff00, #00ff00, #0000ff, #4b0082, #8f00ff)'
+          }}
+        ></div>
+      </div>
 
+      {/* Contenido Principal */}
+      <div className="relative z-10 flex items-center justify-center p-6 mt-20">
+        <div className="w-full max-w-md">
           {/* Formulario Principal */}
           <div className="relative animate-fade-in animation-delay-150">
             <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-indigo-500/20 rounded-3xl transform rotate-1 blur-2xl"></div>
@@ -165,6 +177,14 @@ const Login: React.FC = () => {
                    background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.9) 100%)'
                  }}>
               
+              {/* Título del formulario */}
+              <h2 
+                className="text-2xl font-bold mb-8 text-center bg-gradient-to-r from-[#1e3766] to-[#2563eb] bg-clip-text text-transparent"
+                style={{ fontFamily: "'Recoleta SemiBold', serif" }}
+              >
+                Acceso para Administradores
+              </h2>
+
               {error && (
                 <div className="mb-6 p-4 rounded-xl bg-red-50 border border-red-200 animate-fade-in">
                   <div className="flex items-start space-x-3">
@@ -223,21 +243,27 @@ const Login: React.FC = () => {
                       id="password"
                       name="password"
                       type={showPassword ? 'text' : 'password'}
-                      autoComplete="current-password"
+                      autoComplete="new-password"
                       value={formData.password}
                       onChange={handleInputChange}
-                      className="block w-full pl-11 pr-11 py-3 bg-white/80 border border-gray-200 rounded-xl text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-corporate-secondary focus:border-transparent transition-all duration-300 hover:bg-white/90"
+                      className="block w-full pl-11 pr-12 py-3 bg-white/80 border border-gray-200 rounded-xl text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-corporate-secondary focus:border-transparent transition-all duration-300 hover:bg-white/90 [&::-ms-reveal]:hidden [&::-ms-clear]:hidden"
                       style={{ fontFamily: "'Recoleta Light', serif" }}
                       disabled={loading}
                       placeholder="••••••••"
                     />
-                    <button
-                      type="button"
-                      className="absolute inset-y-0 right-0 pr-4 flex items-center text-gray-400 hover:text-gray-600 transition-colors"
-                      onClick={() => setShowPassword(!showPassword)}
-                    >
-                      {showPassword ? <FaEyeSlash className="h-4 w-4" /> : <FaEye className="h-4 w-4" />}
-                    </button>
+                    {formData.password && (
+                      <button
+                        type="button"
+                        className="absolute inset-y-0 right-0 pr-4 flex items-center text-gray-400 hover:text-corporate-secondary transition-colors focus:outline-none"
+                        onClick={() => setShowPassword(!showPassword)}
+                        aria-label={showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'}
+                      >
+                        {showPassword ? 
+                          <IoEyeOffOutline className="h-5 w-5 transition-transform hover:scale-110" /> : 
+                          <IoEyeOutline className="h-5 w-5 transition-transform hover:scale-110" />
+                        }
+                      </button>
+                    )}
                   </div>
                 </div>
 
@@ -275,7 +301,7 @@ const Login: React.FC = () => {
                     type="button"
                     onClick={handleBack}
                     disabled={loading}
-                    className="flex-1 bg-white border-2 border-gray-200 hover:border-corporate-primary text-gray-700 hover:text-corporate-primary font-semibold py-3 px-6 rounded-xl transition-all duration-300 hover:bg-gray-50 transform hover:scale-105 hover:-translate-y-1"
+                    className="flex-1 bg-white/80 backdrop-blur-sm border border-gray-200 text-gray-700 hover:text-corporate-primary font-semibold py-3 px-6 rounded-xl transition-all duration-300 hover:bg-white hover:border-corporate-primary transform hover:-translate-y-1 hover:shadow-lg disabled:opacity-70 disabled:cursor-not-allowed"
                     style={{ fontFamily: "'Recoleta Medium', serif" }}
                   >
                     <div className="flex items-center justify-center space-x-3">
@@ -287,7 +313,7 @@ const Login: React.FC = () => {
                   <button
                     type="submit"
                     disabled={loading}
-                    className="flex-1 bg-gradient-to-r from-[#1e3766] to-[#2563eb] text-white font-bold py-3.5 px-6 rounded-xl transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 shadow-lg hover:shadow-xl disabled:opacity-70 disabled:transform-none hover:from-[#2563eb] hover:to-[#3b82f6]"
+                    className="flex-1 bg-gradient-to-r from-[#1e3766] via-[#2563eb] to-[#3b82f6] text-white font-bold py-3.5 px-6 rounded-xl transition-all duration-300 transform hover:-translate-y-1 hover:shadow-xl disabled:opacity-70 disabled:cursor-not-allowed hover:from-[#2563eb] hover:via-[#3b82f6] hover:to-[#60a5fa] backdrop-blur-sm"
                     style={{ fontFamily: "'Recoleta Medium', serif" }}
                   >
                     {loading ? (
