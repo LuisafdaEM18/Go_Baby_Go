@@ -157,7 +157,7 @@ const GestionarFormularios = () => {
               backdropFilter: 'blur(10px)'
             }}>
               <div className="text-center">
-                <h1 className="text-xl font-bold mb-1" style={{ color: '#1e3766', fontFamily: "'Recoleta Medium', serif" }}>
+                <h1 className="text-2xl font-bold mb-1" style={{ color: '#1e3766', fontFamily: "'Recoleta Medium', serif" }}>
                   Gestión de Formularios
                 </h1>
                 <p className="text-sm text-gray-600" style={{ fontFamily: "'Recoleta Light', serif" }}>
@@ -614,10 +614,10 @@ const GestionarFormularios = () => {
                     }}
                     className="px-8 py-3 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 flex items-center"
                     style={{
-                      background: 'linear-gradient(135deg, #1e3766 0%, #2563eb 100%)',
+                      background: 'linear-gradient(135deg, rgb(17, 77, 64) 0%, #059669 100%)', // #059669 es emerald-600
                       color: 'white',
                       fontFamily: "'Recoleta Medium', serif",
-                      boxShadow: '0 4px 6px -1px rgba(37, 99, 235, 0.2), 0 2px 4px -1px rgba(37, 99, 235, 0.1)'
+                      boxShadow: '0 4px 6px -1px rgba(5, 150, 105, 0.2), 0 2px 4px -1px rgba(5, 150, 105, 0.1)'
                     }}
                   >
                     <FaEdit className="mr-3" />
