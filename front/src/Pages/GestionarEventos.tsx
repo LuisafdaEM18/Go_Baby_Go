@@ -262,7 +262,7 @@ const GestionarEventos = () => {
               backdropFilter: 'blur(10px)'
             }}>
               <div className="text-center">
-                <h1 className="text-xl font-bold mb-1" style={{ color: '#1e3766', fontFamily: "'Recoleta Medium', serif" }}>
+                <h1 className="text-2xl font-bold mb-1" style={{ color: '#1e3766', fontFamily: "'Recoleta Medium', serif" }}>
                   Gestión de Eventos
                 </h1>
                 <p className="text-sm text-gray-600" style={{ fontFamily: "'Recoleta Light', serif" }}>

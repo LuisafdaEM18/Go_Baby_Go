@@ -138,13 +138,13 @@ const EditarEvento = () => {
         <div className="max-w-4xl mx-auto p-4">
           {/* Header mejorado */}
           <div className="relative mb-6">
-            <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-indigo-600 rounded-2xl transform rotate-1"></div>
+            <div className="absolute inset-0 bg-gradient-to-r from-orange-500 to-amber-500 rounded-2xl transform rotate-1"></div>
             <div className="relative bg-white rounded-2xl p-4 shadow-xl border border-gray-100" style={{
               background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.9) 100%)',
               backdropFilter: 'blur(10px)'
             }}>
               <div className="text-center">
-                <h1 className="text-xl font-bold mb-1" style={{ color: '#1e3766', fontFamily: "'Recoleta Medium', serif" }}>
+                <h1 className="text-2xl font-bold mb-1" style={{ color: '#1e3766', fontFamily: "'Recoleta Medium', serif" }}>
                   Editar Evento
                 </h1>
                 <p className="text-sm text-gray-600" style={{ fontFamily: "'Recoleta Light', serif" }}>
@@ -183,7 +183,7 @@ const EditarEvento = () => {
                   }}>
                     <FaCalendarAlt className="text-white text-xl" />
                   </div>
-                  <h2 className="text-2xl font-bold" style={{ color: '#1e3766', fontFamily: "'Recoleta Medium', serif" }}>
+                  <h2 className="text-xl font-bold" style={{ color: '#1e3766', fontFamily: "'Recoleta Medium', serif" }}>
                     Información del evento
                   </h2>
                 </div>
@@ -287,7 +287,7 @@ const EditarEvento = () => {
                     }}>
                       <FaClipboardList className="text-white text-xl" />
                     </div>
-                    <h2 className="text-2xl font-bold" style={{ color: '#1e3766', fontFamily: "'Recoleta Medium', serif" }}>
+                    <h2 className="text-xl font-bold" style={{ color: '#1e3766', fontFamily: "'Recoleta Medium', serif" }}>
                       Formularios asociados
                     </h2>
                   </div>
@@ -376,10 +376,10 @@ const EditarEvento = () => {
                   onClick={handleSubmit}
                   className="px-8 py-4 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 flex items-center"
                   style={{
-                    background: 'linear-gradient(135deg, #1e3766 0%, #2563eb 100%)',
+                    background: 'linear-gradient(135deg, rgb(148, 87, 18) 0%, #f97316 100%)',
                     color: 'white',
                     fontFamily: "'Recoleta Medium', serif",
-                    boxShadow: '0 4px 6px -1px rgba(37, 99, 235, 0.2), 0 2px 4px -1px rgba(37, 99, 235, 0.1)'
+                    boxShadow: '0 4px 6px -1px rgba(249, 115, 22, 0.2), 0 2px 4px -1px rgba(249, 115, 22, 0.1)'
                   }}
                   disabled={guardando}
                 >
