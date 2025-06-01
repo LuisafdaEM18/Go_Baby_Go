@@ -230,7 +230,7 @@ const FormularioCrear: React.FC = () => {
               backdropFilter: 'blur(10px)'
             }}>
               <div className="text-center">
-                <h1 className="text-xl font-bold mb-1" style={{ color: '#1e3766', fontFamily: "'Recoleta Medium', serif" }}>
+                <h1 className="text-2xl font-bold mb-1" style={{ color: '#1e3766', fontFamily: "'Recoleta Medium', serif" }}>
                   Crear Formulario
                 </h1>
                 <p className="text-sm text-gray-600" style={{ fontFamily: "'Recoleta Light', serif" }}>
@@ -268,7 +268,7 @@ const FormularioCrear: React.FC = () => {
                 }}>
                   <FaFileAlt className="text-white text-xl" />
                 </div>
-                <h2 className="text-2xl font-bold" style={{ color: '#1e3766', fontFamily: "'Recoleta Medium', serif" }}>
+                <h2 className="text-xl font-bold" style={{ color: '#1e3766', fontFamily: "'Recoleta Medium', serif" }}>
                   Información del formulario
                 </h2>
               </div>
@@ -331,7 +331,7 @@ const FormularioCrear: React.FC = () => {
                     <FaQuestionCircle className="text-white text-xl" />
                   </div>
                   <div>
-                    <h2 className="text-2xl font-bold" style={{ color: '#1e3766', fontFamily: "'Recoleta Medium', serif" }}>
+                    <h2 className="text-xl font-bold" style={{ color: '#1e3766', fontFamily: "'Recoleta Medium', serif" }}>
                       Preguntas del formulario
                     </h2>
                     <p className="text-gray-600 mt-1" style={{ fontFamily: "'Recoleta Light', serif" }}>
@@ -373,10 +373,10 @@ const FormularioCrear: React.FC = () => {
                   }}>
                     <FaQuestionCircle className="text-4xl text-indigo-600" />
                   </div>
-                  <h3 className="text-2xl font-bold mb-4" style={{ color: '#1e3766', fontFamily: "'Recoleta Medium', serif" }}>
+                  <h3 className="text-xl font-bold mb-4" style={{ color: '#1e3766', fontFamily: "'Recoleta Medium', serif" }}>
                     No hay preguntas aún
                   </h3>
-                  <p className="text-gray-600 text-lg" style={{ fontFamily: "'Recoleta Light', serif" }}>
+                  <p className="text-gray-600 text-[16px]" style={{ fontFamily: "'Recoleta Light', serif" }}>
                     Haz clic en "Nueva pregunta" para comenzar a crear tu formulario
                   </p>
                 </div>
@@ -467,34 +467,18 @@ const FormularioCrear: React.FC = () => {
                               <h4 className="text-sm font-semibold text-gray-700" style={{ fontFamily: "'Recoleta Medium', serif" }}>
                                 Opciones de respuesta
                               </h4>
-                              <div className="text-xs text-gray-600 bg-gradient-to-r from-yellow-50 to-amber-50/30 px-4 py-2 rounded-xl border border-amber-100/50" style={{
-                                backdropFilter: 'blur(8px)'
-                              }}>
-                                💡 Marca las respuestas correctas
-                              </div>
                             </div>
 
                             <div className="space-y-3">
                               {pregunta.opciones.map((opcion, opcionIndex) => (
                                 <div key={opcionIndex} className="flex items-center space-x-3 group/option">
-                                  <button
-                                    type="button"
-                                    onClick={() => marcarRespuestaCorrecta(index, opcionIndex)}
-                                    className={`w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-300 transform hover:scale-105 ${
-                                      opcion.es_correcta
-                                        ? 'bg-gradient-to-r from-green-500 to-emerald-500 border-0 text-white shadow-lg'
-                                        : 'bg-white border-2 border-gray-200 hover:border-green-400 text-gray-400'
-                                    }`}
-                                    style={{
-                                      boxShadow: opcion.es_correcta 
-                                        ? '0 4px 6px -1px rgba(16, 185, 129, 0.2), 0 2px 4px -1px rgba(16, 185, 129, 0.1)'
-                                        : 'none'
-                                    }}
-                                    title={opcion.es_correcta ? 'Respuesta correcta' : 'Marcar como correcta'}
-                                  >
-                                    {opcion.es_correcta && <FaCheck className="text-sm" />}
-                                  </button>
+                                  
+                                  {/* Contador numérico */}
+                                  <div className="w-8 h-8 flex items-center justify-center rounded-full bg-indigo-100 text-indigo-600 font-bold">
+                                    {opcionIndex + 1}
+                                  </div>
 
+                                  {/* Campo de texto para la opción */}
                                   <input
                                     type="text"
                                     placeholder={`Opción ${opcionIndex + 1}`}
@@ -573,10 +557,10 @@ const FormularioCrear: React.FC = () => {
                   onClick={handleCrearClick}
                   className="px-8 py-4 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 flex items-center"
                   style={{
-                    background: 'linear-gradient(135deg, #1e3766 0%, #2563eb 100%)',
+                    background: 'linear-gradient(135deg, rgb(17, 77, 64) 0%, #059669 100%)', // #059669 es emerald-600
                     color: 'white',
                     fontFamily: "'Recoleta Medium', serif",
-                    boxShadow: '0 4px 6px -1px rgba(37, 99, 235, 0.2), 0 2px 4px -1px rgba(37, 99, 235, 0.1)'
+                    boxShadow: '0 4px 6px -1px rgba(5, 150, 105, 0.2), 0 2px 4px -1px rgba(5, 150, 105, 0.1)'
                   }}
                   disabled={isSubmitting}
                 >

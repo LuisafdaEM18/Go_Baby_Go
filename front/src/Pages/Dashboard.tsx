@@ -142,7 +142,7 @@ const Dashboard: React.FC = () => {
             <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
               <div className="flex items-center justify-between">
                 <div>
-                  <h1 className="text-4xl font-bold text-blue-900 mb-2">
+                  <h1 className="text-3xl font-bold text-blue-900 mb-2">
                     Bienvenido, {user?.nombre || 'Administrador'}
                   </h1>
                   <div className="flex items-center space-x-4 text-sm text-gray-600">
