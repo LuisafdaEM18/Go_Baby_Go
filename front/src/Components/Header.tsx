@@ -44,7 +44,7 @@ const Header: React.FC<HeaderProps> = () => {
       >
         <div className="flex items-center flex-1">
           <h1 className="header-title text-white text-lg font-light">
-            El comit<span className="text-green-600">é</span>
+            El Comit<span className="text-green-600">é</span>
           </h1>
         </div>
 
