@@ -139,7 +139,7 @@ const CrearEventos = () => {
               backdropFilter: 'blur(10px)'
             }}>
               <div className="text-center">
-                <h1 className="text-xl font-bold mb-1" style={{ color: '#1e3766', fontFamily: "'Recoleta Medium', serif" }}>
+                <h1 className="text-2xl font-bold mb-1" style={{ color: '#1e3766', fontFamily: "'Recoleta Medium', serif" }}>
                   Crear Evento
                 </h1>
                 <p className="text-sm text-gray-600" style={{ fontFamily: "'Recoleta Light', serif" }}>
@@ -178,7 +178,7 @@ const CrearEventos = () => {
                   }}>
                     <FaCalendarAlt className="text-white text-xl" />
                   </div>
-                  <h2 className="text-2xl font-bold" style={{ color: '#1e3766', fontFamily: "'Recoleta Medium', serif" }}>
+                  <h2 className="text-xl font-bold" style={{ color: '#1e3766', fontFamily: "'Recoleta Medium', serif" }}>
                     Información del evento
                   </h2>
                 </div>
@@ -266,7 +266,7 @@ const CrearEventos = () => {
                     }}>
                       <FaClipboardList className="text-white text-lg" />
                     </div>
-                    <h2 className="text-2xl font-bold text-gray-900" style={{ color: '#1e3766', fontFamily: "'Recoleta Medium', serif" }}>
+                    <h2 className="text-xl font-bold text-gray-900" style={{ color: '#1e3766', fontFamily: "'Recoleta Medium', serif" }}>
                       Formularios asociados
                     </h2>
                   </div>
@@ -280,7 +280,7 @@ const CrearEventos = () => {
                         name="formulario_pre_evento"
                         value={formData.formulario_pre_evento}
                         onChange={handleChange}
-                        className="w-full px-4 py-4 border border-gray-300 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 shadow-sm hover:shadow-md"
+                        className="w-full px-4 py-4 border border-gray-300 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 shadow-sm hover:shadow-md bg-white"
                         style={{ fontFamily: "'Recoleta Light', serif" }}
                         required
                       >
@@ -301,7 +301,7 @@ const CrearEventos = () => {
                         name="formulario_post_evento"
                         value={formData.formulario_post_evento}
                         onChange={handleChange}
-                        className="w-full px-4 py-4 border border-gray-300 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 shadow-sm hover:shadow-md"
+                        className="w-full px-4 py-4 border border-gray-300 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 shadow-sm hover:shadow-md bg-white"
                         style={{ fontFamily: "'Recoleta Light', serif" }}
                         required
                       >
@@ -347,10 +347,10 @@ const CrearEventos = () => {
                   onClick={handleSubmit}
                   className="px-8 py-4 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 flex items-center"
                   style={{
-                    background: 'linear-gradient(135deg, #1e3766 0%, #2563eb 100%)',
+                    background: 'linear-gradient(135deg, rgb(148, 87, 18) 0%, #f97316 100%)',
                     color: 'white',
                     fontFamily: "'Recoleta Medium', serif",
-                    boxShadow: '0 4px 6px -1px rgba(37, 99, 235, 0.2), 0 2px 4px -1px rgba(37, 99, 235, 0.1)'
+                    boxShadow: '0 4px 6px -1px rgba(249, 115, 22, 0.2), 0 2px 4px -1px rgba(249, 115, 22, 0.1)'
                   }}
                   disabled={isLoading || isSaving}
                 >
