@@ -179,21 +179,32 @@ def delete_formulario(db: Session, formulario_id: int):
     try:
         logger.info(f"Eliminando formulario ID: {formulario_id}")
         
+        # Obtener el formulario y sus preguntas
         db_formulario = get_formulario(db, formulario_id)
         if not db_formulario:
             logger.warning(f"Formulario ID {formulario_id} no encontrado")
-            return False
+            raise HTTPException(status_code=404, detail="Formulario no encontrado")
         
-        # Eliminar el formulario (las preguntas y opciones se eliminarán en cascada)
+        # Eliminar las opciones de las preguntas primero
+        for pregunta in db_formulario.preguntas:
+            db.query(Opcion).filter(Opcion.pregunta_id == pregunta.id).delete(synchronize_session=False)
+        
+        # Eliminar las preguntas
+        db.query(Pregunta).filter(Pregunta.formulario_id == formulario_id).delete(synchronize_session=False)
+        
+        # Finalmente eliminar el formulario
         db.delete(db_formulario)
         db.commit()
         logger.info(f"Formulario ID {formulario_id} eliminado exitosamente")
         return True
     
+    except HTTPException as he:
+        db.rollback()
+        logger.error(f"Error HTTP al eliminar formulario ID {formulario_id}: {str(he)}")
+        raise he
     except Exception as e:
         db.rollback()
         logger.error(f"Error al eliminar formulario ID {formulario_id}: {str(e)}")
-        
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=f"Error al eliminar el formulario: {str(e)}"

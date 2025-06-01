@@ -93,7 +93,14 @@ def actualizar_formulario(formulario_id: int, formulario: FormularioUpdate, db: 
 
 @router.delete("/{formulario_id}", status_code=status.HTTP_204_NO_CONTENT)
 def eliminar_formulario(formulario_id: int, db: Session = Depends(get_db)):
-    result = formulario_crud.delete_formulario(db, formulario_id=formulario_id)
-    if not result:
-        raise HTTPException(status_code=404, detail="Formulario no encontrado")
-    return {"message": "Formulario eliminado correctamente"} 
+    try:
+        result = formulario_crud.delete_formulario(db, formulario_id=formulario_id)
+        if result:
+            return {"message": "Formulario eliminado correctamente"}
+    except HTTPException as he:
+        raise he
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Error al eliminar el formulario: {str(e)}"
+        ) 

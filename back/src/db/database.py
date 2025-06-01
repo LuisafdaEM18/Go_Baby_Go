@@ -25,6 +25,22 @@ class Administrador(Base):
     nombre = Column(String(255), nullable=False)
     correo = Column(String(255), nullable=False, unique=True)
     contrasena_hash = Column(String(255), nullable=False)
+    
+    # Relationships
+    password_reset_tokens = relationship("PasswordResetToken", back_populates="admin")
+
+class PasswordResetToken(Base):
+    __tablename__ = "password_reset_tokens"
+    
+    id = Column(Integer, primary_key=True, index=True)
+    admin_id = Column(Integer, ForeignKey("administradores.id"), nullable=False)
+    token = Column(String(255), nullable=False, unique=True)
+    expires_at = Column(DateTime, nullable=False)
+    used = Column(Boolean, default=False)
+    created_at = Column(DateTime, default=datetime.now)
+    
+    # Relationships
+    admin = relationship("Administrador", back_populates="password_reset_tokens")
 
 class Formulario(Base):
     __tablename__ = "formularios"

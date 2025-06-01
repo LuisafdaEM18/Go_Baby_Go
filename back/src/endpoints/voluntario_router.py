@@ -1,10 +1,15 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from typing import List, Dict, Any
+from pydantic import BaseModel
 
 from src.db.database import get_db
 from src.schemas.VoluntarioSchema import VoluntarioCreate, VoluntarioOut, VoluntarioInscripcion
 from src.crud import voluntario_crud
+
+# Esquema para actualizar estado de inscripción
+class ActualizarEstadoInscripcion(BaseModel):
+    aceptado: bool
 
 router = APIRouter(
     prefix="/api/voluntarios",
@@ -46,10 +51,21 @@ def obtener_inscripciones_por_evento(evento_id: int, skip: int = 0, limit: int =
     )
     return inscripciones
 
+@router.get("/inscripciones/evento/{evento_id}/detalladas")
+def obtener_inscripciones_detalladas(evento_id: int, skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
+    inscripciones = voluntario_crud.get_inscripciones_detalladas_by_evento(
+        db, evento_id=evento_id, skip=skip, limit=limit
+    )
+    return inscripciones
+
 @router.put("/inscripciones/{inscripcion_id}/aceptar")
-def aceptar_inscripcion(inscripcion_id: int, aceptado: bool, db: Session = Depends(get_db)):
+def aceptar_inscripcion(
+    inscripcion_id: int, 
+    datos: ActualizarEstadoInscripcion, 
+    db: Session = Depends(get_db)
+):
     db_inscripcion = voluntario_crud.actualizar_estado_inscripcion(
-        db, inscripcion_id=inscripcion_id, aceptado=aceptado
+        db, inscripcion_id=inscripcion_id, aceptado=datos.aceptado
     )
     if db_inscripcion is None:
         raise HTTPException(status_code=404, detail="Inscripción no encontrada")

@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-from src.db.database import Voluntario, InscripcionEvento, Respuesta, DetalleRespuesta
+from src.db.database import Voluntario, InscripcionEvento, Respuesta, DetalleRespuesta, Pregunta, Opcion
 from src.schemas.VoluntarioSchema import VoluntarioCreate, VoluntarioInscripcion
 from typing import List, Optional, Dict, Any
 import uuid
@@ -65,6 +65,82 @@ def get_inscripciones_by_evento(db: Session, evento_id: int, skip: int = 0, limi
     return db.query(InscripcionEvento).filter(
         InscripcionEvento.evento_id == evento_id
     ).offset(skip).limit(limit).all()
+
+def get_inscripciones_detalladas_by_evento(db: Session, evento_id: int, skip: int = 0, limit: int = 100):
+    # Obtener inscripciones con voluntarios
+    inscripciones = db.query(InscripcionEvento).filter(
+        InscripcionEvento.evento_id == evento_id
+    ).offset(skip).limit(limit).all()
+    
+    result = []
+    for inscripcion in inscripciones:
+        # Construir datos básicos de la inscripción
+        inscripcion_data = {
+            "id": inscripcion.id,
+            "voluntario_id": inscripcion.voluntario_id,
+            "evento_id": inscripcion.evento_id,
+            "fecha_inscripcion": inscripcion.fecha_inscripcion.isoformat(),
+            "aceptado": inscripcion.aceptado,
+            "completado_pre": inscripcion.completado_pre,
+            "completado_post": inscripcion.completado_post,
+            "aceptacion_terminos": inscripcion.aceptacion_terminos,
+            "voluntario": {
+                "id": inscripcion.voluntario.id,
+                "nombre": inscripcion.voluntario.nombre,
+                "correo": inscripcion.voluntario.correo,
+                "numero_identificacion": inscripcion.voluntario.numero_identificacion
+            }
+        }
+        
+        # Obtener respuestas pre-evento
+        respuestas_pre = []
+        respuestas = db.query(Respuesta).filter(
+            Respuesta.inscripcion_id == inscripcion.id,
+            Respuesta.tipo_formulario == "pre"
+        ).all()
+        
+        for respuesta in respuestas:
+            for detalle in respuesta.detalles:
+                # Obtener información de la pregunta
+                pregunta = db.query(Pregunta).filter(Pregunta.id == detalle.pregunta_id).first()
+                if pregunta:
+                    respuesta_item = {
+                        "pregunta_id": pregunta.id,
+                        "pregunta_texto": pregunta.texto,
+                        "tipo_pregunta": pregunta.tipo
+                    }
+                    
+                    if pregunta.tipo == "textual":
+                        respuesta_item["respuesta_texto"] = detalle.texto_respuesta
+                    else:
+                        # Para selección única o múltiple, obtener texto de la opción
+                        if detalle.opcion_id:
+                            opcion = db.query(Opcion).filter(Opcion.id == detalle.opcion_id).first()
+                            if opcion:
+                                if "opciones_seleccionadas" not in respuesta_item:
+                                    respuesta_item["opciones_seleccionadas"] = []
+                                respuesta_item["opciones_seleccionadas"].append(opcion.texto_opcion)
+                    
+                    # Evitar duplicados para la misma pregunta
+                    pregunta_existente = None
+                    for r in respuestas_pre:
+                        if r["pregunta_id"] == pregunta.id:
+                            pregunta_existente = r
+                            break
+                    
+                    if pregunta_existente:
+                        # Si ya existe y es selección múltiple, agregar la opción
+                        if pregunta.tipo == "seleccion_multiple" and detalle.opcion_id:
+                            opcion = db.query(Opcion).filter(Opcion.id == detalle.opcion_id).first()
+                            if opcion and opcion.texto_opcion not in pregunta_existente.get("opciones_seleccionadas", []):
+                                pregunta_existente["opciones_seleccionadas"].append(opcion.texto_opcion)
+                    else:
+                        respuestas_pre.append(respuesta_item)
+        
+        inscripcion_data["respuestas_pre"] = respuestas_pre
+        result.append(inscripcion_data)
+    
+    return result
 
 def actualizar_estado_inscripcion(db: Session, inscripcion_id: int, aceptado: bool):
     db_inscripcion = db.query(InscripcionEvento).filter(InscripcionEvento.id == inscripcion_id).first()
