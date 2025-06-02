@@ -294,6 +294,13 @@ const RegistroVoluntario = () => {
             </button>
           </div>
           
+          <div 
+            className="h-1 w-full mb-6"
+            style={{
+              background: 'linear-gradient(to right, #1e3766, #2563eb, #48b4b1, #60a5fa, #93c5fd)'
+            }}
+          ></div>
+          
           <div className="space-y-6 text-gray-700" style={{ fontFamily: "'Recoleta Light', serif" }}>
             <section>
               <h3 className="text-xl font-semibold mb-4" style={{ color: '#1e3766', fontFamily: "'Recoleta Medium', serif" }}>

@@ -195,7 +195,7 @@ const ForgotPassword: React.FC = () => {
           <div 
             className="h-1 w-full mt-4"
             style={{
-              background: 'linear-gradient(to right, #ff0000, #ff8000, #ffff00, #00ff00, #0000ff, #4b0082, #8f00ff)'
+              background: 'linear-gradient(to right, #1e3766, #2563eb, #48b4b1, #60a5fa, #93c5fd)'
             }}
           ></div>
         </div>
@@ -342,7 +342,7 @@ const ForgotPassword: React.FC = () => {
         <div 
           className="h-1 w-full mt-4"
           style={{
-            background: 'linear-gradient(to right, #ff0000, #ff8000, #ffff00, #00ff00, #0000ff, #4b0082, #8f00ff)'
+            background: 'linear-gradient(to right, #1e3766, #2563eb, #48b4b1, #60a5fa, #93c5fd)'
           }}
         ></div>
       </div>

@@ -183,58 +183,55 @@ const Login: React.FC = () => {
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-gray-100 relative overflow-hidden">
       {/* Marcas de agua - Círculos concéntricos */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
-        {/* Círculos inferiores izquierdos */}
+        {/* Círculos inferiores izquierdos - Verde */}
         <div className="absolute left-0 bottom-0 transform -translate-x-1/3 translate-y-1/3">
           {[...Array(6)].map((_, index) => (
             <div
               key={`bottom-left-${index}`}
-              className="absolute rounded-full"
+              className="absolute rounded-full border-[1px]"
               style={{
                 width: `${(index + 1) * 200}px`,
                 height: `${(index + 1) * 200}px`,
-                border: '2px solid rgba(115, 163, 29, 0.3)',
-                animation: `radar-pulse ${5 + index * 0.5}s ease-in-out infinite`,
+                borderColor: 'rgba(115, 163, 29, 0.2)',
+                animation: `pulse-slow ${5 + index * 0.5}s ease-in-out infinite`,
                 animationDelay: `${index * 0.8}s`,
-                opacity: 0.9 - index * 0.1,
-                background: `radial-gradient(circle at center, rgba(115, 163, 29, 0.2) 0%, rgba(115, 163, 29, 0.1) 50%, transparent 70%)`
+                opacity: 0.6 - index * 0.08
               }}
             />
           ))}
         </div>
 
-        {/* Círculos inferiores derechos */}
-        <div className="absolute right-0 bottom-0 transform translate-x-1/3 translate-y-1/3">
-          {[...Array(6)].map((_, index) => (
-            <div
-              key={`bottom-right-${index}`}
-              className="absolute rounded-full"
-              style={{
-                width: `${(index + 1) * 180}px`,
-                height: `${(index + 1) * 180}px`,
-                border: '2px solid rgba(30, 55, 102, 0.3)',
-                animation: `radar-pulse ${5.5 + index * 0.5}s ease-in-out infinite`,
-                animationDelay: `${index * 0.6}s`,
-                opacity: 0.85 - index * 0.1,
-                background: `radial-gradient(circle at center, rgba(30, 55, 102, 0.2) 0%, rgba(30, 55, 102, 0.1) 50%, transparent 70%)`
-              }}
-            />
-          ))}
-        </div>
-
-        {/* Círculos superiores derechos */}
+        {/* Círculos superiores derechos - Morado */}
         <div className="absolute right-0 top-0 transform translate-x-1/4 -translate-y-1/4">
           {[...Array(5)].map((_, index) => (
             <div
               key={`top-right-${index}`}
-              className="absolute rounded-full"
+              className="absolute rounded-full border-[1px]"
               style={{
                 width: `${(index + 1) * 160}px`,
                 height: `${(index + 1) * 160}px`,
-                border: '2px solid rgba(30, 55, 102, 0.3)',
-                animation: `radar-pulse ${6 + index * 0.5}s ease-in-out infinite`,
+                borderColor: 'rgba(30, 55, 102, 0.2)',
+                animation: `pulse-slow ${6 + index * 0.5}s ease-in-out infinite`,
                 animationDelay: `${index * 0.7}s`,
-                opacity: 0.8 - index * 0.1,
-                background: `radial-gradient(circle at center, rgba(30, 55, 102, 0.2) 0%, rgba(30, 55, 102, 0.1) 50%, transparent 70%)`
+                opacity: 0.6 - index * 0.08
+              }}
+            />
+          ))}
+        </div>
+
+        {/* Círculos inferiores derechos - Naranja */}
+        <div className="absolute right-0 bottom-0 transform translate-x-1/3 translate-y-1/3">
+          {[...Array(4)].map((_, index) => (
+            <div
+              key={`bottom-right-${index}`}
+              className="absolute rounded-full border-[1px]"
+              style={{
+                width: `${(index + 1) * 180}px`,
+                height: `${(index + 1) * 180}px`,
+                borderColor: 'rgba(249, 115, 22, 0.2)',
+                animation: `pulse-slow ${5.5 + index * 0.5}s ease-in-out infinite`,
+                animationDelay: `${index * 0.6}s`,
+                opacity: 0.6 - index * 0.08
               }}
             />
           ))}
@@ -269,7 +266,7 @@ const Login: React.FC = () => {
         <div 
           className="h-1 w-full mt-4"
           style={{
-            background: 'linear-gradient(to right, #ff0000, #ff8000, #ffff00, #00ff00, #0000ff, #4b0082, #8f00ff)'
+            background: 'linear-gradient(to right, #1e3766, #2563eb, #48b4b1, #60a5fa, #93c5fd)'
           }}
         ></div>
       </div>

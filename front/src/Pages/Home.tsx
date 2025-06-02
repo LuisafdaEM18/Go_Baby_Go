@@ -82,7 +82,7 @@ const Home = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#f0f7ff]/80 via-[#e6f1ff]/70 to-[#dce9ff]/60 overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-[#f0f7ff]/80 via-[#e6f1ff]/70 to-[#dce9ff]/60 overflow-hidden fixed inset-0">
       {/* Sistema Solar en el fondo */}
       <div className="absolute inset-0 pointer-events-none">
         {/* Órbitas grandes */}
@@ -105,138 +105,157 @@ const Home = () => {
         </div>
       </div>
 
-      {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center justify-center py-20">
-        {/* Elementos de fondo ajustados */}
-        <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-1/3 left-1/3 w-96 h-96 bg-gradient-to-br from-blue-500/30 via-indigo-400/25 to-blue-500/20 rounded-full blur-3xl animate-float"></div>
-          <div className="absolute bottom-1/3 right-1/3 w-96 h-96 bg-gradient-to-tl from-blue-500/30 via-indigo-400/25 to-blue-500/20 rounded-full blur-3xl animate-float-delayed"></div>
-        </div>
-
-        {/* Contenido Central con padding ajustado */}
-        <div className="relative z-20 text-center max-w-2xl mx-auto px-4">
-          <p className="text-xl text-[#73a31d] mb-16 animate-fade-in" style={{ fontFamily: "'Recoleta', serif" }}>
-            Transformando la movilidad infantil
-          </p>
-          <h1 className="text-5xl md:text-7xl font-bold mb-8 leading-tight animate-fade-in-up" style={{ fontFamily: "'Recoleta Bold', serif" }}>
-            Juntos Creamos<br />
-            <span className="bg-gradient-to-r from-[#73a31d] to-[#90c290] bg-clip-text text-transparent">
-              Sonrisas en Movimiento
-            </span>
-          </h1>
-          <p className="text-xl text-gray-600 mb-12 max-w-xl mx-auto animate-fade-in" style={{ fontFamily: "'Recoleta Light', serif" }}>
-            Únete a nuestra comunidad de voluntarios y ayuda a transformar la vida de niños a través de la movilidad adaptada
-          </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Link
-              to={proximosEventos.length > 0 ? `/voluntario/registro/${proximosEventos[0].id}` : "/registro-voluntario"}
-              className="inline-flex items-center px-8 py-4 text-lg font-semibold text-white bg-[#73a31d] rounded-full shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 animate-bounce-subtle"
-            >
-              Sé Voluntario
-              <FaArrowRight className="ml-2" />
-            </Link>
-            <Link
-              to="/login"
-              className="inline-flex items-center px-8 py-4 text-lg font-semibold text-[#73a31d] bg-white/80 border-2 border-[#73a31d] rounded-full shadow-lg hover:shadow-xl hover:bg-[#73a31d] hover:text-white transform hover:-translate-y-1 transition-all duration-300"
-            >
-              <FaUserShield className="mr-2" />
-              Administrador
-            </Link>
+      <div className="relative z-10 min-h-screen overflow-auto">
+        {/* Hero Section */}
+        <section className="relative min-h-screen flex items-center justify-center py-20">
+          {/* Elementos de fondo ajustados */}
+          <div className="absolute inset-0 pointer-events-none">
+            <div className="absolute top-1/3 left-1/3 w-96 h-96 bg-gradient-to-br from-blue-500/30 via-indigo-400/25 to-blue-500/20 rounded-full blur-3xl animate-float"></div>
+            <div className="absolute bottom-1/3 right-1/3 w-96 h-96 bg-gradient-to-tl from-blue-500/30 via-indigo-400/25 to-blue-500/20 rounded-full blur-3xl animate-float-delayed"></div>
           </div>
-        </div>
 
-        {/* Círculos flotantes */}
-        <div className="absolute inset-0 overflow-hidden">
-          {categories.map((category, index) => {
-            const isLeftSide = index < 3;
-            const verticalPosition = index % 3;
-            
-            let xPosition = isLeftSide ? '20%' : '80%';
-            
-            if (verticalPosition === 1) {
-              xPosition = isLeftSide ? '15%' : '85%';
-            }
-            
-            let yPosition;
-            switch(verticalPosition) {
-              case 0:
-                yPosition = '20%';
-                break;
-              case 1:
-                yPosition = '50%';
-                break;
-              case 2:
-                yPosition = '80%';
-                break;
-              default:
-                yPosition = '50%';
-            }
-
-            // Tamaños ligeramente más grandes que los originales
-            let circleSize;
-            switch(index) {
-              case 0: // Tu Causa - Más grande
-                circleSize = 'w-48 h-48';
-                break;
-              case 1: // Adaptación - Mediano
-                circleSize = 'w-40 h-40';
-                break;
-              case 2: // Impacto - Grande
-                circleSize = 'w-44 h-44';
-                break;
-              case 3: // Educación - Más grande
-                circleSize = 'w-48 h-48';
-                break;
-              case 4: // Comunidad - Mediano
-                circleSize = 'w-40 h-40';
-                break;
-              case 5: // Eventos - Grande
-                circleSize = 'w-44 h-44';
-                break;
-              default:
-                circleSize = 'w-40 h-40';
-            }
-
-            return (
-              <div
-                key={index}
-                className="absolute transition-all duration-500 hover:scale-105 group cursor-pointer"
-                style={{
-                  left: xPosition,
-                  top: yPosition,
-                  transform: 'translate(-50%, -50%)',
-                  zIndex: verticalPosition === 1 ? 11 : 10
-                }}
+          {/* Contenido Central con padding ajustado */}
+          <div className="relative z-20 text-center max-w-2xl mx-auto px-4">
+            <p className="text-xl text-[#73a31d] mb-16 animate-fade-in" style={{ fontFamily: "'Recoleta', serif" }}>
+              Transformando la movilidad infantil
+            </p>
+            <h1 className="text-5xl md:text-7xl font-bold mb-8 leading-tight animate-fade-in-up" style={{ fontFamily: "'Recoleta Bold', serif" }}>
+              Juntos Creamos<br />
+              <span className="bg-gradient-to-r from-[#73a31d] to-[#90c290] bg-clip-text text-transparent">
+                Sonrisas en Movimiento
+              </span>
+            </h1>
+            <p className="text-xl text-gray-600 mb-12 max-w-xl mx-auto animate-fade-in" style={{ fontFamily: "'Recoleta Light', serif" }}>
+              Únete a nuestra comunidad de voluntarios y ayuda a transformar la vida de niños a través de la movilidad adaptada
+            </p>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+              <Link
+                to={proximosEventos.length > 0 ? `/voluntario/registro/${proximosEventos[0].id}` : "/registro-voluntario"}
+                className="inline-flex items-center px-8 py-4 text-lg font-semibold text-white bg-[#73a31d] rounded-full shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 animate-bounce-subtle"
               >
-                <div className={`relative ${circleSize} rounded-full overflow-hidden group-hover:shadow-2xl transition-all duration-500`}>
-                  {/* Borde circular con efecto de progreso */}
-                  <div className="absolute inset-0 rounded-full">
-                    <div className="absolute inset-0 rounded-full border-[6px] border-[#73a31d]"></div>
-                    <div 
-                      className="absolute inset-0 rounded-full border-[6px] opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                      style={{
-                        borderColor: '#73a31d',
-                        borderStyle: 'solid',
-                        borderLeftColor: 'rgba(115, 163, 29, 0.3)',
-                        borderBottomColor: 'rgba(115, 163, 29, 0.3)',
-                        animation: 'spin-slow 4s linear infinite'
-                      }}
+                Sé Voluntario
+                <FaArrowRight className="ml-2" />
+              </Link>
+              <Link
+                to="/login"
+                className="inline-flex items-center px-8 py-4 text-lg font-semibold text-[#73a31d] bg-white/80 border-2 border-[#73a31d] rounded-full shadow-lg hover:shadow-xl hover:bg-[#73a31d] hover:text-white transform hover:-translate-y-1 transition-all duration-300"
+              >
+                <FaUserShield className="mr-2" />
+                Administrador
+              </Link>
+            </div>
+          </div>
+
+          {/* Círculos flotantes */}
+          <div className="absolute inset-0 overflow-hidden">
+            {categories.map((category, index) => {
+              const isLeftSide = index < 3;
+              const verticalPosition = index % 3;
+              
+              let xPosition = isLeftSide ? '20%' : '80%';
+              
+              if (verticalPosition === 1) {
+                xPosition = isLeftSide ? '15%' : '85%';
+              }
+              
+              let yPosition;
+              switch(verticalPosition) {
+                case 0:
+                  yPosition = '20%';
+                  break;
+                case 1:
+                  yPosition = '50%';
+                  break;
+                case 2:
+                  yPosition = '80%';
+                  break;
+                default:
+                  yPosition = '50%';
+              }
+
+              // Tamaños ligeramente más grandes que los originales
+              let circleSize;
+              switch(index) {
+                case 0: // Tu Causa - Más grande
+                  circleSize = 'w-48 h-48';
+                  break;
+                case 1: // Adaptación - Mediano
+                  circleSize = 'w-40 h-40';
+                  break;
+                case 2: // Impacto - Grande
+                  circleSize = 'w-44 h-44';
+                  break;
+                case 3: // Educación - Más grande
+                  circleSize = 'w-48 h-48';
+                  break;
+                case 4: // Comunidad - Mediano
+                  circleSize = 'w-40 h-40';
+                  break;
+                case 5: // Eventos - Grande
+                  circleSize = 'w-44 h-44';
+                  break;
+                default:
+                  circleSize = 'w-40 h-40';
+              }
+
+              return (
+                <div
+                  key={index}
+                  className="absolute transition-all duration-500 hover:scale-105 group cursor-pointer"
+                  style={{
+                    left: xPosition,
+                    top: yPosition,
+                    transform: 'translate(-50%, -50%)',
+                    zIndex: verticalPosition === 1 ? 11 : 10
+                  }}
+                >
+                  <div className={`relative ${circleSize} rounded-full overflow-hidden group-hover:shadow-2xl transition-all duration-500`}>
+                    {/* Borde circular con efecto de progreso */}
+                    <div className="absolute inset-0 rounded-full">
+                      <div className="absolute inset-0 rounded-full border-[6px] border-[#73a31d] opacity-80 backdrop-blur-sm"></div>
+                      <div 
+                        className="absolute inset-0 rounded-full border-[6px] opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                        style={{
+                          borderColor: '#73a31d',
+                          borderStyle: 'solid',
+                          borderLeftColor: 'rgba(115, 163, 29, 0.3)',
+                          borderBottomColor: 'rgba(115, 163, 29, 0.3)',
+                          animation: 'spin-slow 4s linear infinite'
+                        }}
+                      ></div>
+                      {/* Efecto de brillo */}
+                      <div 
+                        className="absolute inset-0 rounded-full bg-gradient-to-r from-transparent via-white to-transparent opacity-0 group-hover:opacity-20 transition-opacity duration-300"
+                        style={{
+                          transform: 'rotate(-45deg)',
+                          animation: 'shine 2s ease-in-out infinite'
+                        }}
+                      ></div>
+                    </div>
+                    {/* Contenedor de la imagen con efecto glassmorphism */}
+                    <div className="absolute inset-[16px] bg-white/90 rounded-full overflow-hidden shadow-lg backdrop-blur-sm transition-all duration-300 group-hover:bg-white">
+                      {/* Efecto de gradiente superpuesto */}
+                      <div className="absolute inset-0 bg-gradient-to-br from-[#73a31d]/10 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300"></div>
+                      <img
+                        src={category.image}
+                        alt={category.title}
+                        className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                      />
+                    </div>
+                    {/* Efecto de resplandor en hover */}
+                    <div className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-30 transition-opacity duration-300"
+                         style={{
+                           background: 'radial-gradient(circle at center, #73a31d 0%, transparent 70%)',
+                           filter: 'blur(10px)'
+                         }}
                     ></div>
                   </div>
-                  {/* Contenedor de la imagen */}
-                  <div className="absolute inset-[8px] bg-white rounded-full overflow-hidden shadow-lg">
-                    <img
-                      src={category.image}
-                      alt={category.title}
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
                 </div>
-              </div>
-            );
-          })}
-        </div>
-      </section>
+              );
+            })}
+          </div>
+        </section>
+      </div>
     </div>
   );
 };
@@ -256,7 +275,6 @@ style.textContent = `
     to { transform: rotate(0deg); }
   }
 
-  
   @keyframes orbit-slower {
     from { transform: rotate(180deg); }
     to { transform: rotate(-180deg); }
@@ -272,6 +290,27 @@ style.textContent = `
 
   .animate-orbit-slower {
     animation: orbit-slower 60s linear infinite;
+  }
+
+  @keyframes twinkle {
+    0%, 100% { opacity: 0.2; }
+    50% { opacity: 1; }
+  }
+
+  @keyframes shooting-star {
+    0% {
+      transform: translate(0, 0) scale(1);
+      opacity: 0;
+    }
+    1% { opacity: 1; }
+    10% {
+      transform: translate(-300px, 300px) scale(0.2);
+      opacity: 0;
+    }
+    100% {
+      transform: translate(-300px, 300px) scale(0.2);
+      opacity: 0;
+    }
   }
 
   /* Resto de las animaciones existentes */
@@ -395,6 +434,27 @@ style.textContent = `
   @keyframes bounce-subtle {
     0%, 100% { transform: translateY(0); }
     50% { transform: translateY(-5px); }
+  }
+
+  @keyframes shine {
+    0%, 100% { transform: rotate(-45deg) translateX(-50%); }
+    50% { transform: rotate(-45deg) translateX(50%); }
+  }
+
+  @keyframes pulse-border {
+    0%, 100% { transform: scale(1); opacity: 0.8; }
+    50% { transform: scale(1.05); opacity: 1; }
+  }
+
+  @keyframes pulse-slow {
+    0%, 100% {
+      transform: scale(1);
+      opacity: 0.6;
+    }
+    50% {
+      transform: scale(1.05);
+      opacity: 0.8;
+    }
   }
 `;
 document.head.appendChild(style);
