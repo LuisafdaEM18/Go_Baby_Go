@@ -73,12 +73,14 @@ const ForgotPassword: React.FC = () => {
     if (!email.trim()) {
       const errorMsg = 'Por favor, ingresa tu correo electrónico';
       setError(errorMsg);
+      showNotification(errorMsg, 'error');
       return;
     }
 
     if (!validateEmail(email)) {
       const errorMsg = 'Por favor, ingresa un correo electrónico válido';
       setError(errorMsg);
+      showNotification(errorMsg, 'error');
       return;
     }
 
@@ -92,88 +94,29 @@ const ForgotPassword: React.FC = () => {
       
     } catch (err: any) {
       console.error('Error al solicitar recuperación:', err);
-      // Por seguridad, siempre mostramos el mismo mensaje
-      setIsSuccess(true);
+      setIsSuccess(true); // Por seguridad, siempre mostramos el mismo mensaje
       showNotification('Si el correo está registrado, recibirás un enlace de recuperación', 'info');
     } finally {
       setIsLoading(false);
     }
   };
 
-  const handleBack = () => {
+  const handleBackToLogin = () => {
+    console.log('Navegando a login...');
     navigate('/login');
   };
 
-  if (isSuccess) {
+  const handleSendAnotherLink = () => {
+    console.log('Reseteando formulario...');
+    setIsSuccess(false);
+    setEmail('');
+    setError(null);
+    showNotification('Ingresa tu correo para enviar un nuevo enlace', 'info');
+  };
+
+  const SuccessView = () => {
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-gray-100 relative overflow-hidden">
-        {/* Marcas de agua - Círculos concéntricos */}
-        <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
-          {/* Círculos inferiores izquierdos */}
-          <div className="absolute left-0 bottom-0 transform -translate-x-1/3 translate-y-1/3">
-            {[...Array(6)].map((_, index) => (
-              <div
-                key={`bottom-left-${index}`}
-                className="absolute rounded-full"
-                style={{
-                  width: `${(index + 1) * 200}px`,
-                  height: `${(index + 1) * 200}px`,
-                  border: '2px solid rgba(115, 163, 29, 0.3)',
-                  animation: `radar-pulse ${5 + index * 0.5}s ease-in-out infinite`,
-                  animationDelay: `${index * 0.8}s`,
-                  opacity: 0.9 - index * 0.1,
-                  background: `radial-gradient(circle at center, rgba(115, 163, 29, 0.2) 0%, rgba(115, 163, 29, 0.1) 50%, transparent 70%)`
-                }}
-              />
-            ))}
-          </div>
-
-          {/* Círculos inferiores derechos */}
-          <div className="absolute right-0 bottom-0 transform translate-x-1/3 translate-y-1/3">
-            {[...Array(6)].map((_, index) => (
-              <div
-                key={`bottom-right-${index}`}
-                className="absolute rounded-full"
-                style={{
-                  width: `${(index + 1) * 180}px`,
-                  height: `${(index + 1) * 180}px`,
-                  border: '2px solid rgba(30, 55, 102, 0.3)',
-                  animation: `radar-pulse ${5.5 + index * 0.5}s ease-in-out infinite`,
-                  animationDelay: `${index * 0.6}s`,
-                  opacity: 0.85 - index * 0.1,
-                  background: `radial-gradient(circle at center, rgba(30, 55, 102, 0.2) 0%, rgba(30, 55, 102, 0.1) 50%, transparent 70%)`
-                }}
-              />
-            ))}
-          </div>
-
-          {/* Círculos superiores derechos */}
-          <div className="absolute right-0 top-0 transform translate-x-1/4 -translate-y-1/4">
-            {[...Array(5)].map((_, index) => (
-              <div
-                key={`top-right-${index}`}
-                className="absolute rounded-full"
-                style={{
-                  width: `${(index + 1) * 160}px`,
-                  height: `${(index + 1) * 160}px`,
-                  border: '2px solid rgba(30, 55, 102, 0.3)',
-                  animation: `radar-pulse ${6 + index * 0.5}s ease-in-out infinite`,
-                  animationDelay: `${index * 0.7}s`,
-                  opacity: 0.8 - index * 0.1,
-                  background: `radial-gradient(circle at center, rgba(30, 55, 102, 0.2) 0%, rgba(30, 55, 102, 0.1) 50%, transparent 70%)`
-                }}
-              />
-            ))}
-          </div>
-        </div>
-
-        {/* Elementos de fondo decorativos */}
-        <div className="absolute inset-0 overflow-hidden z-10">
-          <div className="absolute top-0 left-0 w-2/3 h-2/3 bg-gradient-to-br from-blue-500/5 to-indigo-500/5 rounded-full blur-3xl transform -translate-x-1/2 -translate-y-1/2"></div>
-          <div className="absolute bottom-0 right-0 w-2/3 h-2/3 bg-gradient-to-tl from-blue-500/5 to-indigo-500/5 rounded-full blur-3xl transform translate-x-1/2 translate-y-1/2"></div>
-          <div className="absolute top-1/2 left-1/2 w-1/2 h-1/2 bg-gradient-to-br from-blue-500/5 to-indigo-500/5 rounded-full blur-3xl transform -translate-x-1/2 -translate-y-1/2 animate-pulse"></div>
-        </div>
-
         {/* Título del Comité y línea arcoíris */}
         <div className="relative z-20">
           <div className="flex justify-between items-start px-8 pt-8">
@@ -202,12 +145,9 @@ const ForgotPassword: React.FC = () => {
 
         <div className="min-h-screen flex items-center justify-center px-4">
           <div className="w-full max-w-md">
-            <div className="relative animate-fade-in animation-delay-150">
+            <div className="relative">
               <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-indigo-500/20 rounded-3xl transform rotate-1 blur-2xl"></div>
-              <div className="relative bg-white/80 rounded-3xl p-8 shadow-xl border border-white/50 backdrop-blur-xl hover:shadow-2xl transition-all duration-300"
-                   style={{
-                     background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.9) 100%)'
-                   }}>
+              <div className="relative bg-white rounded-3xl p-8 shadow-xl border border-white/50">
                 <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
                   <FaCheckCircle className="text-2xl text-green-600" />
                 </div>
@@ -226,20 +166,19 @@ const ForgotPassword: React.FC = () => {
                   </p>
                 </div>
 
-                <div className="space-y-3">
+                <div className="space-y-4">
                   <button
-                    onClick={handleBack}
-                    className="w-full bg-gradient-to-r from-[#1e3766] via-[#2563eb] to-[#3b82f6] text-white font-bold py-3.5 px-6 rounded-xl transition-all duration-300 transform hover:-translate-y-1 hover:shadow-xl disabled:opacity-70 disabled:cursor-not-allowed hover:from-[#2563eb] hover:via-[#3b82f6] hover:to-[#60a5fa] backdrop-blur-sm"
+                    type="button"
+                    onClick={handleBackToLogin}
+                    className="w-full inline-flex justify-center items-center px-6 py-3 border border-transparent text-base font-medium rounded-xl text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-200 cursor-pointer"
                   >
                     Volver al inicio de sesión
                   </button>
                   
                   <button
-                    onClick={() => {
-                      setIsSuccess(false);
-                      setEmail('');
-                    }}
-                    className="w-full bg-white/80 backdrop-blur-sm border border-gray-200 text-gray-700 hover:text-corporate-primary font-semibold py-3 px-6 rounded-xl transition-all duration-300 hover:bg-white hover:border-corporate-primary transform hover:-translate-y-1 hover:shadow-lg"
+                    type="button"
+                    onClick={handleSendAnotherLink}
+                    className="w-full inline-flex justify-center items-center px-6 py-3 border border-gray-300 text-base font-medium rounded-xl text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-200 cursor-pointer"
                   >
                     Enviar otro enlace
                   </button>
@@ -250,6 +189,10 @@ const ForgotPassword: React.FC = () => {
         </div>
       </div>
     );
+  };
+
+  if (isSuccess) {
+    return <SuccessView />;
   }
 
   return (
@@ -422,7 +365,7 @@ const ForgotPassword: React.FC = () => {
                 <div className="flex flex-col sm:flex-row gap-4 pt-4">
                   <button
                     type="button"
-                    onClick={handleBack}
+                    onClick={handleBackToLogin}
                     disabled={isLoading}
                     className="flex-1 bg-white/80 backdrop-blur-sm border border-gray-200 text-gray-700 hover:text-corporate-primary font-semibold py-3 px-6 rounded-xl transition-all duration-300 hover:bg-white hover:border-corporate-primary transform hover:-translate-y-1 hover:shadow-lg disabled:opacity-70 disabled:cursor-not-allowed"
                   >
