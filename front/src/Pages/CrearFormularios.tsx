@@ -340,27 +340,11 @@ const FormularioCrear: React.FC = () => {
                   </div>
                 </div>
                 
-                <div className="flex items-center space-x-4">
-                  <div className="text-sm text-gray-500 bg-gradient-to-r from-gray-50 to-indigo-50 px-4 py-2 rounded-xl border border-indigo-100/50" style={{ 
-                    fontFamily: "'Recoleta Light', serif",
-                    backdropFilter: 'blur(8px)'
-                  }}>
-                    <span className="font-semibold">Total:</span> {preguntas.length} pregunta{preguntas.length !== 1 ? 's' : ''}
-                  </div>
-                  <button
-                    type="button"
-                    onClick={agregarPregunta}
-                    className="px-6 py-3 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 flex items-center"
-                    style={{
-                      background: 'linear-gradient(135deg, #1e3766 0%, #2563eb 100%)',
-                      color: 'white',
-                      fontFamily: "'Recoleta Medium', serif",
-                      boxShadow: '0 4px 6px -1px rgba(37, 99, 235, 0.2), 0 2px 4px -1px rgba(37, 99, 235, 0.1)'
-                    }}
-                  >
-                    <FaPlus className="mr-2" />
-                    Nueva pregunta
-                  </button>
+                <div className="text-sm text-gray-500 bg-gradient-to-r from-gray-50 to-indigo-50 px-4 py-2 rounded-xl border border-indigo-100/50" style={{ 
+                  fontFamily: "'Recoleta Light', serif",
+                  backdropFilter: 'blur(8px)'
+                }}>
+                  <span className="font-semibold">Total:</span> {preguntas.length} pregunta{preguntas.length === 1 ? '' : 's'}
                 </div>
               </div>
 
@@ -376,9 +360,23 @@ const FormularioCrear: React.FC = () => {
                   <h3 className="text-xl font-bold mb-4" style={{ color: '#1e3766', fontFamily: "'Recoleta Medium', serif" }}>
                     No hay preguntas aún
                   </h3>
-                  <p className="text-gray-600 text-[16px]" style={{ fontFamily: "'Recoleta Light', serif" }}>
-                    Haz clic en "Nueva pregunta" para comenzar a crear tu formulario
+                  <p className="text-gray-600 text-[16px] mb-8" style={{ fontFamily: "'Recoleta Light', serif" }}>
+                    Haz clic en el botón para comenzar a crear tu formulario
                   </p>
+                  <button
+                    type="button"
+                    onClick={agregarPregunta}
+                    className="px-8 py-4 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 flex items-center mx-auto"
+                    style={{
+                      background: 'linear-gradient(135deg, #1e3766 0%, #2563eb 100%)',
+                      color: 'white',
+                      fontFamily: "'Recoleta Medium', serif",
+                      boxShadow: '0 4px 6px -1px rgba(37, 99, 235, 0.2), 0 2px 4px -1px rgba(37, 99, 235, 0.1)'
+                    }}
+                  >
+                    <FaPlus className="mr-3" />
+                    Agregar pregunta
+                  </button>
                 </div>
               ) : (
                 <div className="space-y-6">
@@ -525,6 +523,24 @@ const FormularioCrear: React.FC = () => {
                       </div>
                     </div>
                   ))}
+                  
+                  {/* Botón de agregar pregunta al final cuando hay preguntas */}
+                  <div className="flex justify-center mt-8 py-6">
+                    <button
+                      type="button"
+                      onClick={agregarPregunta}
+                      className="px-8 py-4 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 flex items-center"
+                      style={{
+                        background: 'linear-gradient(135deg, #1e3766 0%, #2563eb 100%)',
+                        color: 'white',
+                        fontFamily: "'Recoleta Medium', serif",
+                        boxShadow: '0 4px 6px -1px rgba(37, 99, 235, 0.2), 0 2px 4px -1px rgba(37, 99, 235, 0.1)'
+                      }}
+                    >
+                      <FaPlus className="mr-3" />
+                      Agregar otra pregunta
+                    </button>
+                  </div>
                 </div>
               )}
             </div>
