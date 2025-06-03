@@ -525,7 +525,7 @@ const FormularioCrear: React.FC = () => {
                   ))}
                   
                   {/* Botón de agregar pregunta al final cuando hay preguntas */}
-                  <div className="flex justify-center mt-8 py-6">
+                  <div className="flex justify-end mt-8 py-6">
                     <button
                       type="button"
                       onClick={agregarPregunta}
