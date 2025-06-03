@@ -225,9 +225,10 @@ const FormularioCrear: React.FC = () => {
           {/* Header mejorado */}
           <div className="relative mb-6">
             <div className="absolute inset-0 bg-gradient-to-r from-green-600 to-emerald-600 rounded-2xl transform rotate-1"></div>
-            <div className="relative bg-white rounded-2xl p-4 shadow-xl border border-gray-100" style={{
+            <div className="relative bg-white rounded-2xl p-4 shadow-xl" style={{
               background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.9) 100%)',
-              backdropFilter: 'blur(10px)'
+              backdropFilter: 'blur(10px)',
+              border: '1px solid rgba(255, 255, 255, 0.7)'
             }}>
               <div className="text-center">
                 <h1 className="text-2xl font-bold mb-1" style={{ color: '#1e3766', fontFamily: "'Recoleta Medium', serif" }}>

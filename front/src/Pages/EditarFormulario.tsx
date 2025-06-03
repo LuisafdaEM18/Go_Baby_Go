@@ -4,10 +4,10 @@ import { FaExclamationTriangle, FaSave, FaSpinner, FaFileAlt, FaPlus, FaTimes, F
 import Layout from '../Components/Layout';
 import { getFormularioById, updateFormulario } from '../services/formularioService';
 import { useNotification } from '../context/NotificationContext';
-import { Formulario, Pregunta } from '../services/types';
+import { Formulario, Pregunta, Opcion } from '../services/types';
 
-interface PreguntaForm extends Pregunta {
-  opciones?: { texto_opcion: string; es_correcta?: boolean }[];
+interface PreguntaForm extends Omit<Pregunta, 'opciones'> {
+  opciones: Opcion[];
 }
 
 const EditarFormulario = () => {
@@ -175,19 +175,37 @@ const EditarFormulario = () => {
         `
       }}>
         <div className="max-w-4xl mx-auto p-4">
-          {/* Header */}
-          <div className="bg-white rounded-2xl p-8 shadow-sm border border-gray-100 mb-8">
-            <div className="text-center">
-              <h1 className="text-2xl font-bold text-blue-900 mb-2">Editar Formulario</h1>
-              <p className="text-gray-600">Modifica la configuración del formulario seleccionado</p>
-            </div>
-
-            {error && (
-              <div className="mt-6 p-4 text-red-700 bg-red-50 border border-red-200 rounded-xl flex items-center">
-                <FaExclamationTriangle className="mr-3 text-red-500" />
-                <span className="font-medium">{error}</span>
+          {/* Header mejorado */}
+          <div className="relative mb-6">
+            <div className="absolute inset-0 bg-gradient-to-r from-green-600 to-emerald-600 rounded-2xl transform rotate-1"></div>
+            <div className="relative bg-white rounded-2xl p-4 shadow-xl border border-gray-100" style={{
+              background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.9) 100%)',
+              backdropFilter: 'blur(10px)'
+            }}>
+              <div className="text-center">
+                <h1 className="text-2xl font-bold mb-1" style={{ color: '#1e3766', fontFamily: "'Recoleta Medium', serif" }}>
+                  Editar Formulario
+                </h1>
+                <p className="text-sm text-gray-600" style={{ fontFamily: "'Recoleta Light', serif" }}>
+                  Modifica la configuración del formulario seleccionado
+                </p>
               </div>
-            )}
+
+              {error && (
+                <div className="mt-4 p-3 rounded-xl flex items-center shadow-md" style={{
+                  background: 'linear-gradient(135deg, rgba(254, 242, 242, 0.95) 0%, rgba(252, 231, 243, 0.9) 100%)',
+                  border: '1px solid rgba(239, 68, 68, 0.2)'
+                }}>
+                  <div className="w-6 h-6 rounded-full flex items-center justify-center bg-red-100 mr-2">
+                    <FaExclamationTriangle className="text-red-500 text-xs" />
+                  </div>
+                  <div>
+                    <p className="font-semibold text-red-800 text-xs" style={{ fontFamily: "'Recoleta Medium', serif" }}>Error</p>
+                    <p className="text-red-700 text-xs" style={{ fontFamily: "'Recoleta Light', serif" }}>{error}</p>
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
 
           {/* Formulario */}

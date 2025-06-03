@@ -180,69 +180,19 @@ const Login: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-gray-100 relative overflow-hidden">
-      {/* Marcas de agua - Círculos concéntricos */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
-        {/* Círculos inferiores izquierdos - Verde */}
-        <div className="absolute left-0 bottom-0 transform -translate-x-1/3 translate-y-1/3">
-          {[...Array(6)].map((_, index) => (
-            <div
-              key={`bottom-left-${index}`}
-              className="absolute rounded-full border-[1px]"
-              style={{
-                width: `${(index + 1) * 200}px`,
-                height: `${(index + 1) * 200}px`,
-                borderColor: 'rgba(115, 163, 29, 0.2)',
-                animation: `pulse-slow ${5 + index * 0.5}s ease-in-out infinite`,
-                animationDelay: `${index * 0.8}s`,
-                opacity: 0.6 - index * 0.08
-              }}
-            />
-          ))}
-        </div>
-
-        {/* Círculos superiores derechos - Morado */}
-        <div className="absolute right-0 top-0 transform translate-x-1/4 -translate-y-1/4">
-          {[...Array(5)].map((_, index) => (
-            <div
-              key={`top-right-${index}`}
-              className="absolute rounded-full border-[1px]"
-              style={{
-                width: `${(index + 1) * 160}px`,
-                height: `${(index + 1) * 160}px`,
-                borderColor: 'rgba(30, 55, 102, 0.2)',
-                animation: `pulse-slow ${6 + index * 0.5}s ease-in-out infinite`,
-                animationDelay: `${index * 0.7}s`,
-                opacity: 0.6 - index * 0.08
-              }}
-            />
-          ))}
-        </div>
-
-        {/* Círculos inferiores derechos - Naranja */}
-        <div className="absolute right-0 bottom-0 transform translate-x-1/3 translate-y-1/3">
-          {[...Array(4)].map((_, index) => (
-            <div
-              key={`bottom-right-${index}`}
-              className="absolute rounded-full border-[1px]"
-              style={{
-                width: `${(index + 1) * 180}px`,
-                height: `${(index + 1) * 180}px`,
-                borderColor: 'rgba(249, 115, 22, 0.2)',
-                animation: `pulse-slow ${5.5 + index * 0.5}s ease-in-out infinite`,
-                animationDelay: `${index * 0.6}s`,
-                opacity: 0.6 - index * 0.08
-              }}
-            />
-          ))}
-        </div>
-      </div>
-
-      {/* Elementos de fondo decorativos */}
-      <div className="absolute inset-0 overflow-hidden z-10">
-        <div className="absolute top-0 left-0 w-2/3 h-2/3 bg-gradient-to-br from-blue-500/5 to-indigo-500/5 rounded-full blur-3xl transform -translate-x-1/2 -translate-y-1/2"></div>
-        <div className="absolute bottom-0 right-0 w-2/3 h-2/3 bg-gradient-to-tl from-blue-500/5 to-indigo-500/5 rounded-full blur-3xl transform translate-x-1/2 translate-y-1/2"></div>
-        <div className="absolute top-1/2 left-1/2 w-1/2 h-1/2 bg-gradient-to-br from-blue-500/5 to-indigo-500/5 rounded-full blur-3xl transform -translate-x-1/2 -translate-y-1/2 animate-pulse"></div>
+    <div className="min-h-screen relative overflow-hidden" style={{ 
+        background: 'linear-gradient(135deg, #f8fafc 0%, #eef2ff 100%)',
+        backgroundImage: `
+          radial-gradient(at 0% 0%, rgba(59, 130, 246, 0.05) 0px, transparent 50%),
+          radial-gradient(at 100% 0%, rgba(99, 102, 241, 0.05) 0px, transparent 50%),
+          radial-gradient(at 100% 100%, rgba(79, 70, 229, 0.05) 0px, transparent 50%),
+          radial-gradient(at 0% 100%, rgba(37, 99, 235, 0.05) 0px, transparent 50%)
+        `
+      }}>
+      {/* Elementos decorativos sutiles */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-br from-blue-500/10 via-indigo-400/5 to-blue-500/5 rounded-full blur-3xl transform translate-x-1/4 -translate-y-1/4"></div>
+        <div className="absolute bottom-0 left-0 w-96 h-96 bg-gradient-to-tl from-blue-500/10 via-indigo-400/5 to-blue-500/5 rounded-full blur-3xl transform -translate-x-1/4 translate-y-1/4"></div>
       </div>
 
       {/* Título del Comité y línea arcoíris */}
