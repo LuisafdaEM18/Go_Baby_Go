@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { FaHandsHelping, FaUserShield, FaArrowRight, FaChild, FaCar, FaCalendarAlt, FaHeart, FaTools } from 'react-icons/fa';
+import { checkPing } from '../services/api';
 import { getEventosWithStats } from '../services/eventoService';
 import { EventoWithStats } from '../services/types';
 import imagen1 from '../assets/imagen 1.png';
@@ -14,6 +15,15 @@ import imagen6 from '../assets/imagen 6.png';
 
 const Home = () => {
   const [proximosEventos, setProximosEventos] = useState<EventoWithStats[]>([]);
+  const [backendMsg, setBackendMsg] = useState('Comprobando...');
+
+  useEffect(() => {
+    const fetchBackendPing = async () => {
+      const ping = await checkPing();
+      setBackendMsg(ping?.message || 'Desconectado');
+    };
+    fetchBackendPing();
+  }, []);
 
   useEffect(() => {
     const fetchEventos = async () => {
@@ -143,6 +153,13 @@ const Home = () => {
                 <FaUserShield className="mr-2" />
                 Administrador
               </Link>
+            </div>
+            {/* Prueba de Comunicación con Backend */}
+            <div className="mt-8 opacity-80 animate-fade-in-up" style={{ animationDelay: '500ms' }}>
+              <div className="inline-flex items-center px-4 py-2 bg-white/70 backdrop-blur-md rounded-full shadow-sm">
+                <div className={`w-2 h-2 rounded-full mr-2 ${backendMsg === 'Desconectado' ? 'bg-red-500 animate-pulse' : 'bg-green-500'}`}></div>
+                <span className="text-sm font-medium text-gray-700">Estado Backend: <span className="text-[#73a31d]">{backendMsg}</span></span>
+              </div>
             </div>
           </div>
 

@@ -1,0 +1,7 @@
+# backend .dockerignore
+.venv
+__pycache__
+*.pyc
+go_baby_go.db
+.pytest_cache
+.env

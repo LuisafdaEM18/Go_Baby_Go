@@ -44,4 +44,4 @@ app.include_router(voluntario_router.router)
 
 @app.get("/")
 def root():
-    return {"message": "Go Baby Go API"}
+    return {"message": "Hola Mundo desde el Backend de Go Baby Go!"}

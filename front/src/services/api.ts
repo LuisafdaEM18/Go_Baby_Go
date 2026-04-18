@@ -197,9 +197,20 @@ export const loginWithFormData = async (username: string, password: string) => {
 
     return data;
   } catch (error) {
-    console.error('Login error details:', error);
+    console.error('Login error:', error);
     throw error;
   }
 };
+
+export const checkPing = async () => {
+  try {
+    const res = await fetch(`${API_URL}/`);
+    return await res.json();
+  } catch (error) {
+    console.error("Error pinging backend:", error);
+    return { message: "Desconectado" };
+  }
+};
+
 
  
