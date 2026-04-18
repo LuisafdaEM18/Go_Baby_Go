@@ -39,57 +39,65 @@ const FormularioCrear: React.FC = () => {
   };
 
   const actualizarPregunta = (index: number, campo: string, valor: string) => {
-    const nuevas = [...preguntas];
-    if (campo === 'tipo') {
-      nuevas[index].tipo = valor as 'textual' | 'seleccion_multiple' | 'seleccion_unica';
-      if (valor === 'seleccion_multiple' || valor === 'seleccion_unica') {
-        nuevas[index].opciones = [{ texto_opcion: '', es_correcta: false }];
-      } else {
-        delete nuevas[index].opciones;
+    setPreguntas(prevPreguntas => prevPreguntas.map((p, i) => {
+      if (i !== index) return p;
+      if (campo === 'tipo') {
+        const tipo = valor as 'textual' | 'seleccion_multiple' | 'seleccion_unica';
+        return {
+          ...p,
+          tipo,
+          opciones: (tipo === 'seleccion_multiple' || tipo === 'seleccion_unica') 
+            ? [{ texto_opcion: '', es_correcta: false }] 
+            : undefined
+        };
       }
-    } else {
-      nuevas[index].texto = valor;
-    }
-    setPreguntas(nuevas);
+      return { ...p, texto: valor };
+    }));
   };
 
   const actualizarOpcion = (index: number, opcionIndex: number, valor: string) => {
-    const nuevas = [...preguntas];
-    if (nuevas[index].opciones) {
-      nuevas[index].opciones![opcionIndex].texto_opcion = valor;
-      setPreguntas(nuevas);
-    }
+    setPreguntas(prevPreguntas => prevPreguntas.map((p, i) => {
+      if (i !== index || !p.opciones) return p;
+      return {
+        ...p,
+        opciones: p.opciones.map((op, j) => 
+          j === opcionIndex ? { ...op, texto_opcion: valor } : op
+        )
+      };
+    }));
   };
 
   const marcarRespuestaCorrecta = (preguntaIndex: number, opcionIndex: number) => {
-    const nuevas = [...preguntas];
-    if (nuevas[preguntaIndex].opciones) {
-      if (nuevas[preguntaIndex].tipo === 'seleccion_unica') {
-        // Para selección única, solo una puede ser correcta
-        nuevas[preguntaIndex].opciones!.forEach((op, i) => {
-          op.es_correcta = i === opcionIndex;
-        });
-      } else {
-        // Para selección múltiple, toggle la opción
-        nuevas[preguntaIndex].opciones![opcionIndex].es_correcta = 
-          !nuevas[preguntaIndex].opciones![opcionIndex].es_correcta;
-      }
-      setPreguntas(nuevas);
-    }
+    setPreguntas(prevPreguntas => prevPreguntas.map((p, i) => {
+      if (i !== preguntaIndex || !p.opciones) return p;
+      return {
+        ...p,
+        opciones: p.opciones.map((op, j) => ({
+          ...op,
+          es_correcta: p.tipo === 'seleccion_unica' ? j === opcionIndex : (j === opcionIndex ? !op.es_correcta : op.es_correcta)
+        }))
+      };
+    }));
   };
 
   const agregarOpcion = (index: number) => {
-    const nuevas = [...preguntas];
-    nuevas[index].opciones?.push({ texto_opcion: '', es_correcta: false });
-    setPreguntas(nuevas);
+    setPreguntas(prevPreguntas => prevPreguntas.map((p, i) => {
+      if (i !== index || !p.opciones) return p;
+      return {
+        ...p,
+        opciones: [...p.opciones, { texto_opcion: '', es_correcta: false }]
+      };
+    }));
   };
 
   const eliminarOpcion = (preguntaIndex: number, opcionIndex: number) => {
-    const nuevas = [...preguntas];
-    if (nuevas[preguntaIndex].opciones && nuevas[preguntaIndex].opciones!.length > 1) {
-      nuevas[preguntaIndex].opciones = nuevas[preguntaIndex].opciones!.filter((_, i) => i !== opcionIndex);
-      setPreguntas(nuevas);
-    }
+    setPreguntas(prevPreguntas => prevPreguntas.map((p, i) => {
+      if (i !== preguntaIndex || !p.opciones || p.opciones.length <= 1) return p;
+      return {
+        ...p,
+        opciones: p.opciones.filter((_, j) => j !== opcionIndex)
+      };
+    }));
   };
 
   const validarFormulario = () => {

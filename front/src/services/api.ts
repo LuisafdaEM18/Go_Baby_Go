@@ -76,8 +76,15 @@ const handleRequest = async <T>(
     }
 
     if (!response.ok) {
-      const errorMessage = data.detail || data.message || 'Error desconocido';
-      console.error(`API error (${response.status}): ${errorMessage}`);
+      let errorMessage = 'Error desconocido';
+      if (Array.isArray(data.detail)) {
+        errorMessage = data.detail.map((e: any) => `${e.loc.slice(-1)}: ${e.msg}`).join(', ');
+      } else if (data.detail) {
+        errorMessage = data.detail;
+      } else if (data.message) {
+        errorMessage = data.message;
+      }
+      console.error(`API error (${response.status}):`, errorMessage);
       throw new Error(errorMessage);
     }
 

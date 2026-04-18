@@ -2,38 +2,83 @@
 
 - `back/`: Backend en FastAPI
 - `front/`: Frontend en React + Vite + TypeScript + Tailwind
+- `docker-compose.yml`: Orquestador principal (MariaDB + Backend + Frontend)
 
-## Requisitos
+## Requisitos Previos
 
-- Python 3.8+
-- Node.js 16+
-- MariaDB o MySQL
+- **Docker y Docker Desktop** instalado y en ejecución en tu sistema.
+- **Git** para clonar el repositorio.
 
+---
 
 ## Clonar el repositorio
--   ```bash
-    git clone 'enlace_al_repositorio'
-    ```
 
-### Para descargar las dependencias del Front:
-- Acceder a la carpeta de front y una vez dentro ejecutar el siguiente comando
--   ```bash
-    npm install && npm run dev
-    ```
+```bash
+git clone 'enlace_al_repositorio'
+cd Go_Baby_Go
+```
 
-### Para descargar las dependencias del Back:
-- Acceder a la carpeta de back y una vez dentro ejecutar el siguiente comando:
-- #### Crear un entorno virtual en Windows y activarlo
-    - ```bash
-        python -m venv .venv && .\.venv\Scripts\activate
-      ```
-- #### Crear un entorno virtual en macOS/Linux y activarlo
-    - ```bash
-        python3 -m venv .venv && source .venv/bin/activate
-      ```
+---
 
-Instalar las dependencias en el entorno virtual y ejecutar el Backend
--   ```bash
-    pip install -r requierements.txt && uvicorn src.main:app --reload --port 8001
-    ```
+## 🐳 Inicio Rápido (Recomendado: Usando Docker)
+
+Como el proyecto se encuentra **100% dockerizado**, no necesitas instalar Python ni Node.js en tu equipo. Solamente abre tu consola en la carpeta raíz (`Go_Baby_Go`) y ejecuta:
+
+```bash
+docker-compose up -d --build
+```
+
+Esto descargará las imágenes, creará la base de datos automáticamente e iniciará todos los servicios. Puedes acceder a ellos en las siguientes direcciones:
+
+- **Frontend (Aplicación web):** [http://localhost:5173](http://localhost:5173)
+- **Backend (API):** [http://localhost:8001](http://localhost:8001)
+- **Swagger UI (Documentación API):** [http://localhost:8001/docs](http://localhost:8001/docs)
+- **Base de Datos MariaDB:** Puerto `3307` (Credenciales: root / rootpassword)
+
+### Credenciales de Administrador (Por defecto)
+- **Correo:** `admin@gobabygofundacion.org`
+- **Contraseña:** `admin123`
+
+Para apagar el proyecto cuando termines de trabajar:
+```bash
+docker-compose down
+```
+
+---
+
+## 🛠 Instalación Manual (Sin Docker)
+
+Si deseas trabajar estrictamente en desarrollo manual componente por componente:
+
+### 1. Base de datos
+Debes tener MariaDB/MySQL localmente e importar el archivo `back/schema.sql`. (Deberás configurar la variable de entorno `DATABASE_URL` manualmente).
+
+### 2. Frontend
+Acceder a la carpeta `front` e instalar/ejecutar:
+```bash
+cd front
+npm install
+npm run dev
+```
+
+### 3. Backend (En otra consola)
+Acceder a la carpeta `back` y configurar el entorno:
+
+**En Windows:**
+```bash
+cd back
+python -m venv .venv
+.\.venv\Scripts\activate
+pip install -r requierements.txt
+uvicorn src.main:app --reload --port 8001
+```
+
+**En macOS/Linux:**
+```bash
+cd back
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requierements.txt
+uvicorn src.main:app --reload --port 8001
+```
 
