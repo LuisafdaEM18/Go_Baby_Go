@@ -9,12 +9,12 @@ ENV PYTHONUNBUFFERED=1
 WORKDIR /app
 
 # Copy the requirements file first to leverage Docker cache
-COPY requierements.txt .
+COPY requirements.txt .
 
 # Install dependencies
 # Update pip first
 RUN pip install --no-cache-dir --upgrade pip && \
-    pip install --no-cache-dir -r requierements.txt
+    pip install --no-cache-dir -r requirements.txt
 
 # Copy the rest of the backend source code
 COPY . .
