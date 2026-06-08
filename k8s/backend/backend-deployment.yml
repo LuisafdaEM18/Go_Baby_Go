@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: backend
-          image: luisafdaem18/gbg-backend:latest
+          image: ortizzz/gbg-backend:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 8001
