@@ -24,7 +24,7 @@ jobs:
         run: |
           cd back
           python -m pip install --upgrade pip
-          pip install -r requierements.txt pytest httpx
+          pip install -r requirements.txt pytest httpx
 
       - name: Run Pytest
         run: |
