@@ -10,6 +10,7 @@ __pycache__/
 # C extensions
 *.so
 
+
 # Distribution / packaging
 .Python
 build/
@@ -187,5 +188,8 @@ bower_components
 psd
 thumb
 sketch
+
+### Test ###
+test_temp.db
 
 # End of https://www.toptal.com/developers/gitignore/api/python,react

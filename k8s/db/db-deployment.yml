@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gbg-db
+  labels:
+    app: gbg-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: gbg-db
+  template:
+    metadata:
+      labels:
+        app: gbg-db
+    spec:
+      containers:
+        - name: mariadb
+          image: mariadb:11.7.2
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: MARIADB_ROOT_PASSWORD
+              value: "rootpassword"
+            - name: MARIADB_DATABASE
+              value: "go_baby_go"
+          ports:
+            - containerPort: 3306
+              name: mariadb
+          volumeMounts:
+            - name: db-persistent-storage
+              mountPath: /var/lib/mysql
+            - name: db-init-script
+              mountPath: /docker-entrypoint-initdb.d
+      volumes:
+        - name: db-persistent-storage
+          persistentVolumeClaim:
+            claimName: gbg-db-pvc
+        - name: db-init-script
+          configMap:
+            name: gbg-db-init-schema

@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: gbg-frontend
+  labels:
+    app: gbg-frontend
+spec:
+  ports:
+    - port: 5173
+      targetPort: 5173
+      name: http
+  selector:
+    app: gbg-frontend
+  type: ClusterIP

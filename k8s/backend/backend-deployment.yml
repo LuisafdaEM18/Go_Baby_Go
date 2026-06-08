@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gbg-backend
+  labels:
+    app: gbg-backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: gbg-backend
+  template:
+    metadata:
+      labels:
+        app: gbg-backend
+    spec:
+      containers:
+        - name: backend
+          image: luisafdaem18/gbg-backend:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8001
+              name: http
+          env:
+            - name: DATABASE_URL
+              value: "mysql+mysqlconnector://root:rootpassword@db:3306/go_baby_go"
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 8001
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 8001
+            initialDelaySeconds: 15
+            periodSeconds: 20

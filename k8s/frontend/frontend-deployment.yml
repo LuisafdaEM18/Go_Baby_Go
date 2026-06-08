@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gbg-frontend
+  labels:
+    app: gbg-frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: gbg-frontend
+  template:
+    metadata:
+      labels:
+        app: gbg-frontend
+    spec:
+      containers:
+        - name: frontend
+          image: luisafdaem18/gbg-frontend:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 5173
+              name: http
+          env:
+            - name: VITE_API_URL
+              value: "http://localhost:8001"
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 5173
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 5173
+            initialDelaySeconds: 15
+            periodSeconds: 20

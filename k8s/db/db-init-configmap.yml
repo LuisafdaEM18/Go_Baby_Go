@@ -1,0 +1,120 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: gbg-db-init-schema
+  labels:
+    app: gbg-db
+data:
+  init.sql: |
+    CREATE TABLE IF NOT EXISTS `administradores` (
+      `id` int(11) NOT NULL AUTO_INCREMENT,
+      `nombre` varchar(255) NOT NULL,
+      `correo` varchar(255) NOT NULL,
+      `contrasena_hash` varchar(255) NOT NULL,
+      PRIMARY KEY (`id`),
+      UNIQUE KEY `correo` (`correo`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+    CREATE TABLE IF NOT EXISTS `formularios` (
+      `id` int(11) NOT NULL AUTO_INCREMENT,
+      `nombre` varchar(255) NOT NULL,
+      `fecha_creacion` datetime DEFAULT current_timestamp(),
+      PRIMARY KEY (`id`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+    CREATE TABLE IF NOT EXISTS `preguntas` (
+      `id` int(11) NOT NULL AUTO_INCREMENT,
+      `formulario_id` int(11) NOT NULL,
+      `texto` text NOT NULL,
+      `tipo` enum('textual','seleccion_multiple','seleccion_unica') NOT NULL,
+      PRIMARY KEY (`id`),
+      KEY `formulario_id` (`formulario_id`),
+      CONSTRAINT `preguntas_ibfk_1` FOREIGN KEY (`formulario_id`) REFERENCES `formularios` (`id`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+    CREATE TABLE IF NOT EXISTS `opciones` (
+      `id` int(11) NOT NULL AUTO_INCREMENT,
+      `pregunta_id` int(11) NOT NULL,
+      `texto_opcion` varchar(255) NOT NULL,
+      PRIMARY KEY (`id`),
+      KEY `pregunta_id` (`pregunta_id`),
+      CONSTRAINT `opciones_ibfk_1` FOREIGN KEY (`pregunta_id`) REFERENCES `preguntas` (`id`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+    CREATE TABLE IF NOT EXISTS `eventos` (
+      `id` int(11) NOT NULL AUTO_INCREMENT,
+      `id_general` varchar(100) DEFAULT NULL,
+      `fecha_evento` date DEFAULT NULL,
+      `descripcion` text DEFAULT NULL,
+      `nombre` varchar(255) DEFAULT NULL,
+      `lugar` varchar(255) DEFAULT NULL,
+      `formulario_pre_evento` int(11) DEFAULT NULL,
+      `formulario_post_evento` int(11) DEFAULT NULL,
+      PRIMARY KEY (`id`),
+      KEY `formulario_pre_evento` (`formulario_pre_evento`),
+      KEY `formulario_post_evento` (`formulario_post_evento`),
+      CONSTRAINT `eventos_ibfk_1` FOREIGN KEY (`formulario_pre_evento`) REFERENCES `formularios` (`id`),
+      CONSTRAINT `eventos_ibfk_2` FOREIGN KEY (`formulario_post_evento`) REFERENCES `formularios` (`id`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+    CREATE TABLE IF NOT EXISTS `voluntarios` (
+      `id` int(11) NOT NULL AUTO_INCREMENT,
+      `nombre` varchar(255) NOT NULL,
+      `correo` varchar(255) NOT NULL,
+      `confirmacion_correo` varchar(255) NOT NULL,
+      `numero_identificacion` varchar(100) NOT NULL,
+      PRIMARY KEY (`id`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+    CREATE TABLE IF NOT EXISTS `inscripciones_eventos` (
+      `id` int(11) NOT NULL AUTO_INCREMENT,
+      `voluntario_id` int(11) NOT NULL,
+      `evento_id` int(11) NOT NULL,
+      `fecha_inscripcion` datetime DEFAULT current_timestamp(),
+      `aceptado` boolean DEFAULT FALSE,
+      `completado_pre` boolean DEFAULT FALSE,
+      `completado_post` boolean DEFAULT FALSE,
+      `aceptacion_terminos` boolean DEFAULT FALSE,
+      PRIMARY KEY (`id`),
+      CONSTRAINT `fk_inscripcion_voluntario` FOREIGN KEY (`voluntario_id`) REFERENCES `voluntarios` (`id`),
+      CONSTRAINT `fk_inscripcion_evento` FOREIGN KEY (`evento_id`) REFERENCES `eventos` (`id`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+    CREATE TABLE IF NOT EXISTS `respuestas` (
+      `id` int(11) NOT NULL AUTO_INCREMENT,
+      `inscripcion_id` int(11) NOT NULL,
+      `fecha_respuesta` datetime DEFAULT current_timestamp(),
+      `tipo_formulario` enum('pre','post') NOT NULL,
+      `codigo_respuesta` varchar(25) DEFAULT NULL,
+      PRIMARY KEY (`id`),
+      CONSTRAINT `respuestas_ibfk_1` FOREIGN KEY (`inscripcion_id`) REFERENCES `inscripciones_eventos` (`id`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+    CREATE TABLE IF NOT EXISTS `detalle_respuestas` (
+      `id` int(11) NOT NULL AUTO_INCREMENT,
+      `respuesta_id` int(11) NOT NULL,
+      `pregunta_id` int(11) NOT NULL,
+      `texto_respuesta` text DEFAULT NULL,
+      `opcion_id` int(11) DEFAULT NULL,
+      PRIMARY KEY (`id`),
+      KEY `respuesta_id` (`respuesta_id`),
+      KEY `pregunta_id` (`pregunta_id`),
+      KEY `opcion_id` (`opcion_id`),
+      CONSTRAINT `detalle_respuestas_ibfk_1` FOREIGN KEY (`respuesta_id`) REFERENCES `respuestas` (`id`),
+      CONSTRAINT `detalle_respuestas_ibfk_2` FOREIGN KEY (`pregunta_id`) REFERENCES `preguntas` (`id`),
+      CONSTRAINT `detalle_respuestas_ibfk_3` FOREIGN KEY (`opcion_id`) REFERENCES `opciones` (`id`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+    CREATE TABLE IF NOT EXISTS `terminos_y_condiciones` (
+      `id` int(11) NOT NULL AUTO_INCREMENT,
+      `version` varchar(50) DEFAULT NULL,
+      `texto` text DEFAULT NULL,
+      `fecha_creacion` datetime DEFAULT current_timestamp(),
+      PRIMARY KEY (`id`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+    -- Insert Default Admin (admin@gobabygofundacion.org / admin123)
+    -- The password hash is generated via passlib (bcrypt) for 'admin123'
+    INSERT INTO `administradores` (`id`, `nombre`, `correo`, `contrasena_hash`) 
+    VALUES (1, 'Administrador Fundación', 'admin@gobabygofundacion.org', '$2b$12$qR9Yd/t1MvQf7s3d8XvILe2tSrn0r1iZ40t1i7W0l2/i.f6F3FmWy')
+    ON DUPLICATE KEY UPDATE `id`=`id`;
