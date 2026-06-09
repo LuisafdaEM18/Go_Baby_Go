@@ -1,7 +1,8 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from src.db.database import Base, engine
+from prometheus_fastapi_instrumentator import Instrumentator
 
+from src.db.database import Base, engine
 from src.endpoints import formulario_router, evento_router, voluntario_router, auth_router
 
 app = FastAPI(
@@ -41,6 +42,9 @@ app.include_router(auth_router.router)
 app.include_router(formulario_router.router)
 app.include_router(evento_router.router)
 app.include_router(voluntario_router.router)
+
+# Prometheus Metrics
+Instrumentator().instrument(app).expose(app)
 
 @app.get("/")
 def root():

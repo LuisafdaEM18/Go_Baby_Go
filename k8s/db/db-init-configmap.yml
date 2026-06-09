@@ -116,5 +116,5 @@ data:
     -- Insert Default Admin (admin@gobabygofundacion.org / admin123)
     -- The password hash is generated via passlib (bcrypt) for 'admin123'
     INSERT INTO `administradores` (`id`, `nombre`, `correo`, `contrasena_hash`) 
-    VALUES (1, 'Administrador Fundación', 'admin@gobabygofundacion.org', '$2b$12$qR9Yd/t1MvQf7s3d8XvILe2tSrn0r1iZ40t1i7W0l2/i.f6F3FmWy')
+    VALUES (1, 'Administrador Fundación', 'admin@gobabygofundacion.org', '$2b$12$QOdXTVuKqG7GIhmWG4j3Fuv6WdSQToL3EH54mtDbej3EYcKLd5kb6')
     ON DUPLICATE KEY UPDATE `id`=`id`;

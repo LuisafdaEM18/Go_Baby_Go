@@ -4,6 +4,10 @@ metadata:
   name: gbg-backend
   labels:
     app: gbg-backend
+  annotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/path: "/metrics"
+    prometheus.io/port: "8001"
 spec:
   ports:
     - port: 8001
